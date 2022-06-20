@@ -1,4 +1,4 @@
-package com.example.fahrtenbuch.ui.input;
+package com.example.fahrtenbuch.ui.outgoings;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.fahrtenbuch.databinding.FragmentInputBinding;
+import com.example.fahrtenbuch.databinding.FragmentOutgoingsBinding;
 
-public class InputFragment extends Fragment {
+public class OutgoingsFragment extends Fragment {
 
-    private FragmentInputBinding binding;
+    private FragmentOutgoingsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        InputViewModel inputViewModel =
-                new ViewModelProvider(this).get(InputViewModel.class);
+        OutgoingsViewModel outgoingsViewModel =
+                new ViewModelProvider(this).get(OutgoingsViewModel.class);
 
-        binding = FragmentInputBinding.inflate(inflater, container, false);
+        binding = FragmentOutgoingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textInput;
-        inputViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textOutgoings;
+        outgoingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

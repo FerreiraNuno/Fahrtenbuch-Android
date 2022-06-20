@@ -7,9 +7,9 @@
         android:title="@string/title_rides" />
 
     <item
-        android:id="@+id/navigation_input"
-        android:icon="@android:drawable/ic_menu_add"
-        android:title="@string/title_input" />
+        android:id="@+id/navigation_outgoings"
+        android:icon="?attr/actionModePasteDrawable"
+        android:title="@string/title_outgoings" />
 
     <item
         android:id="@+id/navigation_statistics"

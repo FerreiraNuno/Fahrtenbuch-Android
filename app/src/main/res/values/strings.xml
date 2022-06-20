@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Fahrtenbuch</string>
     <string name="title_rides">Fahrten</string>
-    <string name="title_input">Eingabe</string>
+    <string name="title_outgoings">Ausgaben</string>
     <string name="title_statistics">Statistiken</string>
     <string name="title_settings">Einstellungen</string>
 </resources>
