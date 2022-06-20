@@ -8,18 +8,24 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.fahrtenbuch.ui.home.HomeFragment"
-        android:label="@string/title_fahrten"
+        android:label="@string/title_rides"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.fahrtenbuch.ui.dashboard.DashboardFragment"
-        android:label="@string/title_eingabe"
+        android:label="@string/title_input"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.fahrtenbuch.ui.notifications.NotificationsFragment"
-        android:label="@string/title_statistiken"
+        android:label="@string/title_statistics"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.fahrtenbuch.ui.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings"/>
+
 </navigation>
