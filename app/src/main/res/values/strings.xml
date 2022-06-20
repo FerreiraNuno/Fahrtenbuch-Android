@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Fahrtenbuch</string>
-    <string name="title_rides">Fahrten</string>
-    <string name="title_outgoings">Ausgaben</string>
-    <string name="title_statistics">Statistiken</string>
-    <string name="title_settings">Einstellungen</string>
+    <string name="app_name" translatable="false">Fahrtenbuch</string>
+    <string name="title_rides" translatable="false">Fahrten</string>
+    <string name="title_outgoings" translatable="false">Ausgaben</string>
+    <string name="title_statistics" translatable="false">Statistiken</string>
+    <string name="title_settings" translatable="false">Einstellungen</string>
 </resources>
