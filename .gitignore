@@ -1,11 +1,12 @@
 *.iml
 /.gradle
 /.idea
-/build.gradle
-/gradle.properties
-/gradlew
-/gradlew.bat
-/local.properties
+build.gradle
+gradle.properties
+gradlew
+gradlew.bat
+local.properties
+settings.gradle
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
