@@ -3,29 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_rides">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.fahrtenbuch.ui.home.HomeFragment"
+        android:id="@+id/navigation_rides"
+        android:name="com.example.fahrtenbuch.ui.rides.RidesFragment"
         android:label="@string/title_rides"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_rides" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.fahrtenbuch.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_input"
+        android:name="com.example.fahrtenbuch.ui.input.InputFragment"
         android:label="@string/title_input"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_input" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.fahrtenbuch.ui.notifications.NotificationsFragment"
+        android:id="@+id/navigation_statistics"
+        android:name="com.example.fahrtenbuch.ui.statistics.StatisticsFragment"
         android:label="@string/title_statistics"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_statistics" />
     <fragment
-        android:id="@+id/settingsFragment"
+        android:id="@+id/navigation_settings"
         android:name="com.example.fahrtenbuch.ui.settings.SettingsFragment"
-        android:label="SettingsFragment"
+        android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings"/>
 
 </navigation>

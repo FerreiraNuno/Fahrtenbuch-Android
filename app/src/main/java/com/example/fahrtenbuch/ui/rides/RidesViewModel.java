@@ -1,4 +1,4 @@
-package com.example.fahrtenbuch.ui.home;
+package com.example.fahrtenbuch.ui.rides;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

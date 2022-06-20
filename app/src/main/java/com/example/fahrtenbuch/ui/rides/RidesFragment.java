@@ -1,4 +1,4 @@
-package com.example.fahrtenbuch.ui.home;
+package com.example.fahrtenbuch.ui.rides;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

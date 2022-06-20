@@ -1,4 +1,4 @@
-package com.example.fahrtenbuch.ui.notifications;
+package com.example.fahrtenbuch.ui.statistics;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

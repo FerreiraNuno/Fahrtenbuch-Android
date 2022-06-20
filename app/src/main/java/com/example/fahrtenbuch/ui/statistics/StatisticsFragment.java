@@ -1,4 +1,4 @@
-package com.example.fahrtenbuch.ui.notifications;
+package com.example.fahrtenbuch.ui.statistics;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
