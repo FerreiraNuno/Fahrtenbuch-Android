@@ -22,7 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class RidesFragment extends Fragment {
     private FragmentRidesBinding binding;
-    private ArrayList<FahrtItem> eintraege_liste;
+    private ArrayList<ListObject> eintraege_liste;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,21 +39,42 @@ public class RidesFragment extends Fragment {
         Random random = new Random();
         eintraege_liste = new ArrayList<>();
         for (int i=0; i<150; i++){
-            Date startDate = new Date("01/01/2021 15:05:24");
-            Date endDate = new Date("06/21/2022 13:25:12");
+            Date startDate = new Date("03/01/2022 15:05:24");
+            Date endDate = new Date("06/22/2022 23:25:12");
             long randDate = ThreadLocalRandom.current().nextLong(startDate.getTime(), endDate.getTime());
             Date date = new Date(randDate);
             eintraege_liste.add(new FahrtItem(date, "Frankfurt", "Gießen", random.nextInt(120)+5));
+
         }
-        Collections.sort(eintraege_liste, (x, y) -> y.getDatumBeginn().compareTo(x.getDatumBeginn()));
+        Collections.sort(eintraege_liste, (x, y) -> y.getDatum().compareTo(x.getDatum()));
+        //ADD DATE GROUPS
+        Date previousDate = eintraege_liste.get(0).getDatum();
+        eintraege_liste.add(0, new DateItem(previousDate));
+        for (int i=0; i<eintraege_liste.size(); i++){
+            if (eintraege_liste.get(i).getType() == ListObject.TYPE_FAHRT) {
+                if (eintraege_liste.get(i).getDatum().getDate() != previousDate.getDate()) {
+                    previousDate = eintraege_liste.get(i).getDatum();
+                    eintraege_liste.add(i, new DateItem(previousDate));
+                    i++;
+                }
+            }
+        }
+
 
         // KM Anzahl diesen Monat aufsummieren
         int summeKm30Tage = 0;
         Date currentDate = new Date();
-        for (FahrtItem item : eintraege_liste) {
-            if ((currentDate.getTime() - item.getDatumBeginn().getTime())/(1000*60*60*24) < 30) {
-                summeKm30Tage += item.getKm();
+        for (ListObject item : eintraege_liste) {
+            if ((currentDate.getTime() - item.getDatum().getTime())/(1000*60*60*24) < 30) {
+                if (item.getType() == ListObject.TYPE_FAHRT) {
+                    summeKm30Tage += ((FahrtItem) item).getKm();
+                }
             }
+        }
+
+
+        for (ListObject item : eintraege_liste) {
+            System.out.println("Typ: " + item.getType() + "Datum: " + item.getDatum());
         }
         binding.topCardRight.setText(summeKm30Tage + "km");
 

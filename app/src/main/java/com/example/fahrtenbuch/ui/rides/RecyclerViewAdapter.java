@@ -1,67 +1,75 @@
 package com.example.fahrtenbuch.ui.rides;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
-import android.util.Log;
-import android.view.DragEvent;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fahrtenbuch.R;
-import com.example.fahrtenbuch.databinding.FragmentRidesBinding;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final ArrayList<FahrtItem> eintraege_liste;
-    private int count_views = 0;
-    private boolean on_bind = false;
-    FragmentRidesBinding binding;
+    private final ArrayList<ListObject> eintraege_liste;
 
-    public RecyclerViewAdapter(ArrayList<FahrtItem> eintraege_liste) {
+
+    public RecyclerViewAdapter(ArrayList<ListObject> eintraege_liste) {
         super();
         this.eintraege_liste = eintraege_liste;
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder vh = null;
         // create a new view
-        LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.advanced_list_item, parent, false);
-        count_views++;
-        Log.i(this.getClass().toString(), "(Create view, count_views=" + count_views + ")");
-        MyViewHolder vh = new MyViewHolder(v);
+        if (viewType == 0) {
+            LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.advanced_list_item, parent, false);
+            vh = new MyViewHolder(v);
+        } else if (viewType == 1) {
+            LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.date_list_item, parent, false);
+            vh = new MyDateViewHolder(v);
+        }
         return vh;
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        on_bind = true;
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        String todayAsString = df.format(eintraege_liste.get(position).getDatumBeginn());
-        holder.getTextViewLeftTop().setText(todayAsString);
-        df = new SimpleDateFormat("HH:mm");
-        todayAsString = df.format(eintraege_liste.get(position).getDatumBeginn());
-        holder.getTextViewLeftBottom().setText(todayAsString);
-        holder.getTextViewRight().setText(eintraege_liste.get(position).getKm() + " km");
-        on_bind = false;
-        Log.i(this.getClass().toString(), "(Reuse view, position=" + position + ")");
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder.getItemViewType() == 0) {
+            DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+            String date = df.format(eintraege_liste.get(position).getDatum());
+            ((MyViewHolder) holder).getTextViewLeftTop().setText(date);
+            df = new SimpleDateFormat("HH:mm");
+            date = df.format(eintraege_liste.get(position).getDatum());
+            ((MyViewHolder) holder).getTextViewLeftBottom().setText(date);
+            ((MyViewHolder) holder).getTextViewRight().setText((((FahrtItem)(eintraege_liste.get(position))).getKm() + " km"));
+        } else if (holder.getItemViewType() == 1) {
+            DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+            if (DateUtils.isToday(eintraege_liste.get(position).getDatum().getTime())) {
+                ((MyDateViewHolder) holder).getDateTextView().setText("Heute");
+            } else if (DateUtils.isToday(eintraege_liste.get(position).getDatum().getTime()+(1000L*60L*60L*24L))) {
+                ((MyDateViewHolder) holder).getDateTextView().setText("Gestern");
+            } else {
+                String date = df.format(eintraege_liste.get(position).getDatum());
+                ((MyDateViewHolder) holder).getDateTextView().setText(date);
+            }
+        }
+
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return eintraege_liste.get(position).getType();
     }
 
     @Override
@@ -70,7 +78,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        public LinearLayout cl;
+        public LinearLayout linearLayout;
         public TextView tv1;
         public TextView tv2;
         public TextView tv3;
@@ -80,10 +88,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             v.setOnClickListener(this);
             v.setOnLongClickListener(this);
 
-            cl = v;
-            tv1 = cl.findViewById(R.id.textView1);
-            tv2 = cl.findViewById(R.id.textView2);
-            tv3 = cl.findViewById(R.id.textView3);
+            linearLayout = v;
+            tv1 = linearLayout.findViewById(R.id.textView1);
+            tv2 = linearLayout.findViewById(R.id.textView2);
+            tv3 = linearLayout.findViewById(R.id.textView3);
         }
 
         public TextView getTextViewLeftTop() {
@@ -101,7 +109,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @Override
         public void onClick(View view) {
             System.out.println("hello");
-            Toast.makeText(view.getContext(), "Zur Detailansicht von " + eintraege_liste.get(getAdapterPosition()).getDatumBeginn() + " springen ...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), "Zur Detailansicht von " + eintraege_liste.get(getAdapterPosition()).getDatum() + " springen ...", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -114,4 +122,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
+    public class MyDateViewHolder extends RecyclerView.ViewHolder {
+        public TextView tv;
+
+        public TextView getDateTextView() {
+            return tv;
+        }
+
+        public MyDateViewHolder(LinearLayout v) {
+            super(v);
+            tv = v.findViewById(R.id.dateGroupTextView);
+        }
+    }
 }

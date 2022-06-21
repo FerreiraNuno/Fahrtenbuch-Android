@@ -3,7 +3,7 @@ package com.example.fahrtenbuch.ui.rides;
 
 import java.util.Date;
 
-public class FahrtItem {
+public class FahrtItem extends ListObject{
 
     private Date datumBeginn = null;
     private String von = "";
@@ -43,11 +43,12 @@ public class FahrtItem {
         this.ortkategorie = ortkategorie;
     }
 
-    public Date getDatumBeginn() {
+    public Date getDatum() {
         return datumBeginn;
     }
 
-    public void setDatumBeginn(Date datum) {
+
+    public void setDatum(Date datum) {
         this.datumBeginn = datum;
     }
 
@@ -89,5 +90,10 @@ public class FahrtItem {
 
     public void setOrtkategorie(String ortkategorie) {
         this.ortkategorie = ortkategorie;
+    }
+
+    @Override
+    public int getType() {
+        return TYPE_FAHRT;
     }
 }
