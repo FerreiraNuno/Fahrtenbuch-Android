@@ -4,28 +4,51 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.fahrtenbuch.databinding.FragmentSettingsBinding;
 
 public class SettingsFragment extends Fragment {
 
     private FragmentSettingsBinding binding;
+    private Switch sw;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        SettingsViewModel settingsViewModel =
-                new ViewModelProvider(this).get(SettingsViewModel.class);
-
+    public View onCreateView(@NonNull LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
 
-        final TextView textView = binding.textSettings;
-        settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        Switch gps_bluetooth = binding.settingsConnectGps;
+
+        if (gps_bluetooth != null) {
+            gps_bluetooth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        // disallow App to use GPS and Bluetooth
+                    } else {
+                        // allow App to use GPS and Bluetooth
+                    }
+                }
+            });
+        }
+
+        Switch push_messages = binding.settingsConnectGps;
+
+        if (push_messages != null) {
+            push_messages.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        // disallow App to use push-Messages
+                    } else {
+                        // allow App to use push-Messages
+                    }
+                }
+            });
+        }
+
+        View root = binding.getRoot();
         return root;
     }
 

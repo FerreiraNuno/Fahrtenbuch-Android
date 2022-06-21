@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Felix/Desktop/Studium/4.Semester/AP/Fahrtenbuch/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Felix/Desktop/Studium/4.Semester/AP/Fahrtenbuch/app/src/main/res/layout/advanced_list_item.xml" value="0.1875" />
+        <entry key="..\:/Users/Felix/Desktop/Studium/4.Semester/AP/Fahrtenbuch/app/src/main/res/layout/fragment_outgoings.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Felix/Desktop/Studium/4.Semester/AP/Fahrtenbuch/app/src/main/res/layout/fragment_rides.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Felix/Desktop/Studium/4.Semester/AP/Fahrtenbuch/app/src/main/res/layout/fragment_settings.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Felix/Desktop/Studium/4.Semester/AP/Fahrtenbuch/app/src/main/res/layout/fragment_statistics.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Felix/Desktop/Studium/4.Semester/AP/Fahrtenbuch/app/src/main/res/menu/bottom_nav_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NunoFerreira/Google Drive/Programmier Projekte/Android Projekte/Fahrtenbuch-App/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1635" />
         <entry key="..\:/Users/NunoFerreira/Google Drive/Programmier Projekte/Android Projekte/Fahrtenbuch-App/app/src/main/res/layout/activity_main.xml" value="0.271286231884058" />
         <entry key="..\:/Users/NunoFerreira/Google Drive/Programmier Projekte/Android Projekte/Fahrtenbuch-App/app/src/main/res/layout/advanced_list_item.xml" value="0.42857142857142855" />
