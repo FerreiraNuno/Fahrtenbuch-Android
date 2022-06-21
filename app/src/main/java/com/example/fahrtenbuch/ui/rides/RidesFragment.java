@@ -22,9 +22,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class RidesFragment extends Fragment {
     private FragmentRidesBinding binding;
+    private ArrayList<FahrtItem> eintraege_liste;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -35,16 +37,26 @@ public class RidesFragment extends Fragment {
 
         // Erzeugen von ListItems
         Random random = new Random();
-        final ArrayList<FahrtItem> eintraege_liste = new ArrayList<>();
+        eintraege_liste = new ArrayList<>();
         for (int i=0; i<150; i++){
-            Date startDate = new Date("01/01/2021");
-            Date endDate = new Date("06/21/2022");
+            Date startDate = new Date("01/01/2021 15:05:24");
+            Date endDate = new Date("06/21/2022 13:25:12");
             long randDate = ThreadLocalRandom.current().nextLong(startDate.getTime(), endDate.getTime());
             Date date = new Date(randDate);
-            eintraege_liste.add(new FahrtItem(date, "Frankfurt", "Gießen", random.nextInt(120)+5, random.nextInt(120)+5));
+            eintraege_liste.add(new FahrtItem(date, "Frankfurt", "Gießen", random.nextInt(120)+5));
         }
+        Collections.sort(eintraege_liste, (x, y) -> y.getDatumBeginn().compareTo(x.getDatumBeginn()));
 
-        Collections.sort(eintraege_liste, (x, y) -> y.getDatum().compareTo(x.getDatum()));
+        // KM Anzahl diesen Monat aufsummieren
+        int summeKm30Tage = 0;
+        Date currentDate = new Date();
+        for (FahrtItem item : eintraege_liste) {
+            if ((currentDate.getTime() - item.getDatumBeginn().getTime())/(1000*60*60*24) < 30) {
+                summeKm30Tage += item.getKm();
+            }
+        }
+        binding.topCardRight.setText(summeKm30Tage + "km");
+
 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(binding.getRoot().getContext());
@@ -60,4 +72,6 @@ public class RidesFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+
 }

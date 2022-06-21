@@ -1,8 +1,11 @@
 package com.example.fahrtenbuch.ui.rides;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -11,20 +14,24 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fahrtenbuch.R;
+import com.example.fahrtenbuch.databinding.FragmentRidesBinding;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
     private final ArrayList<FahrtItem> eintraege_liste;
     private int count_views = 0;
     private boolean on_bind = false;
+    FragmentRidesBinding binding;
 
     public RecyclerViewAdapter(ArrayList<FahrtItem> eintraege_liste) {
         super();
@@ -46,10 +53,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         on_bind = true;
-        String pattern = "dd.MM.yyyy";
-        DateFormat df = new SimpleDateFormat(pattern);
-        String todayAsString = df.format(eintraege_liste.get(position).getDatum());
-        holder.getTextViewLeft().setText(todayAsString);
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        String todayAsString = df.format(eintraege_liste.get(position).getDatumBeginn());
+        holder.getTextViewLeftTop().setText(todayAsString);
+        df = new SimpleDateFormat("HH:mm");
+        todayAsString = df.format(eintraege_liste.get(position).getDatumBeginn());
+        holder.getTextViewLeftBottom().setText(todayAsString);
         holder.getTextViewRight().setText(eintraege_liste.get(position).getKm() + " km");
         on_bind = false;
         Log.i(this.getClass().toString(), "(Reuse view, position=" + position + ")");
@@ -64,18 +73,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public LinearLayout cl;
         public TextView tv1;
         public TextView tv2;
+        public TextView tv3;
 
         public MyViewHolder(LinearLayout v) {
             super(v);
             v.setOnClickListener(this);
             v.setOnLongClickListener(this);
+
             cl = v;
             tv1 = cl.findViewById(R.id.textView1);
             tv2 = cl.findViewById(R.id.textView2);
+            tv3 = cl.findViewById(R.id.textView3);
         }
 
-        public TextView getTextViewLeft() {
+        public TextView getTextViewLeftTop() {
             return tv1;
+        }
+
+        public TextView getTextViewLeftBottom() {
+            return tv3;
         }
 
         public TextView getTextViewRight() {
@@ -84,8 +100,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(view.getContext(), "Zur Detailansicht von " + eintraege_liste.get(getAdapterPosition()).getDatum() + " springen ...", Toast.LENGTH_SHORT).show();
+            System.out.println("hello");
+            Toast.makeText(view.getContext(), "Zur Detailansicht von " + eintraege_liste.get(getAdapterPosition()).getDatumBeginn() + " springen ...", Toast.LENGTH_SHORT).show();
         }
+
 
         @Override
         public boolean onLongClick(View view) {

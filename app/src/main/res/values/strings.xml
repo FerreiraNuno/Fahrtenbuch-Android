@@ -4,4 +4,5 @@
     <string name="title_outgoings" translatable="false">Ausgaben</string>
     <string name="title_statistics" translatable="false">Statistiken</string>
     <string name="title_settings" translatable="false">Einstellungen</string>
+    <string name="fahrten_topCard_left" translatable="false">KM letzte 30 Tage</string>
 </resources>

@@ -5,50 +5,50 @@ import java.util.Date;
 
 public class FahrtItem {
 
-    private Date datum = null;
+    private Date datumBeginn = null;
     private String von = "";
     private String ziel = "";
     private int km = 27;
-    private int dauer = 0;
+    private Date datumEnde = null;
     private String ortkategorie = "";
 
     public FahrtItem(Date datum, String von, String ziel, int km) {
-        this.datum = datum;
+        this.datumBeginn = datum;
         this.von = von;
         this.ziel = ziel;
         this.km = km;
     }
 
-    public FahrtItem(Date datum, String von, String ziel, int km, int dauer) {
-        this.datum = datum;
+    public FahrtItem(Date datum, String von, String ziel, int km, Date datumEnde) {
+        this.datumBeginn = datum;
         this.von = von;
         this.ziel = ziel;
         this.km = km;
-        this.dauer = dauer;
+        this.datumEnde = datumEnde;
     }
     public FahrtItem(Date datum, String von, String ziel, int km, String ortkategorie) {
-        this.datum = datum;
+        this.datumBeginn = datum;
         this.von = von;
         this.ziel = ziel;
         this.km = km;
         this.ortkategorie = ortkategorie;
     }
 
-    public FahrtItem(Date datum, String von, String ziel, int km, int dauer, String ortkategorie) {
-        this.datum = datum;
+    public FahrtItem(Date datum, String von, String ziel, int km, Date datumEnde, String ortkategorie) {
+        this.datumBeginn = datum;
         this.von = von;
         this.ziel = ziel;
         this.km = km;
-        this.dauer = dauer;
+        this.datumEnde = datumEnde;
         this.ortkategorie = ortkategorie;
     }
 
-    public Date getDatum() {
-        return datum;
+    public Date getDatumBeginn() {
+        return datumBeginn;
     }
 
-    public void setDatum(Date datum) {
-        this.datum = datum;
+    public void setDatumBeginn(Date datum) {
+        this.datumBeginn = datum;
     }
 
     public String getVon() {
@@ -75,12 +75,12 @@ public class FahrtItem {
         this.km = km;
     }
 
-    public int getDauer() {
-        return dauer;
+    public Date getDatumEnde() {
+        return datumEnde;
     }
 
-    public void setDauer(int dauer) {
-        this.dauer = dauer;
+    public void setDatumEnde(Date datumEnde) {
+        this.datumEnde = datumEnde;
     }
 
     public String getOrtkategorie() {
