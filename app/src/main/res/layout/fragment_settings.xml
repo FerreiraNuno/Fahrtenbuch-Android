@@ -7,24 +7,70 @@
     android:orientation="vertical"
     tools:context=".ui.settings.SettingsFragment">
 
-    <Switch
-        android:id="@+id/settings_connect_gps"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_weight="1"
-        android:text="Verbindung mit Bluetooth und GPS erlauben" />
-
-    <Switch
-        android:id="@+id/settings_push_messages"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_weight="1"
-        android:text="Push-Benarichtigungen erlauben" />
-
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="100" />
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        tools:context=".ui.rides.RidesFragment">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/bottomCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:cardBackgroundColor="@color/background_300"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:background="@color/cardview_light_background"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="6dp"
+                    app:contentPadding="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="92dp">
+
+                    <Switch
+                        android:id="@+id/settings_push_messages"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Push-Benarichtigungen erlauben" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:background="@color/cardview_light_background"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="6dp"
+                    app:contentPadding="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="244dp">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Bluetooth" />
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
 
 </LinearLayout>

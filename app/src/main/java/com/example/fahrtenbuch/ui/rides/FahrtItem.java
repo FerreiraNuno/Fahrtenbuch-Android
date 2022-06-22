@@ -4,13 +4,12 @@ package com.example.fahrtenbuch.ui.rides;
 import java.util.Date;
 
 public class FahrtItem extends ListObject{
-
-    private Date datumBeginn = null;
-    private String von = "";
-    private String ziel = "";
-    private int km = 27;
+    private Date datumBeginn;
+    private String von;
+    private String ziel;
+    private int km;
     private Date datumEnde = null;
-    private String ortkategorie = "";
+    private String ortkategorie;
 
     public FahrtItem(Date datum, String von, String ziel, int km) {
         this.datumBeginn = datum;

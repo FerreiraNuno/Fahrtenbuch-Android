@@ -15,7 +15,6 @@ import com.example.fahrtenbuch.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -33,10 +32,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         RecyclerView.ViewHolder vh = null;
         // create a new view
         if (viewType == 0) {
-            LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.advanced_list_item, parent, false);
+            LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_rides, parent, false);
             vh = new MyViewHolder(v);
         } else if (viewType == 1) {
-            LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.date_list_item, parent, false);
+            LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_date, parent, false);
             vh = new MyDateViewHolder(v);
         }
         return vh;
@@ -83,12 +82,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public TextView tv2;
         public TextView tv3;
 
-        public MyViewHolder(LinearLayout v) {
-            super(v);
-            v.setOnClickListener(this);
-            v.setOnLongClickListener(this);
+        public MyViewHolder(LinearLayout view) {
+            super(view);
+            view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
 
-            linearLayout = v;
+            linearLayout = view;
             tv1 = linearLayout.findViewById(R.id.textView1);
             tv2 = linearLayout.findViewById(R.id.textView2);
             tv3 = linearLayout.findViewById(R.id.textView3);
@@ -108,7 +107,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         @Override
         public void onClick(View view) {
-            System.out.println("hello");
             Toast.makeText(view.getContext(), "Zur Detailansicht von " + eintraege_liste.get(getAdapterPosition()).getDatum() + " springen ...", Toast.LENGTH_SHORT).show();
         }
 

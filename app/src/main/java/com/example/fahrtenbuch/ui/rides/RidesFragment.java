@@ -16,38 +16,46 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fahrtenbuch.databinding.FragmentRidesBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RidesFragment extends Fragment {
+public class RidesFragment extends Fragment implements View.OnClickListener {
     private FragmentRidesBinding binding;
-    private ArrayList<ListObject> eintraege_liste;
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentRidesBinding.inflate(inflater, container, false);
-        RecyclerView recyclerView = binding.fahrtenView;
-        recyclerView.setHasFixedSize(true);
 
-        // Erzeugen von ListItems
+        binding.plusButton.setOnClickListener(this);
+        binding.topCardRight.setOnClickListener(this);
+
+        // Put rides into array
+        ArrayList<ListObject> eintraege_liste = createRidesArray();
+        //Create Recycler view for rides
+        RecyclerView recyclerView = binding.fahrtenView;
+        recyclerView.setAdapter(new RecyclerViewAdapter(eintraege_liste));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
+
+        View root = binding.getRoot();
+        return root;
+    }
+
+    private ArrayList<ListObject> createRidesArray() {
+        //Erzeugen von ListItems (randomisiert)
         Random random = new Random();
-        eintraege_liste = new ArrayList<>();
+        ArrayList<ListObject> eintraege_liste = new ArrayList<>();
         for (int i=0; i<150; i++){
             Date startDate = new Date("03/01/2022 15:05:24");
             Date endDate = new Date("06/22/2022 23:25:12");
             long randDate = ThreadLocalRandom.current().nextLong(startDate.getTime(), endDate.getTime());
             Date date = new Date(randDate);
-            eintraege_liste.add(new FahrtItem(date, "Frankfurt", "Gießen", random.nextInt(120)+5));
-
+            eintraege_liste.add(new FahrtItem(date, "Frankfurt", "Gießen", random.nextInt(80)+5));
         }
+
         Collections.sort(eintraege_liste, (x, y) -> y.getDatum().compareTo(x.getDatum()));
-        //ADD DATE GROUPS
+        //Datum eingruppieren und in Liste einfügen
         Date previousDate = eintraege_liste.get(0).getDatum();
         eintraege_liste.add(0, new DateItem(previousDate));
         for (int i=0; i<eintraege_liste.size(); i++){
@@ -59,8 +67,6 @@ public class RidesFragment extends Fragment {
                 }
             }
         }
-
-
         // KM Anzahl diesen Monat aufsummieren
         int summeKm30Tage = 0;
         Date currentDate = new Date();
@@ -71,28 +77,18 @@ public class RidesFragment extends Fragment {
                 }
             }
         }
-
-
-        for (ListObject item : eintraege_liste) {
-            System.out.println("Typ: " + item.getType() + "Datum: " + item.getDatum());
-        }
         binding.topCardRight.setText(summeKm30Tage + "km");
 
-
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(binding.getRoot().getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new RecyclerViewAdapter(eintraege_liste));
-
-        View root = binding.getRoot();
-        return root;
+        return eintraege_liste;
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    public void onClick(View view) {
+        if (view == binding.plusButton) {
+            // Neues Fragment zur Fahrten bearbeitung hier starten
+            System.out.println("binding.plusButton");
+        } else if (view == binding.topCardRight) {
+            System.out.println("binding.topCardRight");
+        }
     }
-
-
 }

@@ -23,11 +23,12 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floatingActionButton"
+                android:id="@+id/plusButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#10FAD8"
                 android:clickable="true"
+                android:elevation="16dp"
                 android:focusable="true"
                 android:src="@drawable/plus"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -61,7 +62,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
                         android:text="@string/fahrten_topCard_left"
-                        android:textColor="#646464"
+                        android:textColor="#322783"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -72,6 +74,7 @@
                         android:layout_height="wrap_content"
                         android:text="0km"
                         android:textColor="#1BA890"
+                        android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

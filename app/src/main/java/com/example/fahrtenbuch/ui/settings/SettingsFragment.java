@@ -20,7 +20,7 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
 
-        Switch gps_bluetooth = binding.settingsConnectGps;
+        /*Switch gps_bluetooth = binding.settingsConnectGps;
 
         if (gps_bluetooth != null) {
             gps_bluetooth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -34,7 +34,7 @@ public class SettingsFragment extends Fragment {
             });
         }
 
-        Switch push_messages = binding.settingsConnectGps;
+        //Switch push_messages = binding.settingsConnectGps;
 
         if (push_messages != null) {
             push_messages.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -51,10 +51,8 @@ public class SettingsFragment extends Fragment {
         View root = binding.getRoot();
         return root;
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    */
+        View root = binding.getRoot();
+        return root;
     }
 }
