@@ -47,6 +47,27 @@ public class RidesFragment extends Fragment implements View.OnClickListener, Dat
         return binding.getRoot();
     }
 
+
+    @Override
+    public void onClick(View view) {
+        if (view == binding.plusButton) {
+            // Neues Fragment zur Fahrten bearbeitung hier starten
+            FragmentTransaction fragmentTransaction= getParentFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_fragment_container, new createRideFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        } else if (view == binding.topCardRight) {
+            DatePickerDialog dialog = new DatePickerDialog(binding.getRoot().getContext(), this, 2022, 6, 23);
+            dialog.show();
+        }
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+
+    }
+
+
     private ArrayList<ListObject> createRidesArray() {
         //Erzeugen von ListItems (randomisiert)
         Random random = new Random();
@@ -85,24 +106,5 @@ public class RidesFragment extends Fragment implements View.OnClickListener, Dat
         binding.topCardRight.setText(summeKm30Tage + "km");
 
         return eintraege_liste;
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view == binding.plusButton) {
-            // Neues Fragment zur Fahrten bearbeitung hier starten
-            FragmentTransaction fragmentTransaction= getParentFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_fragment_container, new createRideFragment());
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
-        } else if (view == binding.topCardRight) {
-            DatePickerDialog dialog = new DatePickerDialog(binding.getRoot().getContext(), this, 2022, 6, 23);
-            dialog.show();
-        }
-    }
-
-    @Override
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-
     }
 }

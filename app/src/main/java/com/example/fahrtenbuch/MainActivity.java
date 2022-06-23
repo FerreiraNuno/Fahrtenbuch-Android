@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.fahrtenbuch.databinding.ActivityMainBinding;
+import com.example.fahrtenbuch.db.Database;
 
 public class MainActivity extends AppCompatActivity {
 

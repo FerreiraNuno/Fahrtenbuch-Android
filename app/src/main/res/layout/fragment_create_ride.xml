@@ -108,7 +108,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="24dp"
                         android:text="18:12"
-                        android:textColor="@color/teal_200"
+                        android:textColor="#05DEB6"
                         android:textSize="24sp"
                         app:layout_constraintBottom_toBottomOf="@+id/editDateText"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -150,40 +150,35 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="0dp"
-                android:layout_height="62dp"
-                android:layout_marginStart="45dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="45dp"
+                android:id="@+id/heuteDefaultButton"
+                android:layout_width="67dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:background="@color/cardview_light_background"
-                app:cardBackgroundColor="@color/background_grey_900"
+                app:cardBackgroundColor="@color/teal_200"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="-4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/editDateCard"
                 app:layout_constraintTop_toBottomOf="@+id/editDateCard">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:descendantFocusability="blocksDescendants"
-                    android:focusable="auto"
-                    android:focusableInTouchMode="false">
+                    android:layout_height="match_parent">
 
-                    <Spinner
-                        android:id="@+id/editCategory"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="8dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:text="Heute"
+                        android:textColor="@color/font_purple"
+                        android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -191,7 +186,7 @@
                 android:layout_width="0dp"
                 android:layout_height="62dp"
                 android:layout_marginStart="45dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="84dp"
                 android:layout_marginEnd="45dp"
                 android:background="@color/cardview_light_background"
                 app:cardBackgroundColor="@color/teal_200"
