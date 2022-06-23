@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentRidesBinding;
+import com.example.fahrtenbuch.db.Database;
 import com.example.fahrtenbuch.ui.settings.SettingsFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -57,8 +58,9 @@ public class RidesFragment extends Fragment implements View.OnClickListener, Dat
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         } else if (view == binding.topCardRight) {
-            DatePickerDialog dialog = new DatePickerDialog(binding.getRoot().getContext(), this, 2022, 6, 23);
-            dialog.show();
+            Database db = new Database(binding.getRoot().getContext());
+            db.insert(1234, 25);
+            binding.topCardRight.setText(db.query().getString(0));
         }
     }
 
