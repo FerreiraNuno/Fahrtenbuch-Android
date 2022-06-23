@@ -5,4 +5,6 @@
     <string name="title_statistics" translatable="false">Statistiken</string>
     <string name="title_settings" translatable="false">Einstellungen</string>
     <string name="fahrten_topCard_left" translatable="false">km letzte 30 Tage</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

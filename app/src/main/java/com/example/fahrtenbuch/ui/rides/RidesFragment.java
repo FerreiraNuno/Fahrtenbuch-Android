@@ -1,10 +1,12 @@
 package com.example.fahrtenbuch.ui.rides;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 
 import java.util.Collections;
 import java.util.Date;
@@ -12,16 +14,20 @@ import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentRidesBinding;
+import com.example.fahrtenbuch.ui.settings.SettingsFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RidesFragment extends Fragment implements View.OnClickListener {
+public class RidesFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
     private FragmentRidesBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,8 +44,7 @@ public class RidesFragment extends Fragment implements View.OnClickListener {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
 
-        View root = binding.getRoot();
-        return root;
+        return binding.getRoot();
     }
 
     private ArrayList<ListObject> createRidesArray() {
@@ -86,9 +91,18 @@ public class RidesFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         if (view == binding.plusButton) {
             // Neues Fragment zur Fahrten bearbeitung hier starten
-            System.out.println("binding.plusButton");
+            FragmentTransaction fragmentTransaction= getParentFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_fragment_container, new createRideFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         } else if (view == binding.topCardRight) {
-            System.out.println("binding.topCardRight");
+            DatePickerDialog dialog = new DatePickerDialog(binding.getRoot().getContext(), this, 2022, 6, 23);
+            dialog.show();
         }
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+
     }
 }
