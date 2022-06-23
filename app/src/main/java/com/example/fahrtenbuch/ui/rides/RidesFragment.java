@@ -77,7 +77,7 @@ public class RidesFragment extends Fragment implements View.OnClickListener, Dat
             Date endDate = new Date("06/22/2022 23:25:12");
             long randDate = ThreadLocalRandom.current().nextLong(startDate.getTime(), endDate.getTime());
             Date date = new Date(randDate);
-            eintraege_liste.add(new FahrtItem(date, "Frankfurt", "Gießen", random.nextInt(80)+5));
+            eintraege_liste.add(new FahrtItem(date, random.nextInt(80)+5));
         }
 
         Collections.sort(eintraege_liste, (x, y) -> y.getDatum().compareTo(x.getDatum()));

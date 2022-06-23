@@ -11,10 +11,8 @@ public class FahrtItem extends ListObject{
     private Date datumEnde = null;
     private String ortkategorie;
 
-    public FahrtItem(Date datum, String von, String ziel, int km) {
+    public FahrtItem(Date datum, int km) {
         this.datumBeginn = datum;
-        this.von = von;
-        this.ziel = ziel;
         this.km = km;
     }
 
