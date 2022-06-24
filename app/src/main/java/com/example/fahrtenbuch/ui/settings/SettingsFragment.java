@@ -9,50 +9,59 @@ import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentSettingsBinding;
 
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     private FragmentSettingsBinding binding;
-    private Switch sw;
+
+    static String bluetoothBeacon = "";
 
     public View onCreateView(@NonNull LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
+
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
 
-        /*Switch gps_bluetooth = binding.settingsConnectGps;
+        binding.selectBluetooth.setOnClickListener(this);
+        binding.selectGps.setOnClickListener(this);
 
-        if (gps_bluetooth != null) {
-            gps_bluetooth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        // disallow App to use GPS and Bluetooth
-                    } else {
-                        // allow App to use GPS and Bluetooth
-                    }
+        Switch pushMessages = binding.settingsPushMessages;
+
+        //dis-/allow App to use push-Messages
+        pushMessages.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // allow App to use push-Messages
+                } else {
+                    // disallow App to use push-Messages
                 }
-            });
-        }
-
-        //Switch push_messages = binding.settingsConnectGps;
-
-        if (push_messages != null) {
-            push_messages.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        // disallow App to use push-Messages
-                    } else {
-                        // allow App to use push-Messages
-                    }
-                }
-            });
-        }
+            }
+        });
 
         View root = binding.getRoot();
         return root;
     }
-    */
-        View root = binding.getRoot();
-        return root;
+
+    @Override
+    public void onClick(View view) {
+        if (view == binding.selectBluetooth) {
+            callSelectBluetoothFragment();
+        } else if (view == binding.selectGps) {
+            callSelectGpsFragment();
+        }
+    }
+
+    private void callSelectGpsFragment() {
+        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_fragment_container,new SelectGpsFragment());
+        fragmentTransaction.commit();
+    }
+
+    void callSelectBluetoothFragment() {
+        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_fragment_container,new SelectBluetoothFragment());
+        fragmentTransaction.commit();
     }
 }
