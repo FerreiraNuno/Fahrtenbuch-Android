@@ -16,7 +16,7 @@ public class Database extends SQLiteOpenHelper {
 
     // Name und Version der Datenbank
     private static final String DATABASE_NAME = "ride.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Name und Attribute der Tabelle "Ride"
     public static final String TABLE_NAME_RIDES = "Rides";
@@ -47,48 +47,47 @@ public class Database extends SQLiteOpenHelper {
 
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        //SQLiteDatabase db = getWritableDatabase();
-        //db.execSQL(TABLE_RIDE_CREATE);
+
     }
 
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
+    public void onCreate(SQLiteDatabase DB) {
+    DB.execSQL(TABLE_RIDE_CREATE);
+    System.out.println("moin");
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion,
+    public void onUpgrade(SQLiteDatabase DB, int oldVersion,
                           int newVersion) {
         Log.w(TAG, "Upgrade der Datenbank von Version "
                 + oldVersion + " zu "
                 + newVersion + "; alle Daten werden gelöscht");
-        //  db.execSQL(TABLE_RIDE_DROP);
+          DB.execSQL(TABLE_RIDE_DROP);
+          DB.execSQL(TABLE_RIDE_CREATE);
     }
 
     public void insert(int time, int km) {
-        System.out.println("hier2");
-        long rowId = -1;
+        System.out.println("moin2");
         try {
             // Datenbank öffnen
-            SQLiteDatabase db = getWritableDatabase();
-            //db.execSQL("INSERT INTO 'Rides' (start, destination)" + "VALUES(" + time + ", " + km + ");");
-            db.execSQL("INSERT INTO Rides (rideStartTime, rideDistance)" + "VALUES(" + time + ", " + km + ");");
-            String [] columns = new String[] {"max(Ride_id)"};
-            Cursor cursor = db.query( "Rides", columns, null, null, null, null, null);
-            cursor.moveToFirst();
-            rowId = cursor.getInt(0);
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues valuesInsert = new ContentValues();
+            valuesInsert.put("rideDistance", time);
+            valuesInsert.put("rideStartTime", km);
+            db.insert("Rides",null, valuesInsert);
+           // rowId = cursor.getInt(0);
         } catch (SQLiteException e) {
             Log.e(TAG, "insert()", e);
         } finally {
-            Log.d(TAG, "insert(): rowId=" + rowId);
+           // Log.d(TAG, "insert(): rowId=" + rowId);
         }
     }
 
 
 
     public Cursor query() {
-        SQLiteDatabase db = getWritableDatabase();
+       SQLiteDatabase db = getWritableDatabase();
         return db.query(TABLE_NAME_RIDES, null, null, null, null, null, RIDE_START_TIME + " DESC");
     }
 

@@ -33,7 +33,6 @@ public class RidesFragment extends Fragment implements View.OnClickListener, Dat
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentRidesBinding.inflate(inflater, container, false);
-
         binding.plusButton.setOnClickListener(this);
         binding.topCardRight.setOnClickListener(this);
 
@@ -60,7 +59,7 @@ public class RidesFragment extends Fragment implements View.OnClickListener, Dat
         } else if (view == binding.topCardRight) {
             Database db = new Database(binding.getRoot().getContext());
             db.insert(1234, 25);
-            binding.topCardRight.setText(db.query().getString(0));
+            //binding.topCardRight.setText(db.query().getString(0));
         }
     }
 
