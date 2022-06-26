@@ -1,5 +1,6 @@
 package com.example.fahrtenbuch.ui.settings;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     private FragmentSettingsBinding binding;
 
-    static String bluetoothBeacon = "";
+    static String bluetoothBeaconMacAddress = "";
+    static Location lastEndpointBluetoothBeacon = new Location("emtpy Location");
 
     public View onCreateView(@NonNull LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
 
