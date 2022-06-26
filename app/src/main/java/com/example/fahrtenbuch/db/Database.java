@@ -72,7 +72,6 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public void insert(int time, int km) {
-
         try {
             // Datenbank öffnen
             SQLiteDatabase db = this.getWritableDatabase();
@@ -113,6 +112,7 @@ public class Database extends SQLiteOpenHelper {
         }
         return listOfEntries;
     }
+
     public Cursor query() {
        SQLiteDatabase db = getWritableDatabase();
         return db.query(TABLE_NAME_RIDES, null, null, null, null, null, RIDE_START_TIME + " DESC");

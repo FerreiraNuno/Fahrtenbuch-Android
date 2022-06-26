@@ -65,6 +65,7 @@ public class RidesFragment extends Fragment implements View.OnClickListener, Dat
            binding.topCardRight.setText(" \n Die Fahrt war  " + String.valueOf(db.getRide(0).get("rideDistance"))
                    + " km lang und startete " + String.valueOf(db.getRide(0).get("rideStartTime")) + " Uhr");
            // binding.topCardRight.setText(String.valueOf(db.getAllRides().size()));
+
         }
     }
 
