@@ -2,6 +2,7 @@ package com.example.fahrtenbuch.ui.rides;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,8 +59,12 @@ public class RidesFragment extends Fragment implements View.OnClickListener, Dat
             fragmentTransaction.commit();
         } else if (view == binding.topCardRight) {
             Database db = new Database(binding.getRoot().getContext());
-            db.insert(1234, 25);
-            //binding.topCardRight.setText(db.query().getString(0));
+           db.insert(900, 30);
+           // db.update(20, 200);
+
+           binding.topCardRight.setText(" \n Die Fahrt war  " + String.valueOf(db.getRide(0).get("rideDistance"))
+                   + " km lang und startete " + String.valueOf(db.getRide(0).get("rideStartTime")) + " Uhr");
+           // binding.topCardRight.setText(String.valueOf(db.getAllRides().size()));
         }
     }
 

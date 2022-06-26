@@ -10,13 +10,16 @@ import android.database.Cursor;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+
+
 public class Database extends SQLiteOpenHelper {
 
     private static final String TAG = Database.class.getSimpleName();
 
     // Name und Version der Datenbank
     private static final String DATABASE_NAME = "ride.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 5;
 
     // Name und Attribute der Tabelle "Ride"
     public static final String TABLE_NAME_RIDES = "Rides";
@@ -54,7 +57,8 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase DB) {
     DB.execSQL(TABLE_RIDE_CREATE);
-    System.out.println("moin");
+
+
     }
 
     @Override
@@ -68,14 +72,15 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public void insert(int time, int km) {
-        System.out.println("moin2");
+
         try {
             // Datenbank öffnen
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues valuesInsert = new ContentValues();
             valuesInsert.put("rideDistance", time);
             valuesInsert.put("rideStartTime", km);
-            db.insert("Rides",null, valuesInsert);
+           long rowID = db.insert("Rides",null, valuesInsert);
+
            // rowId = cursor.getInt(0);
         } catch (SQLiteException e) {
             Log.e(TAG, "insert()", e);
@@ -84,17 +89,39 @@ public class Database extends SQLiteOpenHelper {
         }
     }
 
+    public ContentValues getRide(int id){
+        ContentValues cv = new ContentValues();
+        Cursor c = query();
+        c.moveToFirst();
+        c.move(id);
+        cv.put("rideStartTime", c.getString(2));
+        cv.put("rideDistance", c.getString(4));
 
+        return cv;
+    }
 
+    public ArrayList<ContentValues> getAllRides(){
+        ArrayList<ContentValues> listOfEntries = new ArrayList<ContentValues>();
+        Cursor c = query();
+        if(c.moveToFirst()){
+            while (c.moveToNext()){
+                ContentValues value = new ContentValues();
+                value.put("rideStartTime", c.getString(2));
+                value.put("rideDistance", c.getString(4));
+                listOfEntries.add(value);
+            }
+        }
+        return listOfEntries;
+    }
     public Cursor query() {
        SQLiteDatabase db = getWritableDatabase();
         return db.query(TABLE_NAME_RIDES, null, null, null, null, null, RIDE_START_TIME + " DESC");
     }
 
-    public void update(long pk, int type) { // Art der Fahrt ändern
+    public void update(long pk, int distance) { // Art der Fahrt ändern
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(RIDE_TYPE, type);
+        values.put(RIDE_DISTANCE, distance);
         int numUpdated = db.update(TABLE_NAME_RIDES,
                 values, RIDE_ID + " = ?", new String[]{Long.toString(pk)});
         Log.d(TAG, "update(): pk=" + pk + " -> " + numUpdated);
