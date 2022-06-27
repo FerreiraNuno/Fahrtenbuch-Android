@@ -10,7 +10,13 @@ import android.database.Cursor;
 
 import android.util.Log;
 
+import com.example.fahrtenbuch.ui.rides.FahrtItem;
+import com.example.fahrtenbuch.ui.rides.ListObject;
+
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class Database extends SQLiteOpenHelper {
@@ -20,45 +26,55 @@ public class Database extends SQLiteOpenHelper {
     // Name und Version der Datenbank
     private static final String DATABASE_NAME = "ride.db";
     private static final int DATABASE_VERSION = 5;
-
     // Name und Attribute der Tabelle "Ride"
     public static final String TABLE_NAME_RIDES = "Rides";
-    private static final String RIDE_ID = "rideId";
-    public static final String RIDE_START = "rideStart";
-    public static final String RIDE_DISTANCE = "rideDistance";
-    public static final String RIDE_DESTINATION = "rideDestination";
-    public static final String RIDE_START_TIME = "rideStartTime";
-    public static final String RIDE_TYPE = "type";
-    //private static final String RIDE_DISTANCE = "distance";
-
+    private static final String COLLUMN_RIDE_ID = "rideId";
+    public static final String  COLLUMN_RIDE_LOCATION_START = "rideLocationStart";
+    public static final String  COLLUMN_RIDE_LOCATION_DESTINATION = "rideDestination";
+    public static final String  COLLUMN_RIDE_DISTANCE = "rideDistance";
+    public static final String  COLLUMN_RIDE_START_TIME = "rideStartTime";
+    public static final String  COLLUMN_RIDE_TYPE = "type";
     // Konstanten für die Art der Fahrt
     public static final int ARBEITSFAHRT = 1;
     public static final int EINKAUFSFAHRT = 2;
     public static final int SONSTIGE_Fahrt = 3;
-
-    // Tabelle Ride anlegen
+    // SQL Befehle
     private static final String TABLE_RIDE_CREATE = "CREATE TABLE "
-            + TABLE_NAME_RIDES + " (" + RIDE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + RIDE_START + " TEXT, "
-            + RIDE_DISTANCE + " TEXT, "
-            + RIDE_DESTINATION + " TEXT, "
-            + RIDE_START_TIME + " INTEGER, "
-            + RIDE_TYPE + " INTEGER);";
-
-    // Tabelle Ride löschen
+            + TABLE_NAME_RIDES + " (" + COLLUMN_RIDE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COLLUMN_RIDE_LOCATION_START + " TEXT, "
+            + COLLUMN_RIDE_LOCATION_DESTINATION + " TEXT, "
+            + COLLUMN_RIDE_DISTANCE + " INTEGER, "
+            + COLLUMN_RIDE_START_TIME + " INTEGER, "
+            + COLLUMN_RIDE_TYPE + " INTEGER);";
     private static final String TABLE_RIDE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME_RIDES;
+
+
 
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-
     }
 
+    public void restartDatabase() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(TABLE_RIDE_DROP);
+        db.execSQL(TABLE_RIDE_CREATE);
+        Random random = new Random();
+        for (int i=0; i<25; i++){
+            Date startDate = new Date("03/01/2022 15:05:24");
+            Date endDate = new Date("06/22/2022 23:25:12");
+            long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
+            Date date = new Date(randTime);
+            System.out.println(date);
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("rideStartTime", date.getTime());
+            contentValues.put("rideDistance", random.nextInt(80)+5);
+            db.insert("Rides",null, contentValues);
+        }
+    }
 
     @Override
     public void onCreate(SQLiteDatabase DB) {
-    DB.execSQL(TABLE_RIDE_CREATE);
-
-
+        DB.execSQL(TABLE_RIDE_CREATE);
     }
 
     @Override
@@ -71,65 +87,60 @@ public class Database extends SQLiteOpenHelper {
           DB.execSQL(TABLE_RIDE_CREATE);
     }
 
-    public void insert(int time, int km) {
+    public long insert(long time, int km) {
         try {
             // Datenbank öffnen
             SQLiteDatabase db = this.getWritableDatabase();
-            ContentValues valuesInsert = new ContentValues();
-            valuesInsert.put("rideDistance", time);
-            valuesInsert.put("rideStartTime", km);
-           long rowID = db.insert("Rides",null, valuesInsert);
-
-           // rowId = cursor.getInt(0);
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(COLLUMN_RIDE_START_TIME, time);
+            contentValues.put("rideDistance", km);
+            long rowID = db.insert("Rides",null, contentValues);
+            return rowID;
         } catch (SQLiteException e) {
-            Log.e(TAG, "insert()", e);
-        } finally {
-           // Log.d(TAG, "insert(): rowId=" + rowId);
+            System.out.println("insert error");
         }
+        return -1;
     }
 
-    public ContentValues getRide(int id){
-        ContentValues cv = new ContentValues();
-        Cursor c = query();
-        c.moveToFirst();
-        c.move(id);
-        cv.put("rideStartTime", c.getString(2));
-        cv.put("rideDistance", c.getString(4));
-
-        return cv;
+    public FahrtItem getRide(int id){
+        Cursor cursor = query();
+        cursor.moveToFirst();
+        cursor.move(id);
+        int rideDistance = cursor.getInt(3);
+        Date rideStartTime = new Date(Long.parseLong(cursor.getString(4)));
+        FahrtItem fahrtItem = new FahrtItem(rideStartTime, rideDistance);
+        return fahrtItem;
     }
 
-    public ArrayList<ContentValues> getAllRides(){
-        ArrayList<ContentValues> listOfEntries = new ArrayList<ContentValues>();
-        Cursor c = query();
-        if(c.moveToFirst()){
-            while (c.moveToNext()){
-                ContentValues value = new ContentValues();
-                value.put("rideStartTime", c.getString(2));
-                value.put("rideDistance", c.getString(4));
-                listOfEntries.add(value);
-            }
+    public ArrayList<FahrtItem> getAllRides(){
+        ArrayList<FahrtItem> eintraege_liste = new ArrayList<>();
+        Cursor cursor = query();
+        while (cursor.moveToNext()){
+            int rideDistance = cursor.getInt(3);
+            Date rideStartTime = new Date(cursor.getLong(4));
+            eintraege_liste.add(new FahrtItem(rideStartTime, rideDistance));
         }
-        return listOfEntries;
+
+        return eintraege_liste;
     }
 
     public Cursor query() {
-       SQLiteDatabase db = getWritableDatabase();
-        return db.query(TABLE_NAME_RIDES, null, null, null, null, null, RIDE_START_TIME + " DESC");
+        SQLiteDatabase db = getWritableDatabase();
+        return db.query(TABLE_NAME_RIDES, null, null, null, null, null, COLLUMN_RIDE_START_TIME + " DESC");
     }
 
     public void update(long pk, int distance) { // Art der Fahrt ändern
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(RIDE_DISTANCE, distance);
+        values.put(COLLUMN_RIDE_DISTANCE, distance);
         int numUpdated = db.update(TABLE_NAME_RIDES,
-                values, RIDE_ID + " = ?", new String[]{Long.toString(pk)});
+                values, COLLUMN_RIDE_ID + " = ?", new String[]{Long.toString(pk)});
         Log.d(TAG, "update(): pk=" + pk + " -> " + numUpdated);
     }
 
     public void delete(long id) {
         SQLiteDatabase db = getWritableDatabase();
-        int numDeleted = db.delete(TABLE_NAME_RIDES, RIDE_ID + " = ?", new String[]{Long.toString(id)});
+        int numDeleted = db.delete(TABLE_NAME_RIDES, COLLUMN_RIDE_ID + " = ?", new String[]{Long.toString(id)});
         Log.d(TAG, "delete(): id=" + id + " -> " + numDeleted);
     }
 }

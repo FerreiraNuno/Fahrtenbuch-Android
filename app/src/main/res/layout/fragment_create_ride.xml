@@ -55,21 +55,35 @@
                     android:id="@+id/constraintLayout2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:descendantFocusability="blocksDescendants"
                     android:focusable="auto"
                     android:focusableInTouchMode="false">
 
-                    <TextView
+                    <EditText
                         android:id="@+id/editKmText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:text="Distanz"
-                        android:textColor="@color/font_grey_light"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:hint="Distanz"
+                        android:inputType="number"
+                        android:textColor="@color/font_grey"
                         android:textSize="24sp"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="24dp"
+                        android:text="km"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
@@ -93,7 +107,6 @@
                     android:id="@+id/constraintLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:descendantFocusability="blocksDescendants"
                     android:focusable="auto"
                     android:focusableInTouchMode="false"
                     app:layout_constraintBottom_toTopOf="@+id/editDateText"

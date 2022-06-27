@@ -17,9 +17,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Database db = new Database(getApplicationContext());
+        db.restartDatabase();
+
+        System.out.println("main activity started");
         super.onCreate(savedInstanceState);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+
         setContentView(binding.getRoot());
 
         // Passing each menu ID as a set of Ids because each
