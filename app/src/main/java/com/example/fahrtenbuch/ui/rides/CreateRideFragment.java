@@ -32,7 +32,8 @@ public class CreateRideFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCreateRideBinding.inflate(inflater, container, false);
 
-        binding.editDateCard.setOnClickListener(this);
+        binding.editDateText.setOnClickListener(this);
+        binding.editHourText.setOnClickListener(this);
         binding.finishButton.setOnClickListener(this);
 
         //set Datepicker defaults
@@ -54,16 +55,17 @@ public class CreateRideFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View view) {
-        if (view == binding.editDateCard) {
-            TimePickerDialog timePickerDialog = new TimePickerDialog(binding.getRoot().getContext(), this, date.getHours(), date.getMinutes(), true);
+        if (view == binding.editDateText) {
             DatePickerDialog datePickerDialog = new DatePickerDialog(binding.getRoot().getContext(), this, date.getYear() + 1900, date.getMonth() + 1, date.getDate());
-            timePickerDialog.show();
             datePickerDialog.show();
+        } else if (view == binding.editHourText) {
+            TimePickerDialog timePickerDialog = new TimePickerDialog(binding.getRoot().getContext(), this, date.getHours(), date.getMinutes(), true);
+            timePickerDialog.show();
         } else if (view == binding.finishButton) {
             if (!binding.editKmText.getText().toString().equals("")) {
                 int distanceValue = Integer.parseInt(binding.editKmText.getText().toString());
                 Database db = new Database(binding.getRoot().getContext());
-                db.insert(date.getTime(), distanceValue, rideType);
+                db.insertRide(date.getTime(), distanceValue, rideType);
                 getParentFragmentManager().popBackStackImmediate();
             } else {
                 Toast.makeText(getActivity(), "Bitte erst gefahrene distanz eintragen!",

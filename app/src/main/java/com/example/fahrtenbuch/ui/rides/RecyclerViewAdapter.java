@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,13 +21,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
+    RecyclerviewOnClickListener listener;
     private final ArrayList<ListObject> eintraege_liste;
 
 
-    public RecyclerViewAdapter(ArrayList<ListObject> eintraege_liste) {
+    public RecyclerViewAdapter(RecyclerviewOnClickListener listener, ArrayList<ListObject> eintraege_liste) {
         super();
         this.eintraege_liste = eintraege_liste;
+        this.listener = listener;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         // create a new view
         if (viewType == 0) {
             LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_rides, parent, false);
-            vh = new MyViewHolder(v);
+            vh = new MyViewHolder(listener, v);
         } else if (viewType == 1) {
             LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_date, parent, false);
             vh = new MyDateViewHolder(v);
@@ -58,10 +58,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((MyViewHolder) holder).getTextViewRight().setText(((FahrtItem)(eintraege_liste.get(position))).getRideDistance() + " km");
             int rideType = ((FahrtItem) (eintraege_liste.get(position))).getRideType();
             switch(rideType) {
-                case 5: // Kategorie Sonstiges
-                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Fahrt");
-                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.auto);
-                    break;
                 case 1: // Kategorie Arbeit
                     ((MyViewHolder) holder).getTextFahrtTyp().setText("Arbeitsfahrt");
                     ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.arbeit);
@@ -106,82 +102,82 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return eintraege_liste.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        public LinearLayout linearLayout;
-        public TextView tv1;
-        public TextView tv2;
-        public TextView tv3;
-        public TextView ftTv;
-        public ImageView iv;
-
-        public MyViewHolder(LinearLayout view) {
-            super(view);
-            view.setOnClickListener(this);
-            view.setOnLongClickListener(this);
-
-            linearLayout = view;
-            tv1 = linearLayout.findViewById(R.id.textView1);
-            tv2 = linearLayout.findViewById(R.id.textView2);
-            tv3 = linearLayout.findViewById(R.id.textView3);
-            ftTv = linearLayout.findViewById(R.id.fahrttypTextView);
-            iv =  linearLayout.findViewById(R.id.imageView);
-        }
-
-        public TextView getTextViewLeftTop() {
-            return tv1;
-        }
-
-        public TextView getTextViewLeftBottom() {
-            return tv3;
-        }
-
-        public TextView getTextViewRight() {
-            return tv2;
-        }
-
-        public TextView getTextFahrtTyp() {
-            return ftTv;
-        }
-
-        public ImageView getImageView() {
-            return iv;
-        }
-
-        @Override
-        public void onClick(View view) {
-            int position = getAdapterPosition();
-            Bundle bundle = new Bundle();
-            bundle.putInt("position", position);
-
-            EditRideFragment editRideFragment = new EditRideFragment();
-            editRideFragment.setArguments(bundle);
-
-            FragmentTransaction fragmentTransaction= ((AppCompatActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_fragment_container, new EditRideFragment());
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
-        }
 
 
-        @Override
-        public boolean onLongClick(View view) {
-            int position = getAdapterPosition();
-            eintraege_liste.remove(eintraege_liste.get(position));
-            notifyItemRemoved(position);
-            return false;
-        }
-    }
+            public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-    public class MyDateViewHolder extends RecyclerView.ViewHolder {
-        public TextView tv;
+                RecyclerviewOnClickListener listener;
+                public LinearLayout linearLayout;
+                public TextView tv1;
+                public TextView tv2;
+                public TextView tv3;
+                public TextView ftTv;
+                public ImageView iv;
 
-        public TextView getDateTextView() {
-            return tv;
-        }
+                public MyViewHolder(RecyclerviewOnClickListener listener, LinearLayout view) {
+                    super(view);
+                    this.listener = listener;
+                    view.setOnClickListener(this);
+                    view.setOnLongClickListener(this);
 
-        public MyDateViewHolder(LinearLayout v) {
-            super(v);
-            tv = v.findViewById(R.id.dateGroupTextView);
-        }
-    }
+                    linearLayout = view;
+                    tv1 = linearLayout.findViewById(R.id.textView1);
+                    tv2 = linearLayout.findViewById(R.id.textView2);
+                    tv3 = linearLayout.findViewById(R.id.textView3);
+                    ftTv = linearLayout.findViewById(R.id.fahrttypTextView);
+                    iv =  linearLayout.findViewById(R.id.imageView);
+                }
+
+                public TextView getTextViewLeftTop() {
+                    return tv1;
+                }
+
+                public TextView getTextViewLeftBottom() {
+                    return tv3;
+                }
+
+                public TextView getTextViewRight() {
+                    return tv2;
+                }
+
+                public TextView getTextFahrtTyp() {
+                    return ftTv;
+                }
+
+                public ImageView getImageView() {
+                    return iv;
+                }
+
+                @Override
+                public void onClick(View view) {
+                    listener.recyclerviewClick(getAdapterPosition());
+                }
+
+
+                @Override
+                public boolean onLongClick(View view) {
+                    int position = getAdapterPosition();
+                    eintraege_liste.remove(eintraege_liste.get(position));
+                    notifyItemRemoved(position);
+                    return false;
+                }
+            }
+
+            public class MyDateViewHolder extends RecyclerView.ViewHolder {
+                public TextView tv;
+
+                public TextView getDateTextView() {
+                    return tv;
+                }
+
+                public MyDateViewHolder(LinearLayout v) {
+                    super(v);
+                    tv = v.findViewById(R.id.dateGroupTextView);
+                }
+            }
+
+
+            public interface RecyclerviewOnClickListener{
+                void recyclerviewClick(int position);
+            }
 }

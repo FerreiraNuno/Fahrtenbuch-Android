@@ -11,12 +11,10 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.example.fahrtenbuch.ui.rides.FahrtItem;
-import com.example.fahrtenbuch.ui.rides.ListObject;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 
 public class Database extends SQLiteOpenHelper {
@@ -50,23 +48,24 @@ public class Database extends SQLiteOpenHelper {
             + COLLUMN_RIDE_TYPE + " INTEGER);";
     private static final String TABLE_RIDE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME_RIDES;
 
+    SQLiteDatabase db;
+
 
 
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        db = getWritableDatabase();
     }
 
     public void restartDatabase() {
-        SQLiteDatabase db = getWritableDatabase();
         db.execSQL(TABLE_RIDE_DROP);
         db.execSQL(TABLE_RIDE_CREATE);
         Random random = new Random();
-        for (int i=0; i<25; i++){
-            Date startDate = new Date("03/01/2022 15:05:24");
-            Date endDate = new Date("06/22/2022 23:25:12");
+        for (int i=0; i<5; i++){
+            Date startDate = new Date("06/01/2022 15:05:24");
+            Date endDate = new Date("06/29/2022 09:18:12");
             long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
             Date date = new Date(randTime);
-            System.out.println(date);
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLLUMN_RIDE_START_TIME, date.getTime());
             contentValues.put(COLLUMN_RIDE_DISTANCE, random.nextInt(80)+5);
@@ -81,8 +80,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase DB, int oldVersion,
-                          int newVersion) {
+    public void onUpgrade(SQLiteDatabase DB, int oldVersion, int newVersion) {
         Log.w(TAG, "Upgrade der Datenbank von Version "
                 + oldVersion + " zu "
                 + newVersion + "; alle Daten werden gelöscht");
@@ -90,64 +88,63 @@ public class Database extends SQLiteOpenHelper {
           DB.execSQL(TABLE_RIDE_CREATE);
     }
 
-    public long insert(long time, int km, int rideType) {
+    public ArrayList<FahrtItem> getAllRides(){
+        ArrayList<FahrtItem> eintraege_liste = new ArrayList<>();
+        Cursor cursor = queryAllRides();
+        while (cursor.moveToNext()){
+            int rideId = cursor.getInt(0);
+            int rideDistance = cursor.getInt(3);
+            Date rideStartTime = new Date(cursor.getLong(4));
+            int rideType = cursor.getInt(5);
+            eintraege_liste.add(new FahrtItem(rideStartTime, rideDistance, rideType, rideId));
+        }
+        return eintraege_liste;
+    }
+
+    public FahrtItem getRide(int id){
+        Cursor cursor = queryRideById(id);
+        cursor.moveToFirst();
+        int rideDistance = cursor.getInt(3);
+        Date rideStartTime = new Date(Long.parseLong(cursor.getString(4)));
+        int rideType = cursor.getInt(5);
+        FahrtItem fahrtItem = new FahrtItem(rideStartTime, rideDistance, rideType, id);
+        return fahrtItem;
+    }
+
+
+    public long insertRide(long time, int km, int rideType) {
         try {
             // Datenbank öffnen
-            SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLLUMN_RIDE_START_TIME, time);
             contentValues.put(COLLUMN_RIDE_DISTANCE, km);
             contentValues.put(COLLUMN_RIDE_TYPE, rideType);
-            long rowID = db.insert("Rides",null, contentValues);
-            return rowID;
+            return db.insert("Rides",null, contentValues);
         } catch (SQLiteException e) {
             System.out.println("insert error");
         }
         return -1;
     }
 
-    public FahrtItem getRide(int id){
-        Cursor cursor = query();
-        cursor.moveToFirst();
-        cursor.move(id);
-        int rideDistance = cursor.getInt(3);
-        Date rideStartTime = new Date(Long.parseLong(cursor.getString(4)));
-        int rideType = cursor.getInt(5);
-        FahrtItem fahrtItem = new FahrtItem(rideStartTime, rideDistance, rideType);
-        return fahrtItem;
+    public void updateRide(int id, long time, int km, int rideType) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLLUMN_RIDE_START_TIME, time);
+        contentValues.put(COLLUMN_RIDE_DISTANCE, km);
+        contentValues.put(COLLUMN_RIDE_TYPE, rideType);
+        System.out.println(db.update(TABLE_NAME_RIDES, contentValues, COLLUMN_RIDE_ID + " = ?", new String[]{Long.toString(id)}));
     }
 
-    public ArrayList<FahrtItem> getAllRides(){
-        ArrayList<FahrtItem> eintraege_liste = new ArrayList<>();
-        Cursor cursor = query();
-        while (cursor.moveToNext()){
-            int rideDistance = cursor.getInt(3);
-            Date rideStartTime = new Date(cursor.getLong(4));
-            int rideType = cursor.getInt(5);
-            eintraege_liste.add(new FahrtItem(rideStartTime, rideDistance, rideType));
-        }
-
-        return eintraege_liste;
-    }
-
-    public Cursor query() {
-        SQLiteDatabase db = getWritableDatabase();
-        return db.query(TABLE_NAME_RIDES, null, null, null, null, null, COLLUMN_RIDE_START_TIME + " DESC");
-    }
-
-    public void update(long pk, int distance) { // Art der Fahrt ändern
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLLUMN_RIDE_DISTANCE, distance);
-        int numUpdated = db.update(TABLE_NAME_RIDES,
-                values, COLLUMN_RIDE_ID + " = ?", new String[]{Long.toString(pk)});
-        Log.d(TAG, "update(): pk=" + pk + " -> " + numUpdated);
-    }
-
-    public void delete(long id) {
-        SQLiteDatabase db = getWritableDatabase();
-        int numDeleted = db.delete(TABLE_NAME_RIDES, COLLUMN_RIDE_ID + " = ?", new String[]{Long.toString(id)});
+    public void deleteRide(long id) {
+        int numDeleted = db.delete(TABLE_NAME_RIDES, COLLUMN_RIDE_ID + " = 2", new String[]{Long.toString(id)});
         Log.d(TAG, "delete(): id=" + id + " -> " + numDeleted);
+    }
+
+    public Cursor queryRideById(int id) {
+        return db.rawQuery("select * from " + TABLE_NAME_RIDES + " where " + COLLUMN_RIDE_ID + "=" + id , null);
+    }
+
+    public Cursor queryAllRides() {
+        return db.query(TABLE_NAME_RIDES, null, null, null, null, null, COLLUMN_RIDE_START_TIME + " DESC");
     }
 }
 

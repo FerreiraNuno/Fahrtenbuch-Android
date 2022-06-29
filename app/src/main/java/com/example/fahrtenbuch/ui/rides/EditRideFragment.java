@@ -16,7 +16,6 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.fahrtenbuch.R;
-import com.example.fahrtenbuch.databinding.FragmentCreateRideBinding;
 import com.example.fahrtenbuch.databinding.FragmentEditRideBinding;
 import com.example.fahrtenbuch.db.Database;
 
@@ -27,32 +26,34 @@ public class EditRideFragment extends Fragment implements View.OnClickListener, 
     private FragmentEditRideBinding binding;
     Date date = null;
     int rideType = 5;
-    int arrayPosition = 0;
+    int rideId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentEditRideBinding.inflate(inflater, container, false);
 
-        Bundle bundle = this.getArguments();
-        System.out.println(bundle);
-
-        binding.editDateCard.setOnClickListener(this);
+        binding.editDateText.setOnClickListener(this);
+        binding.editHourText.setOnClickListener(this);
         binding.finishButton.setOnClickListener(this);
 
+        // get FahrtItem
+        rideId = this.getArguments().getInt("rideId");
+        Database db = new Database(binding.getRoot().getContext());
+        FahrtItem fahrtItem = db.getRide(rideId);
+        // Set km field
+        binding.editKmText.setText(String.valueOf(fahrtItem.getRideDistance()));
         //set Datepicker defaults
-        date = new Date();
+        date = fahrtItem.getDatum();
         String output = String.format("%02d", date.getDate()) + "." + String.format("%02d", date.getMonth()+1) + "." + (date.getYear()+1900);
         binding.editDateText.setText(output);
         output = String.format("%02d", date.getHours()) + "." + String.format("%02d", date.getMinutes());
         binding.editHourText.setText(output);
-
-        binding.editKmText.setText(String.valueOf(arrayPosition));
         //set Spinner items
         Spinner rideTypeSpinner = binding.rideTypeSpinner;
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(binding.getRoot().getContext(), R.array.categoríes, android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         rideTypeSpinner.setAdapter(arrayAdapter);
-        rideTypeSpinner.setSelection(4);
+        rideTypeSpinner.setSelection(fahrtItem.getRideType());
         rideTypeSpinner.setOnItemSelectedListener(this);
         return binding.getRoot();
     }
@@ -60,22 +61,22 @@ public class EditRideFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onClick(View view) {
-        if (view == binding.editDateCard) {
-            TimePickerDialog timePickerDialog = new TimePickerDialog(binding.getRoot().getContext(), this, date.getHours(), date.getMinutes(), true);
+        if (view == binding.editDateText) {
             DatePickerDialog datePickerDialog = new DatePickerDialog(binding.getRoot().getContext(), this, date.getYear() + 1900, date.getMonth() + 1, date.getDate());
-            timePickerDialog.show();
             datePickerDialog.show();
+        } else if (view == binding.editHourText) {
+            TimePickerDialog timePickerDialog = new TimePickerDialog(binding.getRoot().getContext(), this, date.getHours(), date.getMinutes(), true);
+            timePickerDialog.show();
         } else if (view == binding.finishButton) {
             if (!binding.editKmText.getText().toString().equals("")) {
                 int distanceValue = Integer.parseInt(binding.editKmText.getText().toString());
                 Database db = new Database(binding.getRoot().getContext());
-                db.insert(date.getTime(), distanceValue, rideType);
+                db.updateRide(rideId, date.getTime(), distanceValue, rideType);
                 getParentFragmentManager().popBackStackImmediate();
             } else {
                 Toast.makeText(getActivity(), "Bitte erst gefahrene distanz eintragen!",
                         Toast.LENGTH_LONG).show();
             }
-
         }
     }
 

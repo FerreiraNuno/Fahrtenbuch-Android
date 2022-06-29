@@ -10,12 +10,23 @@ public class FahrtItem extends ListObject{
     private int rideDistance;
     private int rideType;
 
-    public FahrtItem(Date datum, int km, int rideType) {
+    private int rideId;
+
+    public FahrtItem(Date datum, int km, int rideType, int rideId) {
         this.rideStartTime = datum;
         this.rideDistance = km;
         this.rideType = rideType;
+        this.rideId = rideId;
     }
 
+
+    public int getRideId() {
+        return rideId;
+    }
+
+    public void setRideId(int rideId) {
+        this.rideId = rideId;
+    }
 
     public Date getDatum() {
         return rideStartTime;

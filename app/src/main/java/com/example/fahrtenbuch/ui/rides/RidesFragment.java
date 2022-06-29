@@ -20,18 +20,18 @@ import com.example.fahrtenbuch.db.Database;
 
 import java.util.ArrayList;
 
-public class RidesFragment extends Fragment implements View.OnClickListener {
+public class RidesFragment extends Fragment implements View.OnClickListener, RecyclerViewAdapter.RecyclerviewOnClickListener {
     private FragmentRidesBinding binding;
-    private RecyclerViewAdapter recyclerViewAdapter;
+    ArrayList<ListObject> eintraege_liste;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentRidesBinding.inflate(inflater, container, false);
         binding.plusButton.setOnClickListener(this);
         binding.topCardRight.setOnClickListener(this);
 
-        ArrayList<ListObject> eintraege_liste = getRidesArray();
+        eintraege_liste = getRidesArray();
         RecyclerView recyclerView = binding.fahrtenView;
-        recyclerViewAdapter = new RecyclerViewAdapter(eintraege_liste);
+        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, eintraege_liste);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
@@ -51,7 +51,7 @@ public class RidesFragment extends Fragment implements View.OnClickListener {
         } else if (view == binding.topCardRight) {
             Database db = new Database(binding.getRoot().getContext());
             Date today = new Date();
-            db.insert(today.getTime(), 80, 5);
+            db.insertRide(today.getTime(), 80, 5);
         }
     }
 
@@ -92,5 +92,19 @@ public class RidesFragment extends Fragment implements View.OnClickListener {
         binding.topCardRight.setText(summeKm30Tage + "km");
 
         return eintraege_liste;
+    }
+
+    @Override
+    public void recyclerviewClick(int position) {
+        int rideId = ((FahrtItem) eintraege_liste.get(position)).getRideId();
+        Bundle bundle = new Bundle();
+        bundle.putInt("rideId", rideId);
+        EditRideFragment editRideFragment = new EditRideFragment();
+        editRideFragment.setArguments(bundle);
+
+        FragmentTransaction fragmentTransaction= getParentFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_fragment_container, editRideFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
