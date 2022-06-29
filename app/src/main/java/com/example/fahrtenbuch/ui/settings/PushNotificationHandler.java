@@ -32,8 +32,6 @@ public class PushNotificationHandler {
 
 
            }
-
-
        }
 
        public void pushNotifcation(String Start, String Ziel, int strecke, int typ){

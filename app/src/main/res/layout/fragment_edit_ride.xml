@@ -23,6 +23,29 @@
             android:layout_height="match_parent"
             android:textAlignment="center">
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/delete_ride"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#FBE1E1"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="3dp"
+                app:contentPadding="6dp"
+                app:contentPaddingLeft="10dp"
+                app:contentPaddingRight="10dp"
+                app:layout_constraintEnd_toEndOf="@+id/editKmCard"
+                app:layout_constraintTop_toTopOf="@+id/textView9">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Fahrt entfernen"
+                    android:textColor="#BC0000"
+                    android:textSize="15sp" />
+
+            </androidx.cardview.widget.CardView>
+
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"

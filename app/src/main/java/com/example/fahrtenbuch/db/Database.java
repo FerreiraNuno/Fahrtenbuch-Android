@@ -61,7 +61,7 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(TABLE_RIDE_DROP);
         db.execSQL(TABLE_RIDE_CREATE);
         Random random = new Random();
-        for (int i=0; i<5; i++){
+        for (int i=0; i<10; i++){
             Date startDate = new Date("06/01/2022 15:05:24");
             Date endDate = new Date("06/29/2022 09:18:12");
             long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
@@ -131,11 +131,12 @@ public class Database extends SQLiteOpenHelper {
         contentValues.put(COLLUMN_RIDE_START_TIME, time);
         contentValues.put(COLLUMN_RIDE_DISTANCE, km);
         contentValues.put(COLLUMN_RIDE_TYPE, rideType);
-        System.out.println(db.update(TABLE_NAME_RIDES, contentValues, COLLUMN_RIDE_ID + " = ?", new String[]{Long.toString(id)}));
+        int numChanged = db.update(TABLE_NAME_RIDES, contentValues, COLLUMN_RIDE_ID + " = ?", new String[]{Long.toString(id)});
+        Log.d(TAG, "delete(): id=" + id + " -> " + numChanged);
     }
 
     public void deleteRide(long id) {
-        int numDeleted = db.delete(TABLE_NAME_RIDES, COLLUMN_RIDE_ID + " = 2", new String[]{Long.toString(id)});
+        int numDeleted = db.delete(TABLE_NAME_RIDES, COLLUMN_RIDE_ID + " = ?", new String[]{Long.toString(id)});
         Log.d(TAG, "delete(): id=" + id + " -> " + numDeleted);
     }
 

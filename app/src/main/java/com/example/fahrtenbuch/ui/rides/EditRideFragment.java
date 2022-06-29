@@ -27,18 +27,20 @@ public class EditRideFragment extends Fragment implements View.OnClickListener, 
     Date date = null;
     int rideType = 5;
     int rideId;
+    Database db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentEditRideBinding.inflate(inflater, container, false);
+        db = new Database(binding.getRoot().getContext());
 
         binding.editDateText.setOnClickListener(this);
         binding.editHourText.setOnClickListener(this);
         binding.finishButton.setOnClickListener(this);
+        binding.deleteRide.setOnClickListener(this);
 
         // get FahrtItem
         rideId = this.getArguments().getInt("rideId");
-        Database db = new Database(binding.getRoot().getContext());
         FahrtItem fahrtItem = db.getRide(rideId);
         // Set km field
         binding.editKmText.setText(String.valueOf(fahrtItem.getRideDistance()));
@@ -67,10 +69,12 @@ public class EditRideFragment extends Fragment implements View.OnClickListener, 
         } else if (view == binding.editHourText) {
             TimePickerDialog timePickerDialog = new TimePickerDialog(binding.getRoot().getContext(), this, date.getHours(), date.getMinutes(), true);
             timePickerDialog.show();
+        } else if (view == binding.deleteRide) {
+                db.deleteRide(rideId);
+                getParentFragmentManager().popBackStackImmediate();
         } else if (view == binding.finishButton) {
             if (!binding.editKmText.getText().toString().equals("")) {
                 int distanceValue = Integer.parseInt(binding.editKmText.getText().toString());
-                Database db = new Database(binding.getRoot().getContext());
                 db.updateRide(rideId, date.getTime(), distanceValue, rideType);
                 getParentFragmentManager().popBackStackImmediate();
             } else {

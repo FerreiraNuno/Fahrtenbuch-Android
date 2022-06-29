@@ -20,9 +20,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Database db = new Database(getApplicationContext());
-        db.restartDatabase();
+        //db.restartDatabase();
 
-        System.out.println("main activity started");
         super.onCreate(savedInstanceState);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -37,8 +36,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         PushNotificationHandler pushNotifier = new PushNotificationHandler(this);
-        String start = db.getRide(0).getRideLocationStart();
-        pushNotifier.pushNotifcation(start, "Frankfurt", db.getRide(0).getRideDistance(), 2);
+        pushNotifier.pushNotifcation("München", "Frankfurt", db.getRide(1).getRideDistance(), 2);
 
     }
 
