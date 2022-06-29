@@ -4,89 +4,57 @@ package com.example.fahrtenbuch.ui.rides;
 import java.util.Date;
 
 public class FahrtItem extends ListObject{
-    private Date datumBeginn;
-    private String von;
-    private String ziel;
-    private int km;
-    private Date datumEnde = null;
-    private String ortkategorie;
+    private Date rideStartTime;
+    private String rideLocationStart;
+    private String rideDestination;
+    private int rideDistance;
+    private int rideType;
 
-    public FahrtItem(Date datum, int km) {
-        this.datumBeginn = datum;
-        this.km = km;
-    }
-
-    public FahrtItem(Date datum, String von, String ziel, int km, Date datumEnde) {
-        this.datumBeginn = datum;
-        this.von = von;
-        this.ziel = ziel;
-        this.km = km;
-        this.datumEnde = datumEnde;
-    }
-    public FahrtItem(Date datum, String von, String ziel, int km, String ortkategorie) {
-        this.datumBeginn = datum;
-        this.von = von;
-        this.ziel = ziel;
-        this.km = km;
-        this.ortkategorie = ortkategorie;
+    public FahrtItem(Date datum, int km, int rideType) {
+        this.rideStartTime = datum;
+        this.rideDistance = km;
+        this.rideType = rideType;
     }
 
-    public FahrtItem(Date datum, String von, String ziel, int km, Date datumEnde, String ortkategorie) {
-        this.datumBeginn = datum;
-        this.von = von;
-        this.ziel = ziel;
-        this.km = km;
-        this.datumEnde = datumEnde;
-        this.ortkategorie = ortkategorie;
-    }
 
     public Date getDatum() {
-        return datumBeginn;
+        return rideStartTime;
     }
-
 
     public void setDatum(Date datum) {
-        this.datumBeginn = datum;
+        this.rideStartTime = datum;
     }
 
-    public String getVon() {
-        return von;
+    public String getRideLocationStart() {
+        return rideLocationStart;
     }
 
-    public void setVon(String von) {
-        this.von = von;
+    public void setRideLocationStart(String rideLocationStart) {
+        this.rideLocationStart = rideLocationStart;
     }
 
-    public String getZiel() {
-        return ziel;
+    public String getRideDestination() {
+        return rideDestination;
     }
 
-    public void setZiel(String ziel) {
-        this.ziel = ziel;
+    public void setRideDestination(String rideDestination) {
+        this.rideDestination = rideDestination;
     }
 
-    public int getKm() {
-        return km;
+    public int getRideDistance() {
+        return rideDistance;
     }
 
-    public void setKm(int km) {
-        this.km = km;
+    public void setRideDistance(int rideDistance) {
+        this.rideDistance = rideDistance;
     }
 
-    public Date getDatumEnde() {
-        return datumEnde;
+    public int getRideType() {
+        return rideType;
     }
 
-    public void setDatumEnde(Date datumEnde) {
-        this.datumEnde = datumEnde;
-    }
-
-    public String getOrtkategorie() {
-        return ortkategorie;
-    }
-
-    public void setOrtkategorie(String ortkategorie) {
-        this.ortkategorie = ortkategorie;
+    public void setRideType(int rideType) {
+        this.rideType = rideType;
     }
 
     @Override

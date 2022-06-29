@@ -7,4 +7,11 @@
     <string name="fahrten_topCard_left" translatable="false">km letzte 30 Tage</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="categoríes">
+        <item>Arbeit</item>
+        <item>Uni</item>
+        <item>Sport</item>
+        <item>Einkauf</item>
+        <item>Sonstiges</item>
+    </string-array>
 </resources>

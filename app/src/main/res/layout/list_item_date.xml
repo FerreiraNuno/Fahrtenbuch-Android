@@ -17,7 +17,7 @@
         android:layout_marginRight="65dp"
         android:layout_marginBottom="4dp"
         android:background="@color/cardview_light_background"
-        app:cardBackgroundColor="@color/teal_900"
+        app:cardBackgroundColor="@color/teal_200"
         app:cardCornerRadius="10dp"
         app:cardElevation="6dp">
 
@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="05.06.2022"
-                android:textColor="@color/font_grey"
+                android:textColor="@color/font_purple"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

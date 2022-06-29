@@ -36,8 +36,10 @@ public class Database extends SQLiteOpenHelper {
     public static final String  COLLUMN_RIDE_TYPE = "type";
     // Konstanten für die Art der Fahrt
     public static final int ARBEITSFAHRT = 1;
-    public static final int EINKAUFSFAHRT = 2;
-    public static final int SONSTIGE_Fahrt = 3;
+    public static final int UNIFAHRT = 2;
+    public static final int SPORTFAHRT = 3;
+    public static final int EINKAUFSFAHRT = 4;
+    public static final int SONSTIGE_Fahrt = 5;
     // SQL Befehle
     private static final String TABLE_RIDE_CREATE = "CREATE TABLE "
             + TABLE_NAME_RIDES + " (" + COLLUMN_RIDE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -66,9 +68,10 @@ public class Database extends SQLiteOpenHelper {
             Date date = new Date(randTime);
             System.out.println(date);
             ContentValues contentValues = new ContentValues();
-            contentValues.put("rideStartTime", date.getTime());
-            contentValues.put("rideDistance", random.nextInt(80)+5);
-            db.insert("Rides",null, contentValues);
+            contentValues.put(COLLUMN_RIDE_START_TIME, date.getTime());
+            contentValues.put(COLLUMN_RIDE_DISTANCE, random.nextInt(80)+5);
+            contentValues.put(COLLUMN_RIDE_TYPE, random.nextInt(5));
+            db.insert(TABLE_NAME_RIDES,null, contentValues);
         }
     }
 
@@ -87,13 +90,14 @@ public class Database extends SQLiteOpenHelper {
           DB.execSQL(TABLE_RIDE_CREATE);
     }
 
-    public long insert(long time, int km) {
+    public long insert(long time, int km, int rideType) {
         try {
             // Datenbank öffnen
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLLUMN_RIDE_START_TIME, time);
-            contentValues.put("rideDistance", km);
+            contentValues.put(COLLUMN_RIDE_DISTANCE, km);
+            contentValues.put(COLLUMN_RIDE_TYPE, rideType);
             long rowID = db.insert("Rides",null, contentValues);
             return rowID;
         } catch (SQLiteException e) {
@@ -108,7 +112,8 @@ public class Database extends SQLiteOpenHelper {
         cursor.move(id);
         int rideDistance = cursor.getInt(3);
         Date rideStartTime = new Date(Long.parseLong(cursor.getString(4)));
-        FahrtItem fahrtItem = new FahrtItem(rideStartTime, rideDistance);
+        int rideType = cursor.getInt(5);
+        FahrtItem fahrtItem = new FahrtItem(rideStartTime, rideDistance, rideType);
         return fahrtItem;
     }
 
@@ -118,7 +123,8 @@ public class Database extends SQLiteOpenHelper {
         while (cursor.moveToNext()){
             int rideDistance = cursor.getInt(3);
             Date rideStartTime = new Date(cursor.getLong(4));
-            eintraege_liste.add(new FahrtItem(rideStartTime, rideDistance));
+            int rideType = cursor.getInt(5);
+            eintraege_liste.add(new FahrtItem(rideStartTime, rideDistance, rideType));
         }
 
         return eintraege_liste;

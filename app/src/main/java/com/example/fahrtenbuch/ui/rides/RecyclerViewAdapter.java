@@ -5,6 +5,7 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +52,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             df = new SimpleDateFormat("HH:mm");
             date = df.format(eintraege_liste.get(position).getDatum());
             ((MyViewHolder) holder).getTextViewLeftBottom().setText(date);
-            ((MyViewHolder) holder).getTextViewRight().setText((((FahrtItem)(eintraege_liste.get(position))).getKm() + " km"));
+            ((MyViewHolder) holder).getTextViewRight().setText((((FahrtItem)(eintraege_liste.get(position))).getRideDistance() + " km"));
+            int rideType = ((FahrtItem) (eintraege_liste.get(position))).getRideType();
+            switch(rideType) {
+                case 5: // Kategorie Sonstiges
+                    //((MyViewHolder) holder).getImageView().changeImage
+                    break;
+                case 1: // Kategorie Arbeit
+
+                    break;
+                case 2: // Kategorie Uni
+
+                    break;
+                case 3: // Kategorie Sport
+
+                    break;
+                case 4: // Kategorie Sonstiges
+
+                    break;
+                default: // Kategorie Sonstiges
+
+            }
+
         } else if (holder.getItemViewType() == 1) {
             DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
             if (DateUtils.isToday(eintraege_liste.get(position).getDatum().getTime())) {
@@ -81,6 +103,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public TextView tv1;
         public TextView tv2;
         public TextView tv3;
+        public ImageView iv;
 
         public MyViewHolder(LinearLayout view) {
             super(view);
@@ -91,6 +114,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             tv1 = linearLayout.findViewById(R.id.textView1);
             tv2 = linearLayout.findViewById(R.id.textView2);
             tv3 = linearLayout.findViewById(R.id.textView3);
+            iv =  linearLayout.findViewById(R.id.imageView);
         }
 
         public TextView getTextViewLeftTop() {
@@ -103,6 +127,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         public TextView getTextViewRight() {
             return tv2;
+        }
+
+        public ImageView getImageView() {
+            return iv;
         }
 
         @Override

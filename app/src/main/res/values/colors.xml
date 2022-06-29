@@ -12,13 +12,13 @@
     <color name="background_grey_100">#C3C3C3</color>
     <color name="font_grey">#2A2A2A</color>
     <color name="font_grey_light">#515151</color>
-    <color name="font_purple">#25197B</color>
-    <color name="purple_200">#453C86</color>
-    <color name="purple_500">#8d82b8</color>
-    <color name="purple_700">#c2bcd6</color>
-    <color name="teal_200">#32FCDF</color>
-    <color name="teal_500">#66FFE9</color>
-    <color name="teal_900">#85F6E6</color>
+    <color name="font_purple">#3C3193</color>
+    <color name="purple_200">#7167C5</color>
+    <color name="purple_500">#5A4FB3</color>
+    <color name="purple_700">#5247AF</color>
+    <color name="teal_200">#A6DBFF</color>
+    <color name="teal_500">#94D4FF</color>
+    <color name="teal_700">#7ACAFF</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

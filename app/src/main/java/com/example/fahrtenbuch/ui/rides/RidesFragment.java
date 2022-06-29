@@ -47,10 +47,11 @@ public class RidesFragment extends Fragment implements View.OnClickListener {
             fragmentTransaction.replace(R.id.main_fragment_container, new createRideFragment());
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+
         } else if (view == binding.topCardRight) {
             Database db = new Database(binding.getRoot().getContext());
             Date today = new Date();
-            db.insert(today.getTime(), 80);
+            db.insert(today.getTime(), 80, 5);
         }
     }
 
@@ -84,7 +85,7 @@ public class RidesFragment extends Fragment implements View.OnClickListener {
         for (ListObject item : eintraege_liste) {
             if ((currentDate.getTime() - item.getDatum().getTime())/(1000*60*60*24) < 30) {
                 if (item.getType() == ListObject.TYPE_FAHRT) {
-                    summeKm30Tage += ((FahrtItem) item).getKm();
+                    summeKm30Tage += ((FahrtItem) item).getRideDistance();
                 }
             }
         }
