@@ -41,8 +41,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         pushMessages.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    System.out.println("Test");
-                   // PushNotificationHandler pushNotifier = new PushNotificationHandler(myContext);
+
                     // allow App to use push-Messages
                 } else {
                     // disallow App to use push-Messages
