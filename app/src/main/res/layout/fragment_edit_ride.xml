@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:text="Neue Fahrt \neintragen"
+                android:text="Fahrt \nbearbeiten"
                 android:textColor="@color/font_purple"
                 android:textSize="28sp"
                 app:layout_constraintBottom_toBottomOf="parent"

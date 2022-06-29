@@ -3,9 +3,6 @@ package com.example.fahrtenbuch.ui.rides;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,21 +13,28 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentCreateRideBinding;
+import com.example.fahrtenbuch.databinding.FragmentEditRideBinding;
 import com.example.fahrtenbuch.db.Database;
 
 import java.util.Date;
 
 
-public class createRideFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
-    private FragmentCreateRideBinding binding;
+public class EditRideFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
+    private FragmentEditRideBinding binding;
     Date date = null;
     int rideType = 5;
+    int arrayPosition = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentCreateRideBinding.inflate(inflater, container, false);
+        binding = FragmentEditRideBinding.inflate(inflater, container, false);
+
+        Bundle bundle = this.getArguments();
+        System.out.println(bundle);
 
         binding.editDateCard.setOnClickListener(this);
         binding.finishButton.setOnClickListener(this);
@@ -41,6 +45,8 @@ public class createRideFragment extends Fragment implements View.OnClickListener
         binding.editDateText.setText(output);
         output = String.format("%02d", date.getHours()) + "." + String.format("%02d", date.getMinutes());
         binding.editHourText.setText(output);
+
+        binding.editKmText.setText(String.valueOf(arrayPosition));
         //set Spinner items
         Spinner rideTypeSpinner = binding.rideTypeSpinner;
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(binding.getRoot().getContext(), R.array.categoríes, android.R.layout.simple_spinner_item);

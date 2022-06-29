@@ -44,7 +44,7 @@ public class RidesFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         if (view == binding.plusButton) {
             FragmentTransaction fragmentTransaction= getParentFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_fragment_container, new createRideFragment());
+            fragmentTransaction.replace(R.id.main_fragment_container, new CreateRideFragment());
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 

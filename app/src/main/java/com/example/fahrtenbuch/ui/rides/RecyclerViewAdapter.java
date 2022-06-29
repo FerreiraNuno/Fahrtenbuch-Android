@@ -1,6 +1,7 @@
 package com.example.fahrtenbuch.ui.rides;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fahrtenbuch.R;
@@ -52,28 +55,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             df = new SimpleDateFormat("HH:mm");
             date = df.format(eintraege_liste.get(position).getDatum());
             ((MyViewHolder) holder).getTextViewLeftBottom().setText(date);
-            ((MyViewHolder) holder).getTextViewRight().setText((((FahrtItem)(eintraege_liste.get(position))).getRideDistance() + " km"));
+            ((MyViewHolder) holder).getTextViewRight().setText(((FahrtItem)(eintraege_liste.get(position))).getRideDistance() + " km");
             int rideType = ((FahrtItem) (eintraege_liste.get(position))).getRideType();
             switch(rideType) {
                 case 5: // Kategorie Sonstiges
-                    //((MyViewHolder) holder).getImageView().changeImage
+                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Fahrt");
+                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.auto);
                     break;
                 case 1: // Kategorie Arbeit
-
+                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Arbeitsfahrt");
+                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.arbeit);
                     break;
                 case 2: // Kategorie Uni
-
+                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Unifahrt");
+                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.uni);
                     break;
                 case 3: // Kategorie Sport
-
+                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Sportfahrt");
+                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.sport);
                     break;
-                case 4: // Kategorie Sonstiges
-
+                case 4: // Kategorie Einkauf
+                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Einkaufsfahrt");
+                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.einkauf);
                     break;
                 default: // Kategorie Sonstiges
-
+                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Fahrt");
+                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.auto);
             }
-
         } else if (holder.getItemViewType() == 1) {
             DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
             if (DateUtils.isToday(eintraege_liste.get(position).getDatum().getTime())) {
@@ -103,6 +111,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public TextView tv1;
         public TextView tv2;
         public TextView tv3;
+        public TextView ftTv;
         public ImageView iv;
 
         public MyViewHolder(LinearLayout view) {
@@ -114,6 +123,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             tv1 = linearLayout.findViewById(R.id.textView1);
             tv2 = linearLayout.findViewById(R.id.textView2);
             tv3 = linearLayout.findViewById(R.id.textView3);
+            ftTv = linearLayout.findViewById(R.id.fahrttypTextView);
             iv =  linearLayout.findViewById(R.id.imageView);
         }
 
@@ -129,13 +139,27 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return tv2;
         }
 
+        public TextView getTextFahrtTyp() {
+            return ftTv;
+        }
+
         public ImageView getImageView() {
             return iv;
         }
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(view.getContext(), "Zur Detailansicht von " + eintraege_liste.get(getAdapterPosition()).getDatum() + " springen ...", Toast.LENGTH_SHORT).show();
+            int position = getAdapterPosition();
+            Bundle bundle = new Bundle();
+            bundle.putInt("position", position);
+
+            EditRideFragment editRideFragment = new EditRideFragment();
+            editRideFragment.setArguments(bundle);
+
+            FragmentTransaction fragmentTransaction= ((AppCompatActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_fragment_container, new EditRideFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         }
 
 
