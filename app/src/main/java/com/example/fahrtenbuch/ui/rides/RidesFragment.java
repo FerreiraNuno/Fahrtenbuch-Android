@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.Date;
@@ -49,9 +50,8 @@ public class RidesFragment extends Fragment implements View.OnClickListener, Rec
             fragmentTransaction.commit();
 
         } else if (view == binding.topCardRight) {
-            Database db = new Database(binding.getRoot().getContext());
-            Date today = new Date();
-            db.insertRide(today.getTime(), 80, 5);
+            Toast.makeText(view.getContext(), "Liste Größe: " + eintraege_liste.size(),
+                    Toast.LENGTH_LONG).show();
         }
     }
 

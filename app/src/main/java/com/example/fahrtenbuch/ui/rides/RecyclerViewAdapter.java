@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -156,9 +157,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 @Override
                 public boolean onLongClick(View view) {
-                    int position = getAdapterPosition();
-                    eintraege_liste.remove(eintraege_liste.get(position));
-                    notifyItemRemoved(position);
+                    Toast.makeText(view.getContext(), "Position: " + getAdapterPosition(),
+                            Toast.LENGTH_LONG).show();
                     return false;
                 }
             }

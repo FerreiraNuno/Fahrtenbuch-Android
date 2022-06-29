@@ -39,6 +39,7 @@ public class EditRideFragment extends Fragment implements View.OnClickListener, 
         binding.finishButton.setOnClickListener(this);
         binding.deleteRide.setOnClickListener(this);
 
+
         // get FahrtItem
         rideId = this.getArguments().getInt("rideId");
         FahrtItem fahrtItem = db.getRide(rideId);
@@ -55,7 +56,7 @@ public class EditRideFragment extends Fragment implements View.OnClickListener, 
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(binding.getRoot().getContext(), R.array.categoríes, android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         rideTypeSpinner.setAdapter(arrayAdapter);
-        rideTypeSpinner.setSelection(fahrtItem.getRideType());
+        rideTypeSpinner.setSelection(fahrtItem.getRideType()-1);
         rideTypeSpinner.setOnItemSelectedListener(this);
         return binding.getRoot();
     }

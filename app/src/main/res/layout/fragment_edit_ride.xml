@@ -27,7 +27,7 @@
                 android:id="@+id/delete_ride"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#FBE1E1"
+                app:cardBackgroundColor="#FBD4D4"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="3dp"
                 app:contentPadding="6dp"
@@ -41,8 +41,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:text="Fahrt entfernen"
-                    android:textColor="#BC0000"
-                    android:textSize="15sp" />
+                    android:textColor="#A80000"
+                    android:textSize="18sp" />
 
             </androidx.cardview.widget.CardView>
 
