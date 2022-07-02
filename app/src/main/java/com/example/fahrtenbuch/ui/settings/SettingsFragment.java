@@ -64,17 +64,17 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     private void callSelectGpsFragment() {
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_fragment_container,new SelectGpsFragment());
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(binding.bottomCard.getId(),new SelectGpsFragment());
         fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
     void callSelectBluetoothFragment() {
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_fragment_container,new SelectBluetoothFragment());
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(binding.bottomCard.getId(),new SelectBluetoothFragment());
         fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 }

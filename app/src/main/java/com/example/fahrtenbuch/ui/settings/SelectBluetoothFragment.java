@@ -13,14 +13,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentSelectBluetoothBinding;
 
 import java.util.Set;
 
-//TODO anklickbare Liste machen für die einzelnen Bluetooth Geräte. Mac-Adresse speichern.
 public class SelectBluetoothFragment extends Fragment implements View.OnClickListener {
 
     private FragmentSelectBluetoothBinding binding;
@@ -29,6 +26,8 @@ public class SelectBluetoothFragment extends Fragment implements View.OnClickLis
     @RequiresApi(api = Build.VERSION_CODES.M)
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSelectBluetoothBinding.inflate(inflater, container, false);
+
+        binding.saveInput.setOnClickListener(this);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -58,7 +57,7 @@ public class SelectBluetoothFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-
+        SettingsFragment.bluetoothBeaconMacAddress = binding.macAdressInputField.getText().toString();
     }
 
 }

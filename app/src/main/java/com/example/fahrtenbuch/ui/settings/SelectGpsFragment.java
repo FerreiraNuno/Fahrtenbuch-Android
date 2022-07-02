@@ -14,23 +14,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentSelectGpsBinding;
 
 import java.util.HashSet;
 import java.util.function.Consumer;
 
-public class SelectGpsFragment extends Fragment implements View.OnClickListener{
+public class SelectGpsFragment extends Fragment implements View.OnClickListener {
     private FragmentSelectGpsBinding binding;
-
 
     //einzelne Sets um Fahrten Kategorien zuzuordnen
     public static HashSet<Location> orteZuhause = new HashSet<Location>() {};
     public static HashSet<Location> orteUni = new HashSet<Location>() {};
     public static HashSet<Location> orteArbeit = new HashSet<Location>() {};
-    public static HashSet<Location> orteFreunde = new HashSet<Location>() {};
+    public static HashSet<Location> orteEinkauf = new HashSet<Location>() {};
     public static HashSet<Location> orteSonstiges = new HashSet<Location>() {};
 
     @SuppressLint("SetTextI18n")
@@ -41,11 +38,10 @@ public class SelectGpsFragment extends Fragment implements View.OnClickListener{
         binding.cardZuhause.setOnClickListener(this);
         binding.cardUni.setOnClickListener(this);
         binding.cardArbeit.setOnClickListener(this);
-        binding.cardFreunde.setOnClickListener(this);
+        binding.cardEinkauf.setOnClickListener(this);
         binding.cardSonstiges.setOnClickListener(this);
 
         detectCurrentLocation();
-
 
         View root = binding.getRoot();
         return root;
@@ -79,8 +75,8 @@ public class SelectGpsFragment extends Fragment implements View.OnClickListener{
         if (view == binding.cardArbeit) {
             orteArbeit.add(new Location(SettingsFragment.lastEndpointBluetoothBeacon));
         }
-        if (view == binding.cardFreunde) {
-            orteFreunde.add(new Location(SettingsFragment.lastEndpointBluetoothBeacon));
+        if (view == binding.cardEinkauf) {
+            orteEinkauf.add(new Location(SettingsFragment.lastEndpointBluetoothBeacon));
         }
         if (view == binding.cardSonstiges) {
             orteSonstiges.add(new Location(SettingsFragment.lastEndpointBluetoothBeacon));
