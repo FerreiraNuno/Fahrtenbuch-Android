@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentEditRideBinding;
 import com.example.fahrtenbuch.db.Database;
+import com.example.fahrtenbuch.db.FahrtItem;
 
 import java.util.Date;
 
@@ -53,7 +54,7 @@ public class EditRideFragment extends Fragment implements View.OnClickListener, 
         binding.editHourText.setText(output);
         //set Spinner items
         Spinner rideTypeSpinner = binding.rideTypeSpinner;
-        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(binding.getRoot().getContext(), R.array.categoríes, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(binding.getRoot().getContext(), R.array.ride_categoríes, android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         rideTypeSpinner.setAdapter(arrayAdapter);
         rideTypeSpinner.setSelection(fahrtItem.getRideType()-1);

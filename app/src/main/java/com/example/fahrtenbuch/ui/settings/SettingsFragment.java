@@ -35,22 +35,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
         Switch pushMessages = binding.settingsPushMessages;
 
-
-
         //dis-/allow App to use push-Messages
-        pushMessages.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-
-                    // allow App to use push-Messages
-                } else {
-                    // disallow App to use push-Messages
-                }
+        pushMessages.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                // allow App to use push-Messages
+            } else {
+                // disallow App to use push-Messages
             }
         });
 
-        View root = binding.getRoot();
-        return root;
+        return binding.getRoot();
     }
 
     @Override

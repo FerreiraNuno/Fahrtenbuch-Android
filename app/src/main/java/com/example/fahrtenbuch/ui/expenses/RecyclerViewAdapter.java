@@ -1,4 +1,4 @@
-package com.example.fahrtenbuch.ui.rides;
+package com.example.fahrtenbuch.ui.expenses;
 
 import android.annotation.SuppressLint;
 import android.text.format.DateUtils;
@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fahrtenbuch.R;
-import com.example.fahrtenbuch.db.FahrtItem;
+import com.example.fahrtenbuch.db.ExpenseItem;
 import com.example.fahrtenbuch.db.ListObject;
 
 import java.text.DateFormat;
@@ -55,27 +55,27 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             df = new SimpleDateFormat("HH:mm");
             date = df.format(eintraege_liste.get(position).getDatum());
             ((MyViewHolder) holder).getTextViewLeftBottom().setText(date);
-            ((MyViewHolder) holder).getTextViewRight().setText(((FahrtItem)(eintraege_liste.get(position))).getRideDistance() + " km");
-            int rideType = ((FahrtItem) (eintraege_liste.get(position))).getRideType();
-            switch(rideType) {
-                case 1: // Kategorie Arbeit
-                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Arbeitsfahrt");
-                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.arbeit);
+            ((MyViewHolder) holder).getTextViewRight().setText(((ExpenseItem)(eintraege_liste.get(position))).getExpenseAmmount() + " €");
+            int expenseType = ((ExpenseItem) (eintraege_liste.get(position))).getExpenseType();
+            switch(expenseType) {
+                case 1: // Kategorie Tanken
+                    ((MyViewHolder) holder).getTextExpenseType().setText("Tanken");
+                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.tanken);
                     break;
-                case 2: // Kategorie Uni
-                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Unifahrt");
-                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.uni);
+                case 2: // Kategorie Versicherung
+                    ((MyViewHolder) holder).getTextExpenseType().setText("Versicherung");
+                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.versicherung);
                     break;
-                case 3: // Kategorie Sport
-                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Sportfahrt");
-                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.sport);
+                case 3: // Kategorie KFZ-Steuer
+                    ((MyViewHolder) holder).getTextExpenseType().setText("KFZ-Steuer");
+                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.steuer);
                     break;
-                case 4: // Kategorie Einkauf
-                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Einkaufsfahrt");
-                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.einkauf);
+                case 4: // Kategorie Werkstatt
+                    ((MyViewHolder) holder).getTextExpenseType().setText("Werkstatt");
+                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.auto);
                     break;
                 default: // Kategorie Sonstiges
-                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Fahrt");
+                    ((MyViewHolder) holder).getTextExpenseType().setText("Sonstiges");
                     ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.auto);
             }
         } else if (holder.getItemViewType() == 1) {
@@ -140,7 +140,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     return tv2;
                 }
 
-                public TextView getTextFahrtTyp() {
+                public TextView getTextExpenseType() {
                     return ftTv;
                 }
 

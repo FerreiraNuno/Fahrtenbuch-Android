@@ -10,8 +10,6 @@ import android.database.Cursor;
 
 import android.util.Log;
 
-import com.example.fahrtenbuch.ui.rides.FahrtItem;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -24,6 +22,8 @@ public class Database extends SQLiteOpenHelper {
     // Name und Version der Datenbank
     private static final String DATABASE_NAME = "ride.db";
     private static final int DATABASE_VERSION = 5;
+
+
     // Name und Attribute der Tabelle "Ride"
     public static final String TABLE_NAME_RIDES = "Rides";
     private static final String COLLUMN_RIDE_ID = "rideId";
@@ -48,8 +48,46 @@ public class Database extends SQLiteOpenHelper {
             + COLLUMN_RIDE_TYPE + " INTEGER);";
     private static final String TABLE_RIDE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME_RIDES;
 
-    SQLiteDatabase db;
 
+
+    // Name und Attribute der Tabelle "Expenses"
+    public static final String TABLE_NAME_EXPENSES = "Expenses";
+    private static final String COLLUMN_EXPENSE_ID = "expenseId";
+    private static final String COLLUMN_EXPENSE_AMMOUNT = "expenseAmmount";
+    public static final String  COLLUMN_EXPENSE_TIME = "expenseTime";
+    public static final String  COLLUMN_EXPENSE_TYPE = "expenseType";
+    // Konstanten für die Art der Ausgabe
+    public static final int TANKEN = 1;
+    public static final int VERSICHERUNG = 2;
+    public static final int KFZ_STEUER = 3;
+    public static final int WERKSTATT = 4;
+    public static final int SONSTIGE_AUSGABE = 5;
+    // SQL Befehle
+    private static final String TABLE_EXPENSES_CREATE = "CREATE TABLE "
+            + TABLE_NAME_EXPENSES + " (" + COLLUMN_EXPENSE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COLLUMN_EXPENSE_AMMOUNT + " INTEGER, "
+            + COLLUMN_EXPENSE_TIME + " TEXT, "
+            + COLLUMN_EXPENSE_TYPE + " INTEGER);";
+    private static final String TABLE_EXPENSES_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME_EXPENSES;
+
+
+    // Name und Attribute der Tabelle "Orte"
+    public static final String TABLE_NAME_ORTE = "Orte";
+    private static final String COLLUMN_ORT_ID = "ortId";
+    private static final String COLLUMN_ORT_NAME = "ortName";
+    private static final String COLLUMN_ORT_LONGITUDE = "ortLongitude";
+    private static final String COLLUMN_ORT_LATITUDE = "ortLatitude";
+
+    // SQL Befehle
+    private static final String TABLE_ORTE_CREATE = "CREATE TABLE "
+            + TABLE_NAME_ORTE + " (" + COLLUMN_ORT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COLLUMN_ORT_NAME + " TEXT, "
+            + COLLUMN_ORT_LONGITUDE + " TEXT, "
+            + COLLUMN_ORT_LATITUDE + " TEXT);";
+    private static final String TABLE_ORTE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME_ORTE;
+
+
+    SQLiteDatabase db;
 
 
     public Database(Context context) {
@@ -58,6 +96,9 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public void restartDatabase() {
+        //db.execSQL(TABLE_ORTE_DROP);
+        //db.execSQL(TABLE_ORTE_CREATE);
+
         db.execSQL(TABLE_RIDE_DROP);
         db.execSQL(TABLE_RIDE_CREATE);
         Random random = new Random();
@@ -72,11 +113,53 @@ public class Database extends SQLiteOpenHelper {
             contentValues.put(COLLUMN_RIDE_TYPE, random.nextInt(5)+1);
             db.insert(TABLE_NAME_RIDES,null, contentValues);
         }
+
+        db.execSQL(TABLE_EXPENSES_DROP);
+        db.execSQL(TABLE_EXPENSES_CREATE);
+        for (int i=0; i<10; i++){
+            Date startDate = new Date("03/03/2022 15:05:24");
+            Date endDate = new Date("07/02/2022 09:18:12");
+            long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
+            Date date = new Date(randTime);
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(COLLUMN_EXPENSE_TIME, date.getTime());
+            contentValues.put(COLLUMN_EXPENSE_AMMOUNT, random.nextInt(45)+25);
+            contentValues.put(COLLUMN_EXPENSE_TYPE, 1);
+            db.insert(TABLE_NAME_EXPENSES,null, contentValues);
+        }
+
+        Date startDate = new Date("03/03/2022 15:05:24");
+        Date endDate = new Date("07/02/2022 09:18:12");
+        long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
+        Date date = new Date(randTime);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLLUMN_EXPENSE_TIME, date.getTime());
+        contentValues.put(COLLUMN_EXPENSE_AMMOUNT, random.nextInt(250)+100);
+        contentValues.put(COLLUMN_EXPENSE_TYPE, 2);
+        db.insert(TABLE_NAME_EXPENSES,null, contentValues);
+
+        date = new Date("02/01/2022 15:05:24");
+        contentValues = new ContentValues();
+        contentValues.put(COLLUMN_EXPENSE_TIME, date.getTime());
+        contentValues.put(COLLUMN_EXPENSE_AMMOUNT, random.nextInt(500)+250);
+        contentValues.put(COLLUMN_EXPENSE_TYPE, 3);
+        db.insert(TABLE_NAME_EXPENSES,null, contentValues);
+
+        startDate = new Date("03/03/2022 15:05:24");
+        endDate = new Date("07/02/2022 09:18:12");
+        randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
+        date = new Date(randTime);
+        contentValues = new ContentValues();
+        contentValues.put(COLLUMN_EXPENSE_TIME, date.getTime());
+        contentValues.put(COLLUMN_EXPENSE_AMMOUNT, random.nextInt(70)+15);
+        contentValues.put(COLLUMN_EXPENSE_TYPE, 4);
+        db.insert(TABLE_NAME_EXPENSES,null, contentValues);
     }
 
     @Override
     public void onCreate(SQLiteDatabase DB) {
         DB.execSQL(TABLE_RIDE_CREATE);
+        db.execSQL(TABLE_EXPENSES_CREATE);
     }
 
     @Override
@@ -89,16 +172,16 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public ArrayList<FahrtItem> getAllRides(){
-        ArrayList<FahrtItem> eintraege_liste = new ArrayList<>();
+        ArrayList<FahrtItem> fahrtItems = new ArrayList<>();
         Cursor cursor = queryAllRides();
         while (cursor.moveToNext()){
             int rideId = cursor.getInt(0);
             int rideDistance = cursor.getInt(3);
             Date rideStartTime = new Date(cursor.getLong(4));
             int rideType = cursor.getInt(5);
-            eintraege_liste.add(new FahrtItem(rideStartTime, rideDistance, rideType, rideId));
+            fahrtItems.add(new FahrtItem(rideStartTime, rideDistance, rideType, rideId));
         }
-        return eintraege_liste;
+        return fahrtItems;
     }
 
     public FahrtItem getRide(int id){
@@ -107,23 +190,21 @@ public class Database extends SQLiteOpenHelper {
         int rideDistance = cursor.getInt(3);
         Date rideStartTime = new Date(Long.parseLong(cursor.getString(4)));
         int rideType = cursor.getInt(5);
-        FahrtItem fahrtItem = new FahrtItem(rideStartTime, rideDistance, rideType, id);
-        return fahrtItem;
+        return new FahrtItem(rideStartTime, rideDistance, rideType, id);
     }
 
 
-    public long insertRide(long time, int km, int rideType) {
+    public void insertRide(long time, int km, int rideType) {
         try {
             // Datenbank öffnen
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLLUMN_RIDE_START_TIME, time);
             contentValues.put(COLLUMN_RIDE_DISTANCE, km);
             contentValues.put(COLLUMN_RIDE_TYPE, rideType);
-            return db.insert("Rides",null, contentValues);
+            db.insert("Rides", null, contentValues);
         } catch (SQLiteException e) {
             System.out.println("insert error");
         }
-        return -1;
     }
 
     public void updateRide(int id, long time, int km, int rideType) {
@@ -147,6 +228,83 @@ public class Database extends SQLiteOpenHelper {
     public Cursor queryAllRides() {
         return db.query(TABLE_NAME_RIDES, null, null, null, null, null, COLLUMN_RIDE_START_TIME + " DESC");
     }
+
+
+
+
+    ///
+    // EXPENSES DB
+    ///
+
+
+
+    public ArrayList<ExpenseItem> getAllExpenses(){
+        ArrayList<ExpenseItem> expenseItems = new ArrayList<>();
+        Cursor cursor = queryAllExpenses();
+        while (cursor.moveToNext()){
+            int expenseId = cursor.getInt(0);
+            int expenseAmmount = cursor.getInt(1);
+            Date expenseTime = new Date(cursor.getLong(2));
+            int expenseType = cursor.getInt(3);
+            expenseItems.add(new ExpenseItem(expenseId, expenseAmmount, expenseTime, expenseType));
+        }
+        return expenseItems;
+    }
+
+    public ExpenseItem getExpense(int id){
+        Cursor cursor = queryExpenseById(id);
+        cursor.moveToFirst();
+        int expenseAmmount = cursor.getInt(1);
+        Date expenseTime = new Date(Long.parseLong(cursor.getString(2)));
+        int expenseType = cursor.getInt(3);
+        return new ExpenseItem(id, expenseAmmount, expenseTime, expenseType);
+    }
+
+
+    public long insertExpense(int ammount, long time, int expenseType) {
+        try {
+            // Datenbank öffnen
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(COLLUMN_EXPENSE_AMMOUNT, ammount);
+            contentValues.put(COLLUMN_EXPENSE_TIME, time);
+            contentValues.put(COLLUMN_EXPENSE_TYPE, expenseType);
+            return db.insert(TABLE_NAME_EXPENSES,null, contentValues);
+        } catch (SQLiteException e) {
+            System.out.println("insert error");
+        }
+        return -1;
+    }
+
+    public void updateExpense(int id, int ammount, long time, int expenseType) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLLUMN_EXPENSE_AMMOUNT, ammount);
+        contentValues.put(COLLUMN_EXPENSE_TIME, time);
+        contentValues.put(COLLUMN_EXPENSE_TYPE, expenseType);
+        int numChanged = db.update(TABLE_NAME_EXPENSES, contentValues, COLLUMN_EXPENSE_ID + " = ?", new String[]{Long.toString(id)});
+        Log.d(TAG, "delete(): id=" + id + " -> " + numChanged);
+    }
+
+    public void deleteExpense(long id) {
+        int numDeleted = db.delete(TABLE_NAME_EXPENSES, COLLUMN_EXPENSE_ID + " = ?", new String[]{Long.toString(id)});
+        Log.d(TAG, "delete(): id=" + id + " -> " + numDeleted);
+    }
+
+    public Cursor queryExpenseById(int id) {
+        return db.rawQuery("select * from " + TABLE_NAME_EXPENSES + " where " + COLLUMN_EXPENSE_ID + "=" + id , null);
+    }
+
+    public Cursor queryAllExpenses() {
+        return db.query(TABLE_NAME_EXPENSES, null, null, null, null, null, COLLUMN_EXPENSE_TIME + " DESC");
+    }
+
+
+
+    ///
+    // ORTE
+    ///
+
+
+
 }
 
 

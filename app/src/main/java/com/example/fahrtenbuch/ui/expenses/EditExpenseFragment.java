@@ -1,11 +1,8 @@
-package com.example.fahrtenbuch.ui.rides;
+package com.example.fahrtenbuch.ui.expenses;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,38 +13,51 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.example.fahrtenbuch.R;
-import com.example.fahrtenbuch.databinding.FragmentCreateRideBinding;
+import com.example.fahrtenbuch.databinding.FragmentEditRideBinding;
 import com.example.fahrtenbuch.db.Database;
+import com.example.fahrtenbuch.db.ExpenseItem;
 
 import java.util.Date;
 
 
-public class CreateRideFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
-    private FragmentCreateRideBinding binding;
+public class EditExpenseFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
+    private FragmentEditRideBinding binding;
     Date date = null;
     int rideType = 5;
+    int rideId;
+    Database db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentCreateRideBinding.inflate(inflater, container, false);
+        binding = FragmentEditRideBinding.inflate(inflater, container, false);
+        db = new Database(binding.getRoot().getContext());
 
         binding.editDateText.setOnClickListener(this);
         binding.editHourText.setOnClickListener(this);
         binding.finishButton.setOnClickListener(this);
+        binding.deleteRide.setOnClickListener(this);
 
+
+        // get FahrtItem
+        rideId = this.getArguments().getInt("expenseId");
+        ExpenseItem expenseItem = db.getExpense(rideId);
+        // Set € field
+        binding.editKmText.setText(String.valueOf(expenseItem.getExpenseAmmount()));
         //set Datepicker defaults
-        date = new Date();
+        date = expenseItem.getDatum();
         String output = String.format("%02d", date.getDate()) + "." + String.format("%02d", date.getMonth()+1) + "." + (date.getYear()+1900);
         binding.editDateText.setText(output);
         output = String.format("%02d", date.getHours()) + "." + String.format("%02d", date.getMinutes());
         binding.editHourText.setText(output);
         //set Spinner items
         Spinner rideTypeSpinner = binding.rideTypeSpinner;
-        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(binding.getRoot().getContext(), R.array.ride_categoríes, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(binding.getRoot().getContext(), R.array.expense_categoríes, android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         rideTypeSpinner.setAdapter(arrayAdapter);
-        rideTypeSpinner.setSelection(4);
+        rideTypeSpinner.setSelection(expenseItem.getExpenseType()-1);
         rideTypeSpinner.setOnItemSelectedListener(this);
         return binding.getRoot();
     }
@@ -61,17 +71,18 @@ public class CreateRideFragment extends Fragment implements View.OnClickListener
         } else if (view == binding.editHourText) {
             TimePickerDialog timePickerDialog = new TimePickerDialog(binding.getRoot().getContext(), this, date.getHours(), date.getMinutes(), true);
             timePickerDialog.show();
+        } else if (view == binding.deleteRide) {
+                db.deleteRide(rideId);
+                getParentFragmentManager().popBackStackImmediate();
         } else if (view == binding.finishButton) {
             if (!binding.editKmText.getText().toString().equals("")) {
                 int distanceValue = Integer.parseInt(binding.editKmText.getText().toString());
-                Database db = new Database(binding.getRoot().getContext());
-                db.insertRide(date.getTime(), distanceValue, rideType);
+                db.updateRide(rideId, date.getTime(), distanceValue, rideType);
                 getParentFragmentManager().popBackStackImmediate();
             } else {
-                Toast.makeText(getActivity(), "Bitte erst gefahrene distanz eintragen!",
+                Toast.makeText(getActivity(), "Bitte erst Betrag eintragen!",
                         Toast.LENGTH_LONG).show();
             }
-
         }
     }
 
