@@ -1,9 +1,9 @@
-package com.example.fahrtenbuch.ui.rides;
+package com.example.fahrtenbuch.db;
 
 import java.util.Date;
 
 public abstract class ListObject {
-    public static final int TYPE_FAHRT = 0;
+    public static final int TYPE_EINTRAG = 0;
     public static final int TYPE_DATE = 1;
 
     abstract public int getType();

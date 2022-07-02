@@ -1,11 +1,11 @@
-package com.example.fahrtenbuch.ui.rides;
+package com.example.fahrtenbuch.db;
 
 import java.util.Date;
 
 public class DateItem extends ListObject {
     private Date date;
 
-    DateItem(Date date) {
+    public DateItem(Date date) {
         this.date = date;
     }
 

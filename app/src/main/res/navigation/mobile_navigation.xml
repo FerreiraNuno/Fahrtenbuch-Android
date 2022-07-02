@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_rides" />
 
     <fragment
-        android:id="@+id/navigation_outgoings"
-        android:name="com.example.fahrtenbuch.ui.outgoings.OutgoingsFragment"
-        android:label="@string/title_outgoings"
-        tools:layout="@layout/fragment_outgoings" />
+        android:id="@+id/navigation_expenses"
+        android:name="com.example.fahrtenbuch.ui.expenses.ExpensesFragment"
+        android:label="@string/title_expenses"
+        tools:layout="@layout/fragment_expenses" />
 
     <fragment
         android:id="@+id/navigation_statistics"

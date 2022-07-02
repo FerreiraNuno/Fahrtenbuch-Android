@@ -1,13 +1,10 @@
-package com.example.fahrtenbuch.ui.rides;
+package com.example.fahrtenbuch.ui.expenses;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
-import java.util.Collections;
-import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,12 +16,17 @@ import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentRidesBinding;
 import com.example.fahrtenbuch.db.Database;
 import com.example.fahrtenbuch.db.DateItem;
+import com.example.fahrtenbuch.db.ExpenseItem;
 import com.example.fahrtenbuch.db.FahrtItem;
 import com.example.fahrtenbuch.db.ListObject;
+import com.example.fahrtenbuch.ui.rides.CreateRideFragment;
+import com.example.fahrtenbuch.ui.rides.EditRideFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 
-public class RidesFragment extends Fragment implements View.OnClickListener, RecyclerViewAdapter.RecyclerviewOnClickListener {
+public class ExpensesFragment extends Fragment implements View.OnClickListener, RecyclerViewAdapter.RecyclerviewOnClickListener {
     private FragmentRidesBinding binding;
     ArrayList<ListObject> eintraege_liste;
 
@@ -33,7 +35,7 @@ public class RidesFragment extends Fragment implements View.OnClickListener, Rec
         binding.plusButton.setOnClickListener(this);
         binding.topCardRight.setOnClickListener(this);
 
-        eintraege_liste = getRidesArray();
+        eintraege_liste = getExpensesArray();
         RecyclerView recyclerView = binding.fahrtenView;
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, eintraege_liste);
         recyclerView.setAdapter(recyclerViewAdapter);
@@ -60,48 +62,48 @@ public class RidesFragment extends Fragment implements View.OnClickListener, Rec
 
 
 
-    private ArrayList<ListObject> getRidesArray() {
+    private ArrayList<ListObject> getExpensesArray() {
         Database db = new Database(binding.getRoot().getContext());
-        ArrayList<FahrtItem> eintraege_fahrten = db.getAllRides();
-        ArrayList<ListObject> eintraege_liste = new ArrayList<>(eintraege_fahrten);
+        ArrayList<ExpenseItem> allExpenses = db.getAllExpenses();
+        ArrayList<ListObject> listObjects = new ArrayList<>(allExpenses);
 
 
-        Collections.sort(eintraege_liste, (x, y) -> y.getDatum().compareTo(x.getDatum()));
+        Collections.sort(listObjects, (x, y) -> y.getDatum().compareTo(x.getDatum()));
         //Datum eingruppieren und in Liste einfügen
-        if (eintraege_liste.size() == 0) {
-            return eintraege_liste;
+        if (listObjects.size() == 0) {
+            return listObjects;
         }
-        Date previousDate = eintraege_liste.get(0).getDatum();
-        eintraege_liste.add(0, new DateItem(previousDate));
-        for (int i=0; i<eintraege_liste.size(); i++){
-            if (eintraege_liste.get(i).getType() == ListObject.TYPE_EINTRAG) {
-                if (eintraege_liste.get(i).getDatum().getDate() != previousDate.getDate()) {
-                    previousDate = eintraege_liste.get(i).getDatum();
-                    eintraege_liste.add(i, new DateItem(previousDate));
+        Date previousDate = listObjects.get(0).getDatum();
+        listObjects.add(0, new DateItem(previousDate));
+        for (int i=0; i<listObjects.size(); i++){
+            if (listObjects.get(i).getType() == ListObject.TYPE_EINTRAG) {
+                if (listObjects.get(i).getDatum().getDate() != previousDate.getDate()) {
+                    previousDate = listObjects.get(i).getDatum();
+                    listObjects.add(i, new DateItem(previousDate));
                     i++;
                 }
             }
         }
-        // KM Anzahl diesen Monat aufsummieren
-        int summeKm30Tage = 0;
+        // Ausgaben diesen Monat aufsummieren
+        int expensesLastMonth = 0;
         Date currentDate = new Date();
-        for (ListObject item : eintraege_liste) {
+        for (ListObject item : listObjects) {
             if ((currentDate.getTime() - item.getDatum().getTime())/(1000*60*60*24) < 30) {
                 if (item.getType() == ListObject.TYPE_EINTRAG) {
-                    summeKm30Tage += ((FahrtItem) item).getRideDistance();
+                    expensesLastMonth += ((ExpenseItem) item).getExpenseAmmount();
                 }
             }
         }
-        binding.topCardRight.setText(summeKm30Tage + "km");
+        binding.topCardRight.setText(expensesLastMonth + "€");
 
-        return eintraege_liste;
+        return listObjects;
     }
 
     @Override
     public void recyclerviewClick(int position) {
-        int rideId = ((FahrtItem) eintraege_liste.get(position)).getRideId();
+        int expenseId = ((ExpenseItem) eintraege_liste.get(position)).getExpenseId();
         Bundle bundle = new Bundle();
-        bundle.putInt("rideId", rideId);
+        bundle.putInt("expenseId", expenseId);
         EditRideFragment editRideFragment = new EditRideFragment();
         editRideFragment.setArguments(bundle);
 

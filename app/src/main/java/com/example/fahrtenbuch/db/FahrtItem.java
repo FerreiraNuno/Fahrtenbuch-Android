@@ -1,9 +1,9 @@
-package com.example.fahrtenbuch.ui.rides;
+package com.example.fahrtenbuch.db;
 
 
 import java.util.Date;
 
-public class FahrtItem extends ListObject{
+public class FahrtItem extends ListObject {
     private Date rideStartTime;
     private String rideLocationStart;
     private String rideDestination;
@@ -70,6 +70,6 @@ public class FahrtItem extends ListObject{
 
     @Override
     public int getType() {
-        return TYPE_FAHRT;
+        return TYPE_EINTRAG;
     }
 }
