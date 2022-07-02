@@ -40,6 +40,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         if (view == binding.saveLocation) {
             if (markerLocation != null) {
                 LatLng returnLocation = new LatLng(markerLocation.latitude, markerLocation.longitude);
+                requireActivity().getSupportFragmentManager().setFragmentResult("requestKey",new Bundle());
                 getParentFragmentManager().popBackStackImmediate();
             }
         }
