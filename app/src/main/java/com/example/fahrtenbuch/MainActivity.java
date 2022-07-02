@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Database db = new Database(getApplicationContext());
-        //db.restartDatabase();
+        db.restartDatabase();
 
         super.onCreate(savedInstanceState);
 
@@ -37,7 +37,5 @@ public class MainActivity extends AppCompatActivity {
 
         PushNotificationHandler pushNotifier = new PushNotificationHandler(this);
         pushNotifier.pushNotifcation("München", "Frankfurt", db.getRide(1).getRideDistance(), 2);
-
     }
-
 }
