@@ -30,8 +30,6 @@ public class SelectBluetoothFragment extends Fragment implements View.OnClickLis
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSelectBluetoothBinding.inflate(inflater, container, false);
 
-        binding.back.setOnClickListener(this);
-
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
 
@@ -61,11 +59,6 @@ public class SelectBluetoothFragment extends Fragment implements View.OnClickLis
     @Override
     public void onClick(View view) {
 
-        if (view == binding.back) {
-            FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_fragment_container,new SettingsFragment());
-            fragmentTransaction.commit();
-        }
-
     }
+
 }

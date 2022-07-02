@@ -18,7 +18,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentSelectGpsBinding;
-import com.example.fahrtenbuch.ui.rides.CreateRideFragment;
 
 import java.util.HashSet;
 import java.util.function.Consumer;
@@ -44,12 +43,8 @@ public class SelectGpsFragment extends Fragment implements View.OnClickListener{
         binding.cardArbeit.setOnClickListener(this);
         binding.cardFreunde.setOnClickListener(this);
         binding.cardSonstiges.setOnClickListener(this);
-        binding.goBack.setOnClickListener(this);
 
         //detectCurrentLocation();
-
-        binding.endLocation.setText("Breite: " + Location.convert(SettingsFragment.lastEndpointBluetoothBeacon.getLatitude(), Location.FORMAT_DEGREES) + "\nLänge: " + Location.convert(SettingsFragment.lastEndpointBluetoothBeacon.getLongitude(), Location.FORMAT_DEGREES));
-
 
 
         View root = binding.getRoot();
@@ -58,7 +53,6 @@ public class SelectGpsFragment extends Fragment implements View.OnClickListener{
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     private void detectCurrentLocation() {
-    //TODO location aktualisiert nicht! Liegt aber am Emulator...
             if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 getActivity().requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 0);
             } else {
@@ -75,30 +69,26 @@ public class SelectGpsFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        if (view == binding.goBack) {
-            FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_fragment_container,new SettingsFragment());
+
+        if (view == binding.cardZuhause) {
+            FragmentTransaction fragmentTransaction= getParentFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_fragment_container, new LocationPickerFragment());
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
-        } else {
-            if (view == binding.cardZuhause) {
-                FragmentTransaction fragmentTransaction= getParentFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.main_fragment_container, new LocationPickerFragment());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-                orteZuhause.add(new Location(SettingsFragment.lastEndpointBluetoothBeacon));
-            }
-            if (view == binding.cardUni) {
-                orteUni.add(new Location(SettingsFragment.lastEndpointBluetoothBeacon));
-            }
-            if (view == binding.cardArbeit) {
-                orteArbeit.add(new Location(SettingsFragment.lastEndpointBluetoothBeacon));
-            }
-            if (view == binding.cardFreunde) {
-                orteFreunde.add(new Location(SettingsFragment.lastEndpointBluetoothBeacon));
-            }
-            if (view == binding.cardSonstiges) {
-                orteSonstiges.add(new Location(SettingsFragment.lastEndpointBluetoothBeacon));
-            }
+            orteZuhause.add(new Location(SettingsFragment.lastEndpointBluetoothBeacon));
+            orteZuhause.add(new Location(SettingsFragment.lastEndpointBluetoothBeacon));
+        }
+        if (view == binding.cardUni) {
+            orteUni.add(new Location(SettingsFragment.lastEndpointBluetoothBeacon));
+        }
+        if (view == binding.cardArbeit) {
+            orteArbeit.add(new Location(SettingsFragment.lastEndpointBluetoothBeacon));
+        }
+        if (view == binding.cardFreunde) {
+            orteFreunde.add(new Location(SettingsFragment.lastEndpointBluetoothBeacon));
+        }
+        if (view == binding.cardSonstiges) {
+            orteSonstiges.add(new Location(SettingsFragment.lastEndpointBluetoothBeacon));
         }
     }
 }
