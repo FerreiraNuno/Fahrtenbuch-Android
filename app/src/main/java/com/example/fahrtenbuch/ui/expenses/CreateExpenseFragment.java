@@ -16,44 +16,32 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.fahrtenbuch.R;
-import com.example.fahrtenbuch.databinding.FragmentEditRideBinding;
+import com.example.fahrtenbuch.databinding.FragmentCreateItemBinding;
 import com.example.fahrtenbuch.db.Database;
-import com.example.fahrtenbuch.db.ExpenseItem;
 
 import java.util.Date;
 
 
-public class EditExpenseFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
-    private FragmentEditRideBinding binding;
+public class CreateExpenseFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
+    private FragmentCreateItemBinding binding;
     Date date = null;
     int expenseType = 5;
-    int expenseId;
-    Database db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentEditRideBinding.inflate(inflater, container, false);
-        db = new Database(binding.getRoot().getContext());
+        binding = FragmentCreateItemBinding.inflate(inflater, container, false);
 
         binding.editDateText.setOnClickListener(this);
         binding.editHourText.setOnClickListener(this);
         binding.finishButton.setOnClickListener(this);
-        binding.deleteRide.setOnClickListener(this);
 
-
-        // get FahrtItem
-        expenseId = this.getArguments().getInt("expenseId");
-        ExpenseItem expenseItem = db.getExpense(expenseId);
         // Edit Text Fields
         binding.fragmentTitle.setText("Ausgabe\nbearbeiten");
-        binding.deleteItemText.setText("Ausgabe entfernen");
-        binding.editKmText.setHint("Betrag");
+        binding.editValueText.setHint("Betrag");
+        binding.unitTxtView.setText("€");
         binding.saveButtonText.setText("Ausgabe Speichern");
-        // Set € field
-        binding.editKmText.setText(String.valueOf(expenseItem.getExpenseAmmount()));
-        binding.unitTxt.setText("€");
         //set Datepicker defaults
-        date = expenseItem.getDatum();
+        date = new Date();
         String output = String.format("%02d", date.getDate()) + "." + String.format("%02d", date.getMonth()+1) + "." + (date.getYear()+1900);
         binding.editDateText.setText(output);
         output = String.format("%02d", date.getHours()) + "." + String.format("%02d", date.getMinutes());
@@ -63,7 +51,7 @@ public class EditExpenseFragment extends Fragment implements View.OnClickListene
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(binding.getRoot().getContext(), R.array.expense_categoríes, android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         rideTypeSpinner.setAdapter(arrayAdapter);
-        rideTypeSpinner.setSelection(expenseItem.getExpenseType()-1);
+        rideTypeSpinner.setSelection(4);
         rideTypeSpinner.setOnItemSelectedListener(this);
         return binding.getRoot();
     }
@@ -77,18 +65,17 @@ public class EditExpenseFragment extends Fragment implements View.OnClickListene
         } else if (view == binding.editHourText) {
             TimePickerDialog timePickerDialog = new TimePickerDialog(binding.getRoot().getContext(), this, date.getHours(), date.getMinutes(), true);
             timePickerDialog.show();
-        } else if (view == binding.deleteRide) {
-                db.deleteExpense(expenseId);
-                getParentFragmentManager().popBackStackImmediate();
         } else if (view == binding.finishButton) {
-            if (!binding.editKmText.getText().toString().equals("")) {
-                int value = Integer.parseInt(binding.editKmText.getText().toString());
-                db.updateExpense(expenseId, value, date.getTime(), expenseType);
+            if (!binding.editValueText.getText().toString().equals("")) {
+                int value = Integer.parseInt(binding.editValueText.getText().toString());
+                Database db = new Database(binding.getRoot().getContext());
+                db.insertExpense(value, date.getTime(), expenseType);
                 getParentFragmentManager().popBackStackImmediate();
             } else {
-                Toast.makeText(getActivity(), "Bitte erst Betrag eintragen!",
+                Toast.makeText(getActivity(), "Bitte erst Betrag eintrag!",
                         Toast.LENGTH_LONG).show();
             }
+
         }
     }
 

@@ -20,12 +20,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RecyclerViewAdapterExpenses extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     RecyclerviewOnClickListener listener;
     private final ArrayList<ListObject> eintraege_liste;
 
 
-    public RecyclerViewAdapter(RecyclerviewOnClickListener listener, ArrayList<ListObject> eintraege_liste) {
+    public RecyclerViewAdapterExpenses(RecyclerviewOnClickListener listener, ArrayList<ListObject> eintraege_liste) {
         super();
         this.eintraege_liste = eintraege_liste;
         this.listener = listener;
