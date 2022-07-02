@@ -297,6 +297,9 @@ public class Database extends SQLiteOpenHelper {
         return db.query(TABLE_NAME_EXPENSES, null, null, null, null, null, COLLUMN_EXPENSE_TIME + " DESC");
     }
 
+    public void insertLocation() {
+
+    }
 
 
     ///
