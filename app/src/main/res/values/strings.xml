@@ -21,4 +21,11 @@
         <item>Werkstatt</item>
         <item>Sonstiges</item>
     </string-array>
+    <string-array name="interval_categoríes">
+        <item>Einmalig</item>
+        <item>Monatlich</item>
+        <item>Halbjährlich</item>
+        <item>Jährlich</item>
+        <item>Alle 2 Jahre</item>
+    </string-array>
 </resources>

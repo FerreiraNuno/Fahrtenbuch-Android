@@ -36,7 +36,15 @@ public class ExpensesFragment extends Fragment implements View.OnClickListener, 
         binding.lastMonthText.setText("Ausgegeben letzter Monat");
 
         eintraege_liste = getExpensesArray();
-        RecyclerView recyclerView = binding.fahrtenView;
+        if (eintraege_liste.isEmpty()) {
+            binding.recyclerView.setVisibility(View.INVISIBLE);
+            binding.emptyText.setVisibility(View.VISIBLE);
+        }
+        else {
+            binding.recyclerView.setVisibility(View.VISIBLE);
+            binding.emptyText.setVisibility(View.INVISIBLE);
+        }
+        RecyclerView recyclerView = binding.recyclerView;
         RecyclerViewAdapterExpenses recyclerViewAdapterExpenses = new RecyclerViewAdapterExpenses(this, eintraege_liste);
         recyclerView.setAdapter(recyclerViewAdapterExpenses);
         recyclerView.setHasFixedSize(true);

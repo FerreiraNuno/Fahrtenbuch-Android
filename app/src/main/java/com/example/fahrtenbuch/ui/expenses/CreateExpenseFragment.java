@@ -26,6 +26,7 @@ public class CreateExpenseFragment extends Fragment implements View.OnClickListe
     private FragmentCreateItemBinding binding;
     Date date = null;
     int expenseType = 5;
+    int intervalType = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,13 +47,51 @@ public class CreateExpenseFragment extends Fragment implements View.OnClickListe
         binding.editDateText.setText(output);
         output = String.format("%02d", date.getHours()) + "." + String.format("%02d", date.getMinutes());
         binding.editHourText.setText(output);
-        //set Spinner items
-        Spinner rideTypeSpinner = binding.rideTypeSpinner;
+        //set Spinner items category
+        Spinner expenseTypeSpinner = binding.categorySpinner;
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(binding.getRoot().getContext(), R.array.expense_categoríes, android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        rideTypeSpinner.setAdapter(arrayAdapter);
-        rideTypeSpinner.setSelection(4);
-        rideTypeSpinner.setOnItemSelectedListener(this);
+        expenseTypeSpinner.setAdapter(arrayAdapter);
+        expenseTypeSpinner.setSelection(4);
+        expenseTypeSpinner.setOnItemSelectedListener(this);
+
+        //set Spinner items interval
+        Spinner intervalSpinner = binding.intervalTypeSpinner;
+        ArrayAdapter<CharSequence> arrayAdapterInterval = ArrayAdapter.createFromResource(binding.getRoot().getContext(), R.array.interval_categoríes, android.R.layout.simple_spinner_item);
+        arrayAdapterInterval.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        intervalSpinner.setAdapter(arrayAdapterInterval);
+        intervalSpinner.setSelection(3);
+        intervalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String selection = adapterView.getItemAtPosition(i).toString();
+                switch(selection) {
+                    case "Einmalig":
+                        intervalType = 1;
+                        break;
+                    case "Monatlich":
+                        intervalType = 2;
+                        break;
+                    case "Halbjährlich":
+                        intervalType = 3;
+                        break;
+                    case "Jährlich":
+                        intervalType = 4;
+                        break;
+                    case "Alle 2 Jahre":
+                        intervalType = 5;
+                        break;
+                    default:
+                        intervalType = 5;
+                        //
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
         return binding.getRoot();
     }
 
@@ -69,7 +108,7 @@ public class CreateExpenseFragment extends Fragment implements View.OnClickListe
             if (!binding.editValueText.getText().toString().equals("")) {
                 int value = Integer.parseInt(binding.editValueText.getText().toString());
                 Database db = new Database(binding.getRoot().getContext());
-                db.insertExpense(value, date.getTime(), expenseType);
+                db.insertExpense(value, date.getTime(), expenseType, intervalType);
                 getParentFragmentManager().popBackStackImmediate();
             } else {
                 Toast.makeText(getActivity(), "Bitte erst Betrag eintrag!",
@@ -101,22 +140,24 @@ public class CreateExpenseFragment extends Fragment implements View.OnClickListe
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String selection = adapterView.getItemAtPosition(i).toString();
         switch(selection) {
-            case "Sonstiges":
-                expenseType = 5;
-                break;
             case "Tanken":
+                binding.chooseInterval.setVisibility(View.INVISIBLE);
                 expenseType = 1;
                 break;
             case "Versicherung":
                 expenseType = 2;
+                binding.chooseInterval.setVisibility(View.VISIBLE);
                 break;
             case "KFZ-Steuer":
                 expenseType = 3;
+                binding.chooseInterval.setVisibility(View.VISIBLE);
                 break;
             case "Werkstatt":
                 expenseType = 4;
+                binding.chooseInterval.setVisibility(View.VISIBLE);
                 break;
             default:
+                binding.chooseInterval.setVisibility(View.INVISIBLE);
                 expenseType = 5;
         }
     }

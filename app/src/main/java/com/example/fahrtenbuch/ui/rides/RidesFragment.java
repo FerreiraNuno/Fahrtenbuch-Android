@@ -34,7 +34,15 @@ public class RidesFragment extends Fragment implements View.OnClickListener, Rec
         binding.topCardRight.setOnClickListener(this);
 
         eintraege_liste = getRidesArray();
-        RecyclerView recyclerView = binding.fahrtenView;
+        if (eintraege_liste.isEmpty()) {
+            binding.recyclerView.setVisibility(View.INVISIBLE);
+            binding.emptyText.setVisibility(View.VISIBLE);
+        }
+        else {
+            binding.recyclerView.setVisibility(View.VISIBLE);
+            binding.emptyText.setVisibility(View.INVISIBLE);
+        }
+        RecyclerView recyclerView = binding.recyclerView;
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, eintraege_liste);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setHasFixedSize(true);

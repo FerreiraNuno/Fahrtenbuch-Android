@@ -31,25 +31,25 @@
                 android:text="Neue Fahrt \neintragen"
                 android:textColor="@color/font_purple"
                 android:textSize="28sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/editKmCard"
                 app:layout_constraintStart_toStartOf="@+id/editKmCard"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.07999998" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/editKmCard"
                 android:layout_width="0dp"
                 android:layout_height="62dp"
                 android:layout_marginStart="45dp"
-                android:layout_marginTop="64dp"
                 android:layout_marginEnd="45dp"
                 android:background="@color/cardview_light_background"
                 app:cardBackgroundColor="@color/background_grey_900"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="-4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fragmentTitle">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.3">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout2"
@@ -93,7 +93,7 @@
                 android:layout_width="0dp"
                 android:layout_height="62dp"
                 android:layout_marginStart="45dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="45dp"
                 android:background="@color/cardview_light_background"
                 app:cardBackgroundColor="@color/background_grey_900"
@@ -168,7 +168,7 @@
                 android:layout_width="0dp"
                 android:layout_height="62dp"
                 android:layout_marginStart="45dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="45dp"
                 android:background="@color/cardview_light_background"
                 app:cardBackgroundColor="@color/background_grey_900"
@@ -182,10 +182,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:focusable="auto"
-                    android:focusableInTouchMode="false" >
+                    android:focusableInTouchMode="false">
 
                     <Spinner
-                        android:id="@+id/ride_type_spinner"
+                        android:id="@+id/category_spinner"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="20dp"
@@ -198,19 +198,55 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/chooseInterval"
+                android:layout_width="0dp"
+                android:layout_height="62dp"
+                android:layout_marginStart="45dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="45dp"
+                android:background="@color/cardview_light_background"
+                android:visibility="invisible"
+                app:cardBackgroundColor="@color/background_grey_900"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="-4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chooseCategoryCard">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:focusable="auto"
+                    android:focusableInTouchMode="false">
+
+                    <Spinner
+                        android:id="@+id/interval_type_spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="SpeakableTextPresentCheck" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/finishButton"
                 android:layout_width="0dp"
                 android:layout_height="62dp"
                 android:layout_marginStart="45dp"
                 android:layout_marginEnd="45dp"
+                android:layout_marginBottom="32dp"
                 android:background="@color/cardview_light_background"
                 app:cardBackgroundColor="@color/teal_500"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chooseCategoryCard">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -223,7 +259,7 @@
                         android:fontFamily="sans-serif"
                         android:text="Fahrt Speichern"
                         android:textColor="@color/font_purple"
-                        android:textSize="22sp"
+                        android:textSize="24sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
