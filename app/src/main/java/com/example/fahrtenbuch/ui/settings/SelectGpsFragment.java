@@ -29,12 +29,7 @@ import java.util.function.Consumer;
 public class SelectGpsFragment extends Fragment implements View.OnClickListener{
     private FragmentSelectGpsBinding binding;
 
-    //einzelne Sets um Fahrten Kategorien zuzuordnen
-    public static HashSet<Location> orteZuhause = new HashSet<Location>() {};
-    public static HashSet<Location> orteUni = new HashSet<Location>() {};
-    public static HashSet<Location> orteArbeit = new HashSet<Location>() {};
-    public static HashSet<Location> orteFreunde = new HashSet<Location>() {};
-    public static HashSet<Location> orteSonstiges = new HashSet<Location>() {};
+    private String categorie = "";
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.R)
@@ -45,6 +40,7 @@ public class SelectGpsFragment extends Fragment implements View.OnClickListener{
         binding.cardUni.setOnClickListener(this);
         binding.cardArbeit.setOnClickListener(this);
         binding.cardEinkauf.setOnClickListener(this);
+        binding.cardSport.setOnClickListener(this);
         binding.cardSonstiges.setOnClickListener(this);
 
         View root = binding.getRoot();
@@ -53,6 +49,24 @@ public class SelectGpsFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
+        if (view == binding.cardZuhause) {
+            categorie = "Zuhause";
+        }
+        else if (view == binding.cardEinkauf) {
+            categorie = "Einkauf";
+        }
+        else if (view == binding.cardUni) {
+            categorie = "Uni";
+        }
+        else if (view == binding.cardArbeit) {
+            categorie = "Arbeit";
+        }
+        else if (view == binding.cardSonstiges) {
+            categorie = "Sonstiges";
+        }
+        else if (view == binding.cardSport) {
+            categorie = "Sport";
+        }
         FragmentTransaction fragmentTransaction= getParentFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_fragment_container, new MapFragment());
         fragmentTransaction.addToBackStack(null);
@@ -60,21 +74,12 @@ public class SelectGpsFragment extends Fragment implements View.OnClickListener{
         requireActivity().getSupportFragmentManager().setFragmentResultListener("requestKey", getViewLifecycleOwner(), new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                String[] latlng = result.toString().replace("Bundle[{bundleKey=","").replace("}","").replace("]","").split(",");
+                String latitude = latlng[0];
+                String longitude = latlng[1];
                 Database db = new Database(binding.getRoot().getContext());
-                db.insertLocation();
+                db.insertLocation(latitude,longitude,categorie);
             }
         });
-
-
-        if (view == binding.cardZuhause) {
-        }
-        else if (view == binding.cardEinkauf) {
-        }
-        else if (view == binding.cardUni) {
-        }
-        else if (view == binding.cardArbeit) {
-        }
-        else if (view == binding.cardSonstiges) {
-        }
     }
 }

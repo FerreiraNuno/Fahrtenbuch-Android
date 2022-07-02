@@ -21,7 +21,7 @@ public class Database extends SQLiteOpenHelper {
 
     // Name und Version der Datenbank
     private static final String DATABASE_NAME = "ride.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
 
     // Name und Attribute der Tabelle "Ride"
@@ -96,9 +96,6 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public void restartDatabase() {
-        //db.execSQL(TABLE_ORTE_DROP);
-        //db.execSQL(TABLE_ORTE_CREATE);
-
         db.execSQL(TABLE_RIDE_DROP);
         db.execSQL(TABLE_RIDE_CREATE);
         Random random = new Random();
@@ -113,6 +110,9 @@ public class Database extends SQLiteOpenHelper {
             contentValues.put(COLLUMN_RIDE_TYPE, random.nextInt(5)+1);
             db.insert(TABLE_NAME_RIDES,null, contentValues);
         }
+
+        //db.execSQL(TABLE_ORTE_DROP);
+        //db.execSQL(TABLE_ORTE_CREATE);
 
         db.execSQL(TABLE_EXPENSES_DROP);
         db.execSQL(TABLE_EXPENSES_CREATE);
@@ -159,7 +159,8 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase DB) {
         DB.execSQL(TABLE_RIDE_CREATE);
-        db.execSQL(TABLE_EXPENSES_CREATE);
+        DB.execSQL(TABLE_EXPENSES_CREATE);
+        DB.execSQL(TABLE_ORTE_CREATE);
     }
 
     @Override
@@ -297,16 +298,23 @@ public class Database extends SQLiteOpenHelper {
         return db.query(TABLE_NAME_EXPENSES, null, null, null, null, null, COLLUMN_EXPENSE_TIME + " DESC");
     }
 
-    public void insertLocation() {
-
-    }
-
-
     ///
     // ORTE
     ///
 
-
+    public long insertLocation(String latitude, String longitude, String categorie) {
+        try {
+            // Datenbank öffnen
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(COLLUMN_ORT_LATITUDE, latitude);
+            contentValues.put(COLLUMN_ORT_LONGITUDE, longitude);
+            contentValues.put(COLLUMN_ORT_NAME, categorie);
+            return db.insert(TABLE_NAME_ORTE,null, contentValues);
+        } catch (SQLiteException e) {
+            System.out.println("insert error");
+        }
+        return -1;
+    }
 
 }
 
