@@ -116,7 +116,7 @@ public class Database extends SQLiteOpenHelper {
 
         db.execSQL(TABLE_EXPENSES_DROP);
         db.execSQL(TABLE_EXPENSES_CREATE);
-        for (int i=0; i<10; i++){
+        for (int i=0; i<7; i++){
             Date startDate = new Date("03/03/2022 15:05:24");
             Date endDate = new Date("07/02/2022 09:18:12");
             long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;

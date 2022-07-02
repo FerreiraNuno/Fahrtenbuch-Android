@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fahrtenbuch.R;
-import com.example.fahrtenbuch.databinding.FragmentRidesBinding;
+import com.example.fahrtenbuch.databinding.FragmentItemsBinding;
 import com.example.fahrtenbuch.db.Database;
 import com.example.fahrtenbuch.db.DateItem;
 import com.example.fahrtenbuch.db.FahrtItem;
@@ -25,11 +25,11 @@ import com.example.fahrtenbuch.db.ListObject;
 import java.util.ArrayList;
 
 public class RidesFragment extends Fragment implements View.OnClickListener, RecyclerViewAdapter.RecyclerviewOnClickListener {
-    private FragmentRidesBinding binding;
+    private FragmentItemsBinding binding;
     ArrayList<ListObject> eintraege_liste;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentRidesBinding.inflate(inflater, container, false);
+        binding = FragmentItemsBinding.inflate(inflater, container, false);
         binding.plusButton.setOnClickListener(this);
         binding.topCardRight.setOnClickListener(this);
 

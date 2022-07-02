@@ -13,32 +13,32 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fahrtenbuch.R;
-import com.example.fahrtenbuch.databinding.FragmentRidesBinding;
+import com.example.fahrtenbuch.databinding.FragmentItemsBinding;
 import com.example.fahrtenbuch.db.Database;
 import com.example.fahrtenbuch.db.DateItem;
 import com.example.fahrtenbuch.db.ExpenseItem;
-import com.example.fahrtenbuch.db.FahrtItem;
 import com.example.fahrtenbuch.db.ListObject;
-import com.example.fahrtenbuch.ui.rides.CreateRideFragment;
-import com.example.fahrtenbuch.ui.rides.EditRideFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-public class ExpensesFragment extends Fragment implements View.OnClickListener, RecyclerViewAdapter.RecyclerviewOnClickListener {
-    private FragmentRidesBinding binding;
+public class ExpensesFragment extends Fragment implements View.OnClickListener, RecyclerViewAdapterExpenses.RecyclerviewOnClickListener {
+    private FragmentItemsBinding binding;
     ArrayList<ListObject> eintraege_liste;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentRidesBinding.inflate(inflater, container, false);
+        binding = FragmentItemsBinding.inflate(inflater, container, false);
+
         binding.plusButton.setOnClickListener(this);
         binding.topCardRight.setOnClickListener(this);
 
+        binding.lastMonthText.setText("Ausgegeben letzter Monat");
+
         eintraege_liste = getExpensesArray();
         RecyclerView recyclerView = binding.fahrtenView;
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, eintraege_liste);
-        recyclerView.setAdapter(recyclerViewAdapter);
+        RecyclerViewAdapterExpenses recyclerViewAdapterExpenses = new RecyclerViewAdapterExpenses(this, eintraege_liste);
+        recyclerView.setAdapter(recyclerViewAdapterExpenses);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
 
@@ -50,8 +50,9 @@ public class ExpensesFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View view) {
         if (view == binding.plusButton) {
             FragmentTransaction fragmentTransaction= getParentFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_fragment_container, new CreateRideFragment());
+            fragmentTransaction.replace(R.id.main_fragment_container, new CreateExpenseFragment());
             fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.setReorderingAllowed(true);
             fragmentTransaction.commit();
 
         } else if (view == binding.topCardRight) {
@@ -104,12 +105,13 @@ public class ExpensesFragment extends Fragment implements View.OnClickListener, 
         int expenseId = ((ExpenseItem) eintraege_liste.get(position)).getExpenseId();
         Bundle bundle = new Bundle();
         bundle.putInt("expenseId", expenseId);
-        EditRideFragment editRideFragment = new EditRideFragment();
-        editRideFragment.setArguments(bundle);
+        EditExpenseFragment editExpenseFragment = new EditExpenseFragment();
+        editExpenseFragment.setArguments(bundle);
 
         FragmentTransaction fragmentTransaction= getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_fragment_container, editRideFragment);
+        fragmentTransaction.replace(R.id.main_fragment_container, editExpenseFragment);
         fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.setReorderingAllowed(true);
         fragmentTransaction.commit();
     }
 }

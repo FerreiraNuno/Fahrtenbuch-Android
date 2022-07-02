@@ -17,20 +17,20 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.fahrtenbuch.R;
-import com.example.fahrtenbuch.databinding.FragmentCreateRideBinding;
+import com.example.fahrtenbuch.databinding.FragmentCreateItemBinding;
 import com.example.fahrtenbuch.db.Database;
 
 import java.util.Date;
 
 
 public class CreateRideFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
-    private FragmentCreateRideBinding binding;
+    private FragmentCreateItemBinding binding;
     Date date = null;
     int rideType = 5;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentCreateRideBinding.inflate(inflater, container, false);
+        binding = FragmentCreateItemBinding.inflate(inflater, container, false);
 
         binding.editDateText.setOnClickListener(this);
         binding.editHourText.setOnClickListener(this);
@@ -62,8 +62,8 @@ public class CreateRideFragment extends Fragment implements View.OnClickListener
             TimePickerDialog timePickerDialog = new TimePickerDialog(binding.getRoot().getContext(), this, date.getHours(), date.getMinutes(), true);
             timePickerDialog.show();
         } else if (view == binding.finishButton) {
-            if (!binding.editKmText.getText().toString().equals("")) {
-                int distanceValue = Integer.parseInt(binding.editKmText.getText().toString());
+            if (!binding.editValueText.getText().toString().equals("")) {
+                int distanceValue = Integer.parseInt(binding.editValueText.getText().toString());
                 Database db = new Database(binding.getRoot().getContext());
                 db.insertRide(date.getTime(), distanceValue, rideType);
                 getParentFragmentManager().popBackStackImmediate();

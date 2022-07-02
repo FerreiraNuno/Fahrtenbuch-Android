@@ -34,9 +34,10 @@
                 app:contentPaddingLeft="10dp"
                 app:contentPaddingRight="10dp"
                 app:layout_constraintEnd_toEndOf="@+id/editKmCard"
-                app:layout_constraintTop_toTopOf="@+id/textView9">
+                app:layout_constraintTop_toTopOf="@+id/fragmentTitle">
 
                 <TextView
+                    android:id="@+id/deleteItemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
@@ -47,13 +48,13 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/fragmentTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
                 android:text="Fahrt \nbearbeiten"
                 android:textColor="@color/font_purple"
-                android:textSize="28sp"
+                android:textSize="26sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/editKmCard"
                 app:layout_constraintTop_toTopOf="parent"
@@ -72,7 +73,7 @@
                 app:cardElevation="-4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView9">
+                app:layout_constraintTop_toBottomOf="@+id/fragmentTitle">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout2"
@@ -98,6 +99,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/unitTxt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="24dp"
@@ -239,6 +241,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:id="@+id/saveButtonText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
