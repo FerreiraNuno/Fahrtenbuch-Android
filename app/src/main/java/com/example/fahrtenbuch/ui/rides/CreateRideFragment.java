@@ -43,7 +43,7 @@ public class CreateRideFragment extends Fragment implements View.OnClickListener
         output = String.format("%02d", date.getHours()) + "." + String.format("%02d", date.getMinutes());
         binding.editHourText.setText(output);
         //set Spinner items
-        Spinner rideTypeSpinner = binding.rideTypeSpinner;
+        Spinner rideTypeSpinner = binding.categorySpinner;
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(binding.getRoot().getContext(), R.array.ride_categoríes, android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         rideTypeSpinner.setAdapter(arrayAdapter);

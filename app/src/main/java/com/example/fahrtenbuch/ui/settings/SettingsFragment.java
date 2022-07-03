@@ -12,6 +12,7 @@ import android.widget.Switch;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentSettingsBinding;
@@ -57,18 +58,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     }
 
     private void callSelectGpsFragment() {
-        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(binding.bottomCard.getId(),new SelectGpsFragment());
-        fragmentTransaction.setReorderingAllowed(true);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        Navigation.findNavController(binding.getRoot()).navigate(R.id.action_navigation_settings_to_selectGpsFragment);
     }
 
     void callSelectBluetoothFragment() {
-        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(binding.bottomCard.getId(),new SelectBluetoothFragment());
-        fragmentTransaction.setReorderingAllowed(true);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        Navigation.findNavController(binding.getRoot()).navigate(R.id.action_navigation_settings_to_selectBluetoothFragment);
     }
 }

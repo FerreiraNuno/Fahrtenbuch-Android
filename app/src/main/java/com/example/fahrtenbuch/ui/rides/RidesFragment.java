@@ -11,7 +11,7 @@ import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +21,7 @@ import com.example.fahrtenbuch.db.Database;
 import com.example.fahrtenbuch.db.DateItem;
 import com.example.fahrtenbuch.db.FahrtItem;
 import com.example.fahrtenbuch.db.ListObject;
+import com.example.fahrtenbuch.ui.rides.RidesFragmentDirections.ActionNavigationRidesToEditRideFragment;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,15 @@ public class RidesFragment extends Fragment implements View.OnClickListener, Rec
         binding.topCardRight.setOnClickListener(this);
 
         eintraege_liste = getRidesArray();
-        RecyclerView recyclerView = binding.fahrtenView;
+        if (eintraege_liste.isEmpty()) {
+            binding.recyclerView.setVisibility(View.INVISIBLE);
+            binding.emptyText.setVisibility(View.VISIBLE);
+        }
+        else {
+            binding.recyclerView.setVisibility(View.VISIBLE);
+            binding.emptyText.setVisibility(View.INVISIBLE);
+        }
+        RecyclerView recyclerView = binding.recyclerView;
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, eintraege_liste);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setHasFixedSize(true);
@@ -47,10 +56,7 @@ public class RidesFragment extends Fragment implements View.OnClickListener, Rec
     @Override
     public void onClick(View view) {
         if (view == binding.plusButton) {
-            FragmentTransaction fragmentTransaction= getParentFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_fragment_container, new CreateRideFragment());
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            Navigation.findNavController(binding.getRoot()).navigate(R.id.action_navigation_rides_to_createRideFragment);
 
         } else if (view == binding.topCardRight) {
             Toast.makeText(view.getContext(), "Liste Größe: " + eintraege_liste.size(),
@@ -100,14 +106,8 @@ public class RidesFragment extends Fragment implements View.OnClickListener, Rec
     @Override
     public void recyclerviewClick(int position) {
         int rideId = ((FahrtItem) eintraege_liste.get(position)).getRideId();
-        Bundle bundle = new Bundle();
-        bundle.putInt("rideId", rideId);
-        EditRideFragment editRideFragment = new EditRideFragment();
-        editRideFragment.setArguments(bundle);
-
-        FragmentTransaction fragmentTransaction= getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_fragment_container, editRideFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        ActionNavigationRidesToEditRideFragment action = RidesFragmentDirections.actionNavigationRidesToEditRideFragment();
+        action.setRideId(rideId);
+        Navigation.findNavController(binding.getRoot()).navigate(action);
     }
 }

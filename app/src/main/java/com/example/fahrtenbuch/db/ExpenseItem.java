@@ -8,14 +8,15 @@ public class ExpenseItem extends ListObject {
     private int expenseAmmount;
     private Date expenseTime;
     private int expenseType;
+    private int expenseInterval;
 
 
-    public ExpenseItem(int expenseId, int expenseAmmount, Date datum, int expenseType) {
+    public ExpenseItem(int expenseId, int expenseAmmount, Date datum, int expenseType, int expenseInterval) {
         this.expenseId = expenseId;
         this.expenseAmmount = expenseAmmount;
         this.expenseTime = datum;
         this.expenseType = expenseType;
-
+        this.expenseInterval = expenseInterval;
     }
 
     public int getExpenseId() {
@@ -28,6 +29,10 @@ public class ExpenseItem extends ListObject {
 
     public int getExpenseType() {
         return expenseType;
+    }
+
+    public int getExpenseInterval() {
+        return expenseInterval;
     }
 
     @Override
