@@ -351,12 +351,13 @@ public class Database extends SQLiteOpenHelper {
 
     }
 
-    public int[] getKMPerMonth(int year){ // Alle gefahrenen Km pro Monat
+    public int[] getKMPerMonth(int year){ // Alle gefahrenen Km von allen Monaten aus einem jahr
         ArrayList<FahrtItem> fahrten = getAllRides();
         int[] monate = new int[12];
         int month;
         for (FahrtItem fahrt : fahrten) {
             month =Integer.parseInt(dfM.format(fahrt.getDatum().getTime()));
+            if(Integer.parseInt(dfY.format(fahrt.getDatum().getTime())) == year){
             switch (month){
                 case 1:monate[0] += fahrt.getRideDistance(); break;
                 case 2:monate[1] += fahrt.getRideDistance(); break;
@@ -370,11 +371,35 @@ public class Database extends SQLiteOpenHelper {
                 case 10:monate[9] += fahrt.getRideDistance(); break;
                 case 11:monate[10] += fahrt.getRideDistance(); break;
                 case 12:monate[11] += fahrt.getRideDistance(); break;
-
+            }
             }
         }
         return monate;
 
+    }
+
+
+    public ArrayList<Integer> getAllExpensesPerType (){ //Gibt alle Ausgaben per Kategorie als Arrayliste zurück(
+           //speichert bis jetzt nur 3 Kategorien, kp warum.
+          ArrayList<Integer> expenses = new ArrayList<Integer>();
+        // Cursor c = db.query(TABLE_NAME_EXPENSES, new String[]{COLLUMN_EXPENSE_AMMOUNT},
+         //        null , new String[]{"Count("+TABLE_NAME_EXPENSES +")"},  COLLUMN_EXPENSE_TYPE, null,COLLUMN_EXPENSE_TYPE + " DESC");
+        Cursor c = db.rawQuery( "Select sum (expenseAmmount) from Expenses " +
+                "Group by expenseType order by expenseType desc ",null);
+         if(c.moveToFirst()) {
+            while (c.moveToNext()){
+                expenses.add(c.getInt(0));
+            }
+         }
+        return expenses;
+    }
+    public int getTypeExpenses (int type){// Gibt die Summe von einer AusgabenKategorie als int zurück
+
+        Cursor c = db.rawQuery( "Select sum (expenseAmmount) from Expenses " +
+                "where expenseType = '"+ type +"'  order by expenseType desc ",null);
+       c.moveToFirst();
+
+        return c.getInt(0);
     }
 
 
