@@ -14,6 +14,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentEditRideBinding;
@@ -43,11 +45,12 @@ public class EditExpenseFragment extends Fragment implements View.OnClickListene
 
 
         // get FahrtItem
-        expenseId = this.getArguments().getInt("expenseId");
+        //expenseId = this.getArguments().getInt("expenseId");
+        expenseId = EditExpenseFragmentArgs.fromBundle(getArguments()).getExpenseId();
         ExpenseItem expenseItem = db.getExpense(expenseId);
         // Edit Text Fields
         binding.fragmentTitle.setText("Ausgabe\nbearbeiten");
-        binding.deleteItemText.setText("Ausgabe entfernen");
+        binding.deleteItemText.setText("Ausgabe\nentfernen");
         binding.editKmText.setHint("Betrag");
         binding.saveButtonText.setText("Ausgabe Speichern");
         // Set € field

@@ -161,7 +161,8 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase DB) {
         DB.execSQL(TABLE_RIDE_CREATE);
-        db.execSQL(TABLE_EXPENSES_CREATE);
+        DB.execSQL(TABLE_EXPENSES_CREATE);
+        DB.execSQL(TABLE_ORTE_CREATE);
     }
 
     @Override

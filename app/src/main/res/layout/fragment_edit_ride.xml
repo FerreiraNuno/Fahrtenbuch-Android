@@ -77,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Fahrt entfernen"
+                    android:text="Fahrt\nentfernen"
                     android:textColor="#A80000"
                     android:textSize="18sp" />
 
@@ -267,7 +267,7 @@
                 android:background="@color/cardview_light_background"
                 app:cardBackgroundColor="@color/teal_500"
                 app:cardCornerRadius="8dp"
-                app:cardElevation="12dp"
+                app:cardElevation="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">

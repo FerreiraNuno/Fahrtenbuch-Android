@@ -9,13 +9,27 @@
         android:id="@+id/navigation_rides"
         android:name="com.example.fahrtenbuch.ui.rides.RidesFragment"
         android:label="@string/title_rides"
-        tools:layout="@layout/fragment_rides" />
+        tools:layout="@layout/fragment_items" >
+        <action
+            android:id="@+id/action_navigation_rides_to_editRideFragment"
+            app:destination="@id/editRideFragment" />
+        <action
+            android:id="@+id/action_navigation_rides_to_createRideFragment"
+            app:destination="@id/createRideFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_expenses"
         android:name="com.example.fahrtenbuch.ui.expenses.ExpensesFragment"
         android:label="@string/title_expenses"
-        tools:layout="@layout/fragment_expenses" />
+        tools:layout="@layout/fragment_items" >
+        <action
+            android:id="@+id/action_navigation_expenses_to_createExpenseFragment"
+            app:destination="@id/createExpenseFragment" />
+        <action
+            android:id="@+id/action_navigation_expenses_to_editExpenseFragment"
+            app:destination="@id/editExpenseFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_statistics"
@@ -26,6 +40,55 @@
         android:id="@+id/navigation_settings"
         android:name="com.example.fahrtenbuch.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings"/>
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_navigation_settings_to_selectBluetoothFragment"
+            app:destination="@id/selectBluetoothFragment" />
+        <action
+            android:id="@+id/action_navigation_settings_to_selectGpsFragment"
+            app:destination="@id/selectGpsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editRideFragment"
+        android:name="com.example.fahrtenbuch.ui.rides.EditRideFragment"
+        android:label="EditRideFragment" >
+        <argument
+            android:name="rideId"
+            app:argType="integer"
+            android:defaultValue="1" />
+    </fragment>
+    <fragment
+        android:id="@+id/createRideFragment"
+        android:name="com.example.fahrtenbuch.ui.rides.CreateRideFragment"
+        android:label="CreateRideFragment" />
+    <fragment
+        android:id="@+id/createExpenseFragment"
+        android:name="com.example.fahrtenbuch.ui.expenses.CreateExpenseFragment"
+        android:label="CreateExpenseFragment" />
+    <fragment
+        android:id="@+id/editExpenseFragment"
+        android:name="com.example.fahrtenbuch.ui.expenses.EditExpenseFragment"
+        android:label="EditExpenseFragment" >
+        <argument
+            android:name="expenseId"
+            app:argType="integer"
+            android:defaultValue="1" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectBluetoothFragment"
+        android:name="com.example.fahrtenbuch.ui.settings.SelectBluetoothFragment"
+        android:label="SelectBluetoothFragment" />
+    <fragment
+        android:id="@+id/selectGpsFragment"
+        android:name="com.example.fahrtenbuch.ui.settings.SelectGpsFragment"
+        android:label="SelectGpsFragment" >
+        <action
+            android:id="@+id/action_selectGpsFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.fahrtenbuch.ui.settings.MapFragment"
+        android:label="MapFragment" />
 
 </navigation>
