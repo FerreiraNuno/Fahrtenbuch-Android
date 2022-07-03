@@ -64,6 +64,7 @@ public class Database extends SQLiteOpenHelper {
     private static final String COLLUMN_EXPENSE_AMMOUNT = "expenseAmmount";
     public static final String  COLLUMN_EXPENSE_TIME = "expenseTime";
     public static final String  COLLUMN_EXPENSE_TYPE = "expenseType";
+    public static final String  COLLUMN_EXPENSE_INTERVAL = "expenseInterval";
     // Konstanten für die Art der Ausgabe
     public static final int TANKEN = 1;
     public static final int VERSICHERUNG = 2;
@@ -75,7 +76,8 @@ public class Database extends SQLiteOpenHelper {
             + TABLE_NAME_EXPENSES + " (" + COLLUMN_EXPENSE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLLUMN_EXPENSE_AMMOUNT + " INTEGER, "
             + COLLUMN_EXPENSE_TIME + " TEXT, "
-            + COLLUMN_EXPENSE_TYPE + " INTEGER);";
+            + COLLUMN_EXPENSE_TYPE + " INTEGER, "
+            + COLLUMN_EXPENSE_INTERVAL + " INTEGER);";
     private static final String TABLE_EXPENSES_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME_EXPENSES;
 
 
@@ -146,7 +148,7 @@ public class Database extends SQLiteOpenHelper {
         contentValues.put(COLLUMN_EXPENSE_TYPE, 2);
         db.insert(TABLE_NAME_EXPENSES,null, contentValues);
 
-        date = new Date("02/01/2022 15:05:24");
+        date = new Date("03/01/2022 15:05:24");
         contentValues = new ContentValues();
         contentValues.put(COLLUMN_EXPENSE_TIME, date.getTime());
         contentValues.put(COLLUMN_EXPENSE_AMMOUNT, random.nextInt(500)+250);
@@ -255,7 +257,8 @@ public class Database extends SQLiteOpenHelper {
             int expenseAmmount = cursor.getInt(1);
             Date expenseTime = new Date(cursor.getLong(2));
             int expenseType = cursor.getInt(3);
-            expenseItems.add(new ExpenseItem(expenseId, expenseAmmount, expenseTime, expenseType));
+            int expenseInterval = cursor.getInt(4);
+            expenseItems.add(new ExpenseItem(expenseId, expenseAmmount, expenseTime, expenseType, expenseInterval));
         }
         return expenseItems;
     }
@@ -266,17 +269,19 @@ public class Database extends SQLiteOpenHelper {
         int expenseAmmount = cursor.getInt(1);
         Date expenseTime = new Date(Long.parseLong(cursor.getString(2)));
         int expenseType = cursor.getInt(3);
-        return new ExpenseItem(id, expenseAmmount, expenseTime, expenseType);
+        int expenseInterval = cursor.getInt(4);
+        return new ExpenseItem(id, expenseAmmount, expenseTime, expenseType, expenseInterval);
     }
 
 
-    public long insertExpense(int ammount, long time, int expenseType) {
+    public long insertExpense(int ammount, long time, int expenseType, int expenseInterval) {
         try {
             // Datenbank öffnen
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLLUMN_EXPENSE_AMMOUNT, ammount);
             contentValues.put(COLLUMN_EXPENSE_TIME, time);
             contentValues.put(COLLUMN_EXPENSE_TYPE, expenseType);
+            contentValues.put(COLLUMN_EXPENSE_INTERVAL, expenseType);
             return db.insert(TABLE_NAME_EXPENSES,null, contentValues);
         } catch (SQLiteException e) {
             System.out.println("insert error");
@@ -284,11 +289,12 @@ public class Database extends SQLiteOpenHelper {
         return -1;
     }
 
-    public void updateExpense(int id, int ammount, long time, int expenseType) {
+    public void updateExpense(int id, int ammount, long time, int expenseType, int expenseInterval) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLLUMN_EXPENSE_AMMOUNT, ammount);
         contentValues.put(COLLUMN_EXPENSE_TIME, time);
         contentValues.put(COLLUMN_EXPENSE_TYPE, expenseType);
+        contentValues.put(COLLUMN_EXPENSE_INTERVAL, expenseType);
         int numChanged = db.update(TABLE_NAME_EXPENSES, contentValues, COLLUMN_EXPENSE_ID + " = ?", new String[]{Long.toString(id)});
         Log.d(TAG, "delete(): id=" + id + " -> " + numChanged);
     }

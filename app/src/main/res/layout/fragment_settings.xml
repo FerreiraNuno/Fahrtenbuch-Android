@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            app:cardBackgroundColor="@color/background_900"
+            app:cardBackgroundColor="@color/background_700"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,9 +36,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@color/background_500"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="6dp"
+                    android:background="@color/background_900"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="4dp"
                     app:contentPadding="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -55,6 +55,7 @@
                         android:text="Push-Benarichtigungen erlauben"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         android:textColor="@color/font_purple"
+                        android:textSize="18sp"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
                 </androidx.cardview.widget.CardView>
 
@@ -65,9 +66,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@color/background_500"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="6dp"
+                    android:background="@color/background_900"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="4dp"
                     app:contentPadding="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -84,7 +85,7 @@
                         android:text="Bluetooth-Beacon auswählen"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="@color/font_purple"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -95,9 +96,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@color/background_500"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="6dp"
+                    android:background="@color/background_900"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="4dp"
                     app:contentPadding="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -114,7 +115,7 @@
                         android:text="GPS-Punkte auswählen"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="@color/font_purple"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                 </androidx.cardview.widget.CardView>
 

@@ -19,6 +19,7 @@ import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentEditRideBinding;
 import com.example.fahrtenbuch.db.Database;
 import com.example.fahrtenbuch.db.FahrtItem;
+import com.example.fahrtenbuch.ui.expenses.EditExpenseFragmentArgs;
 
 import java.util.Date;
 
@@ -42,7 +43,7 @@ public class EditRideFragment extends Fragment implements View.OnClickListener, 
 
 
         // get FahrtItem
-        rideId = this.getArguments().getInt("rideId");
+        rideId = EditRideFragmentArgs.fromBundle(getArguments()).getRideId();
         FahrtItem fahrtItem = db.getRide(rideId);
         // Set km field
         binding.editKmText.setText(String.valueOf(fahrtItem.getRideDistance()));
@@ -53,7 +54,7 @@ public class EditRideFragment extends Fragment implements View.OnClickListener, 
         output = String.format("%02d", date.getHours()) + "." + String.format("%02d", date.getMinutes());
         binding.editHourText.setText(output);
         //set Spinner items
-        Spinner rideTypeSpinner = binding.rideTypeSpinner;
+        Spinner rideTypeSpinner = binding.categorySpinner;
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(binding.getRoot().getContext(), R.array.ride_categoríes, android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         rideTypeSpinner.setAdapter(arrayAdapter);

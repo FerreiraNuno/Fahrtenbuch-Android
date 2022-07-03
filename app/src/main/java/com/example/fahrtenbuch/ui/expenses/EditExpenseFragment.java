@@ -14,6 +14,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentEditRideBinding;
@@ -27,6 +29,7 @@ public class EditExpenseFragment extends Fragment implements View.OnClickListene
     private FragmentEditRideBinding binding;
     Date date = null;
     int expenseType = 5;
+    int intervalType = 5;
     int expenseId;
     Database db;
 
@@ -42,11 +45,12 @@ public class EditExpenseFragment extends Fragment implements View.OnClickListene
 
 
         // get FahrtItem
-        expenseId = this.getArguments().getInt("expenseId");
+        //expenseId = this.getArguments().getInt("expenseId");
+        expenseId = EditExpenseFragmentArgs.fromBundle(getArguments()).getExpenseId();
         ExpenseItem expenseItem = db.getExpense(expenseId);
         // Edit Text Fields
         binding.fragmentTitle.setText("Ausgabe\nbearbeiten");
-        binding.deleteItemText.setText("Ausgabe entfernen");
+        binding.deleteItemText.setText("Ausgabe\nentfernen");
         binding.editKmText.setHint("Betrag");
         binding.saveButtonText.setText("Ausgabe Speichern");
         // Set € field
@@ -58,13 +62,52 @@ public class EditExpenseFragment extends Fragment implements View.OnClickListene
         binding.editDateText.setText(output);
         output = String.format("%02d", date.getHours()) + "." + String.format("%02d", date.getMinutes());
         binding.editHourText.setText(output);
-        //set Spinner items
-        Spinner rideTypeSpinner = binding.rideTypeSpinner;
+
+        //set Spinner items category
+        Spinner rideTypeSpinner = binding.categorySpinner;
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(binding.getRoot().getContext(), R.array.expense_categoríes, android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         rideTypeSpinner.setAdapter(arrayAdapter);
         rideTypeSpinner.setSelection(expenseItem.getExpenseType()-1);
         rideTypeSpinner.setOnItemSelectedListener(this);
+
+        //set Spinner items interval
+        Spinner intervalSpinner = binding.intervalTypeSpinner;
+        ArrayAdapter<CharSequence> arrayAdapterInterval = ArrayAdapter.createFromResource(binding.getRoot().getContext(), R.array.interval_categoríes, android.R.layout.simple_spinner_item);
+        arrayAdapterInterval.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        intervalSpinner.setAdapter(arrayAdapterInterval);
+        intervalSpinner.setSelection(expenseItem.getExpenseInterval()-1); //TODO this doesnt work
+        intervalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String selection = adapterView.getItemAtPosition(i).toString();
+                switch(selection) {
+                    case "Einmalig":
+                        intervalType = 1;
+                        break;
+                    case "Monatlich":
+                        intervalType = 2;
+                        break;
+                    case "Halbjährlich":
+                        intervalType = 3;
+                        break;
+                    case "Jährlich":
+                        intervalType = 4;
+                        break;
+                    case "Alle 2 Jahre":
+                        intervalType = 5;
+                        break;
+                    default:
+                        intervalType = 5;
+                        //
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
         return binding.getRoot();
     }
 
@@ -83,7 +126,7 @@ public class EditExpenseFragment extends Fragment implements View.OnClickListene
         } else if (view == binding.finishButton) {
             if (!binding.editKmText.getText().toString().equals("")) {
                 int value = Integer.parseInt(binding.editKmText.getText().toString());
-                db.updateExpense(expenseId, value, date.getTime(), expenseType);
+                db.updateExpense(expenseId, value, date.getTime(), expenseType, intervalType);
                 getParentFragmentManager().popBackStackImmediate();
             } else {
                 Toast.makeText(getActivity(), "Bitte erst Betrag eintragen!",
@@ -114,22 +157,24 @@ public class EditExpenseFragment extends Fragment implements View.OnClickListene
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String selection = adapterView.getItemAtPosition(i).toString();
         switch(selection) {
-            case "Sonstiges":
-                expenseType = 5;
-                break;
             case "Tanken":
+                binding.chooseInterval.setVisibility(View.INVISIBLE);
                 expenseType = 1;
                 break;
             case "Versicherung":
                 expenseType = 2;
+                binding.chooseInterval.setVisibility(View.VISIBLE);
                 break;
             case "KFZ-Steuer":
                 expenseType = 3;
+                binding.chooseInterval.setVisibility(View.VISIBLE);
                 break;
             case "Werkstatt":
                 expenseType = 4;
+                binding.chooseInterval.setVisibility(View.VISIBLE);
                 break;
             default:
+                binding.chooseInterval.setVisibility(View.INVISIBLE);
                 expenseType = 5;
         }
     }

@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +18,8 @@ import com.example.fahrtenbuch.db.Database;
 import com.example.fahrtenbuch.db.DateItem;
 import com.example.fahrtenbuch.db.ExpenseItem;
 import com.example.fahrtenbuch.db.ListObject;
+
+import com.example.fahrtenbuch.ui.expenses.ExpensesFragmentDirections.ActionNavigationExpensesToEditExpenseFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +38,15 @@ public class ExpensesFragment extends Fragment implements View.OnClickListener, 
         binding.lastMonthText.setText("Ausgegeben letzter Monat");
 
         eintraege_liste = getExpensesArray();
-        RecyclerView recyclerView = binding.fahrtenView;
+        if (eintraege_liste.isEmpty()) {
+            binding.recyclerView.setVisibility(View.INVISIBLE);
+            binding.emptyText.setVisibility(View.VISIBLE);
+        }
+        else {
+            binding.recyclerView.setVisibility(View.VISIBLE);
+            binding.emptyText.setVisibility(View.INVISIBLE);
+        }
+        RecyclerView recyclerView = binding.recyclerView;
         RecyclerViewAdapterExpenses recyclerViewAdapterExpenses = new RecyclerViewAdapterExpenses(this, eintraege_liste);
         recyclerView.setAdapter(recyclerViewAdapterExpenses);
         recyclerView.setHasFixedSize(true);
@@ -49,12 +59,7 @@ public class ExpensesFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onClick(View view) {
         if (view == binding.plusButton) {
-            FragmentTransaction fragmentTransaction= getParentFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_fragment_container, new CreateExpenseFragment());
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.setReorderingAllowed(true);
-            fragmentTransaction.commit();
-
+            Navigation.findNavController(binding.getRoot()).navigate(R.id.action_navigation_expenses_to_createExpenseFragment);
         } else if (view == binding.topCardRight) {
             Toast.makeText(view.getContext(), "Liste Größe: " + eintraege_liste.size(),
                     Toast.LENGTH_LONG).show();
@@ -103,15 +108,8 @@ public class ExpensesFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void recyclerviewClick(int position) {
         int expenseId = ((ExpenseItem) eintraege_liste.get(position)).getExpenseId();
-        Bundle bundle = new Bundle();
-        bundle.putInt("expenseId", expenseId);
-        EditExpenseFragment editExpenseFragment = new EditExpenseFragment();
-        editExpenseFragment.setArguments(bundle);
-
-        FragmentTransaction fragmentTransaction= getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_fragment_container, editExpenseFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.setReorderingAllowed(true);
-        fragmentTransaction.commit();
+        ActionNavigationExpensesToEditExpenseFragment action = ExpensesFragmentDirections.actionNavigationExpensesToEditExpenseFragment();
+        action.setExpenseId(expenseId);
+        Navigation.findNavController(binding.getRoot()).navigate(action);
     }
 }
