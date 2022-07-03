@@ -39,14 +39,11 @@ public class PushNotificationHandler {
        public void pushNotifcation(String Start, String Ziel, int strecke, int typ){
 
           Intent resultInt = new Intent(myContext, CreateRideFragment.class);
-           resultInt.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+           resultInt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
           resultInt.putExtra("pushRide", "CreateRideFragment");
-           PendingIntent resultPendInt = PendingIntent.getService(myContext, 0, resultInt, 0);
-          /* TaskStackBuilder stackBuilder = TaskStackBuilder.create(myContext);
-           stackBuilder.addNextIntentWithParentStack(resultInt);
-           PendingIntent resultPendInt =
-                   stackBuilder.getPendingIntent(0,
-                           PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);*/
+           PendingIntent resultPendInt = PendingIntent.getActivity(myContext, 0, resultInt, 0);
+
+
 
            NotificationCompat.Builder  builder = new NotificationCompat.Builder(myContext, "myChannel2")
                    .setSmallIcon(android.R.drawable.star_big_on) //Das Icon der Notifikation
@@ -55,6 +52,9 @@ public class PushNotificationHandler {
                    .setContentIntent(resultPendInt)
                    ;
 
+           builder.setContentIntent(resultPendInt);
+           builder.getNotification().flags |= Notification.FLAG_AUTO_CANCEL;
+           builder.setAutoCancel(true);
            notification = builder.build();
 
            notificationManagerCompat = NotificationManagerCompat.from(myContext);
