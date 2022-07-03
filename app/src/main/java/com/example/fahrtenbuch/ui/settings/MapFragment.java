@@ -1,14 +1,20 @@
 package com.example.fahrtenbuch.ui.settings;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+
 import com.example.fahrtenbuch.databinding.FragmentMapBinding;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,6 +28,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     private FragmentMapBinding binding;
     LatLng markerLocation;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMapBinding.inflate(inflater, container, false);
@@ -39,23 +46,31 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         if (view == binding.saveLocation) {
             if (markerLocation != null) {
-                LatLng returnLocation = new LatLng(markerLocation.latitude, markerLocation.longitude);
-                requireActivity().getSupportFragmentManager().setFragmentResult("requestKey",new Bundle());
+                Bundle result = new Bundle();
+                result.putString("bundleKey", markerLocation.latitude + "," + markerLocation.longitude);
+                requireActivity().getSupportFragmentManager().setFragmentResult("requestKey", result);
                 getParentFragmentManager().popBackStackImmediate();
             }
         }
     }
 
 
-    @SuppressLint("MissingPermission")
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void startMapFragment(Bundle savedInstanceState) {
         MapsInitializer.initialize(binding.getRoot().getContext());
         binding.mapView.onCreate(savedInstanceState);
         binding.mapView.onResume();
         binding.mapView.getMapAsync(googleMap -> {
             // Maps Settings
-            googleMap.setMyLocationEnabled(true);
-            googleMap.getUiSettings().setZoomControlsEnabled(true);
+            if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                getActivity().requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},2);
+            }
+            if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                getActivity().requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},3);
+            } else {
+                googleMap.setMyLocationEnabled(true);
+                googleMap.getUiSettings().setZoomControlsEnabled(true);
+            }
 
             // Get current location
             String[] latLngString =  "50.58560003799547, 8.674005783881551".split(",");
