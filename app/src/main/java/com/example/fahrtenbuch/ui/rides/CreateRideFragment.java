@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,7 +67,7 @@ public class CreateRideFragment extends Fragment implements View.OnClickListener
                 int distanceValue = Integer.parseInt(binding.editValueText.getText().toString());
                 Database db = new Database(binding.getRoot().getContext());
                 db.insertRide(date.getTime(), distanceValue, rideType);
-                getParentFragmentManager().popBackStackImmediate();
+                Navigation.findNavController(binding.getRoot()).navigateUp();
             } else {
                 Toast.makeText(getActivity(), "Bitte erst gefahrene distanz eintragen!",
                         Toast.LENGTH_LONG).show();

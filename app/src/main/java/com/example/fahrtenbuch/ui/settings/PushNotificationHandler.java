@@ -41,9 +41,7 @@ public class PushNotificationHandler {
           Intent resultInt = new Intent(myContext, CreateRideFragment.class);
            resultInt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
           resultInt.putExtra("pushRide", "CreateRideFragment");
-           PendingIntent resultPendInt = PendingIntent.getActivity(myContext, 0, resultInt, 0);
-
-
+           PendingIntent resultPendInt = PendingIntent.getService(myContext, 0, resultInt, PendingIntent.FLAG_IMMUTABLE);
 
            NotificationCompat.Builder  builder = new NotificationCompat.Builder(myContext, "myChannel2")
                    .setSmallIcon(android.R.drawable.star_big_on) //Das Icon der Notifikation

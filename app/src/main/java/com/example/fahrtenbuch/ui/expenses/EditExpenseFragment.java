@@ -122,12 +122,12 @@ public class EditExpenseFragment extends Fragment implements View.OnClickListene
             timePickerDialog.show();
         } else if (view == binding.deleteRide) {
                 db.deleteExpense(expenseId);
-                getParentFragmentManager().popBackStackImmediate();
+                Navigation.findNavController(binding.getRoot()).navigateUp();
         } else if (view == binding.finishButton) {
             if (!binding.editKmText.getText().toString().equals("")) {
                 int value = Integer.parseInt(binding.editKmText.getText().toString());
                 db.updateExpense(expenseId, value, date.getTime(), expenseType, intervalType);
-                getParentFragmentManager().popBackStackImmediate();
+                Navigation.findNavController(binding.getRoot()).navigateUp();
             } else {
                 Toast.makeText(getActivity(), "Bitte erst Betrag eintragen!",
                         Toast.LENGTH_LONG).show();

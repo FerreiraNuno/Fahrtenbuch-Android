@@ -51,37 +51,37 @@
     <fragment
         android:id="@+id/editRideFragment"
         android:name="com.example.fahrtenbuch.ui.rides.EditRideFragment"
-        android:label="EditRideFragment" >
+        android:label="Fahrt bearbeiten">
         <argument
             android:name="rideId"
-            app:argType="integer"
-            android:defaultValue="1" />
+            android:defaultValue="1"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/createRideFragment"
         android:name="com.example.fahrtenbuch.ui.rides.CreateRideFragment"
-        android:label="CreateRideFragment" />
+        android:label="Fahrt eintragen" />
     <fragment
         android:id="@+id/createExpenseFragment"
         android:name="com.example.fahrtenbuch.ui.expenses.CreateExpenseFragment"
-        android:label="CreateExpenseFragment" />
+        android:label="Ausgabe eintragen" />
     <fragment
         android:id="@+id/editExpenseFragment"
         android:name="com.example.fahrtenbuch.ui.expenses.EditExpenseFragment"
-        android:label="EditExpenseFragment" >
+        android:label="Ausgabe bearbeiten">
         <argument
             android:name="expenseId"
-            app:argType="integer"
-            android:defaultValue="1" />
+            android:defaultValue="1"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/selectBluetoothFragment"
         android:name="com.example.fahrtenbuch.ui.settings.SelectBluetoothFragment"
-        android:label="SelectBluetoothFragment" />
+        android:label="Bluetooth Beacon auswählen" />
     <fragment
         android:id="@+id/selectGpsFragment"
         android:name="com.example.fahrtenbuch.ui.settings.SelectGpsFragment"
-        android:label="SelectGpsFragment" >
+        android:label="GPS Punkte Auswählen">
         <action
             android:id="@+id/action_selectGpsFragment_to_mapFragment"
             app:destination="@id/mapFragment" />
@@ -89,6 +89,6 @@
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.fahrtenbuch.ui.settings.MapFragment"
-        android:label="MapFragment" />
+        android:label="GPS Punkt Auswählen" />
 
 </navigation>
