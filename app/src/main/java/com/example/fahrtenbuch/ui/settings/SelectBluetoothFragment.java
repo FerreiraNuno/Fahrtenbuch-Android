@@ -22,10 +22,10 @@ import com.example.fahrtenbuch.databinding.FragmentSelectBluetoothBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class SelectBluetoothFragment extends Fragment {
-
     private FragmentSelectBluetoothBinding binding;
     private BluetoothAdapter bluetoothAdapter;
 
@@ -50,30 +50,29 @@ public class SelectBluetoothFragment extends Fragment {
                 for (BluetoothDevice device : pairedDevices) {
                     String deviceName = device.getName();
                     String macAddress = device.getAddress();
+                    System.out.println(deviceName);
+                    if (Objects.equals(macAddress, SettingsFragment.bluetoothBeaconMacAddress)) {
+                        System.out.println("here");
+                        deviceName += " (ausgewählt)";
+                    }
                     deviceNames.add(deviceName);
                     macAddresses.add(macAddress);
                 }
             }
         }
 
+
+
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,deviceNames);
         listView.setAdapter(arrayAdapter);
-
-        listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                SettingsFragment.bluetoothBeaconMacAddress = macAddresses.get(position);
-                Toast.makeText(getContext(),"Die Ausgewählte Mac-Adresse ist: " + SettingsFragment.bluetoothBeaconMacAddress,Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+        listView.setOnItemClickListener((adapterView, view, position, l) -> {
+            SettingsFragment.bluetoothBeaconMacAddress = macAddresses.get(position);
+            String newName = deviceNames.get(position) + " (ausgewählt)";
+            deviceNames.set(position, newName);
+            arrayAdapter.notifyDataSetChanged();
+            Toast.makeText(getContext(),"Die Ausgewählte Mac-Adresse ist: " + SettingsFragment.bluetoothBeaconMacAddress,Toast.LENGTH_LONG).show();
         });
 
-        View root = binding.getRoot();
-        return root;
+        return binding.getRoot();
     }
 }

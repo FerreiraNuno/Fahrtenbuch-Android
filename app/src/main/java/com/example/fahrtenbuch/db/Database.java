@@ -105,6 +105,10 @@ public class Database extends SQLiteOpenHelper {
         db = getWritableDatabase();
     }
 
+    public void insertBluetoothDevice(String macAddress) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS 'BluetoothGerät' ('MacAdresse' TEXT);");
+    }
+
     public void restartDatabase() {
         //db.execSQL(TABLE_ORTE_DROP);
         //db.execSQL(TABLE_ORTE_CREATE);
