@@ -35,6 +35,14 @@ public class SelectGpsFragment extends Fragment implements View.OnClickListener{
     @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.R)
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                getActivity().requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                getActivity().requestPermissions(new String[] {Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 1);
+            }
+        }
+
         binding  = FragmentSelectGpsBinding.inflate(inflater,container,false);
 
         binding.cardZuhause.setOnClickListener(this);

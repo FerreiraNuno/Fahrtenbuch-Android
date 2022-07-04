@@ -50,7 +50,6 @@ public class SelectBluetoothFragment extends Fragment implements View.OnClickLis
             }
         }
 
-
         View root = binding.getRoot();
         return root;
     }

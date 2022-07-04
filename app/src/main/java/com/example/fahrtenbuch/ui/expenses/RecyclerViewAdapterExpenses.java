@@ -72,11 +72,11 @@ public class RecyclerViewAdapterExpenses extends RecyclerView.Adapter<RecyclerVi
                     break;
                 case 4: // Kategorie Werkstatt
                     ((MyViewHolder) holder).getTextExpenseType().setText("Werkstatt");
-                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.auto);
+                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.werkstatt);
                     break;
                 default: // Kategorie Sonstiges
                     ((MyViewHolder) holder).getTextExpenseType().setText("Sonstiges");
-                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.auto);
+                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.sonstiges);
             }
         } else if (holder.getItemViewType() == 1) {
             DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
