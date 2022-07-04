@@ -15,60 +15,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ListView
+            android:id="@+id/easylist"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/names"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="250dp"
-                android:background="@color/background_500"
-                android:hint="Hier stehen die BluetoothGeräteNamen"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/macAddresses"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/macAddresses"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="250dp"
-                android:background="@color/background_500"
-                android:text="Hier stehen die MAC Adressen"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/names"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/macAdressInputField"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="32dp"
-                android:background="@color/background_500"
-                android:ems="10"
-                android:hint="Bitte trage hier deine MAC-Adresse ein"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/macAddresses" />
-
-            <Button
-                android:id="@+id/saveInput"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="speichern"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/macAdressInputField" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="match_parent"
+            android:layout_margin="15dp" />
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>
