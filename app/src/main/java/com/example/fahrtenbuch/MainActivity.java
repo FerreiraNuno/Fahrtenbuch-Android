@@ -1,6 +1,7 @@
 package com.example.fahrtenbuch;
 
 import android.os.Bundle;
+import android.provider.Settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -22,8 +23,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         Database db = new Database(getApplicationContext());
-        db.restartDatabase();
 
+        db.restartDatabase();
+        System.out.println("Km Für ein Jahr " + db.getKMPerYear(2022));
+        System.out.println("Ausgaben " + db.getAllExpensesPerType().get(2));
+        System.out.println("Ausgaben für das Tanken " + db.getTypeExpenses(1));
         super.onCreate(savedInstanceState);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -39,6 +43,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         PushNotificationHandler pushNotifier = new PushNotificationHandler(this);
-        pushNotifier.pushNotifcation("München", "Frankfurt", db.getRide(1).getRideDistance(), 2);
+        pushNotifier.pushNotifcation(db.getRide(1).getRideLocationStart(), db.getRide(1).getRideDestination(), db.getRide(1).getRideDistance(), db.getRide(1).getRideType());
     }
 }

@@ -10,6 +10,8 @@ import android.database.Cursor;
 
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -21,7 +23,13 @@ public class Database extends SQLiteOpenHelper {
 
     // Name und Version der Datenbank
     private static final String DATABASE_NAME = "ride.db";
-    private static final int DATABASE_VERSION = 6;
+
+    private static final int DATABASE_VERSION = 5;
+    DateFormat dfY = new SimpleDateFormat("yyyy");
+    DateFormat dfM = new SimpleDateFormat("MM");
+    DateFormat dfD = new SimpleDateFormat("dd");
+
+
 
 
     // Name und Attribute der Tabelle "Ride"
@@ -321,6 +329,79 @@ public class Database extends SQLiteOpenHelper {
         }
         return -1;
     }
+
+    //
+    //Statistik DB Abfragen
+    //
+
+    /*public Cursor getKMPerYear(int year){ // Als Cursor
+        return db.rawQuery("SELECT "+ COLLUMN_RIDE_DISTANCE + "FROM" + TABLE_NAME_RIDES
+                + " where " +  COLLUMN_RIDE_START_TIME + " like %" +year , null);
+      */
+
+
+       public int getKMPerYear(int year){ // Alle gefahrenen Km von einen gewähleten jahre
+            int sumOfYear = 0;
+          ArrayList<FahrtItem> fahrten = getAllRides();
+           for (FahrtItem fahrt:fahrten) {
+            if(Integer.parseInt(dfY.format(fahrt.getDatum().getTime())) == year)
+                sumOfYear += fahrt.getRideDistance();
+           }
+        return  sumOfYear;
+
+    }
+
+    public int[] getKMPerMonth(int year){ // Alle gefahrenen Km von allen Monaten aus einem jahr
+        ArrayList<FahrtItem> fahrten = getAllRides();
+        int[] monate = new int[12];
+        int month;
+        for (FahrtItem fahrt : fahrten) {
+            month =Integer.parseInt(dfM.format(fahrt.getDatum().getTime()));
+            if(Integer.parseInt(dfY.format(fahrt.getDatum().getTime())) == year){
+            switch (month){
+                case 1:monate[0] += fahrt.getRideDistance(); break;
+                case 2:monate[1] += fahrt.getRideDistance(); break;
+                case 3:monate[2] += fahrt.getRideDistance(); break;
+                case 4:monate[3] += fahrt.getRideDistance(); break;
+                case 5:monate[4] += fahrt.getRideDistance(); break;
+                case 6:monate[5] += fahrt.getRideDistance(); break;
+                case 7:monate[6] += fahrt.getRideDistance(); break;
+                case 8:monate[7] += fahrt.getRideDistance(); break;
+                case 9:monate[8] += fahrt.getRideDistance(); break;
+                case 10:monate[9] += fahrt.getRideDistance(); break;
+                case 11:monate[10] += fahrt.getRideDistance(); break;
+                case 12:monate[11] += fahrt.getRideDistance(); break;
+            }
+            }
+        }
+        return monate;
+
+    }
+
+
+    public ArrayList<Integer> getAllExpensesPerType (){ //Gibt alle Ausgaben per Kategorie als Arrayliste zurück(
+           //speichert bis jetzt nur 3 Kategorien, kp warum.
+          ArrayList<Integer> expenses = new ArrayList<Integer>();
+        // Cursor c = db.query(TABLE_NAME_EXPENSES, new String[]{COLLUMN_EXPENSE_AMMOUNT},
+         //        null , new String[]{"Count("+TABLE_NAME_EXPENSES +")"},  COLLUMN_EXPENSE_TYPE, null,COLLUMN_EXPENSE_TYPE + " DESC");
+        Cursor c = db.rawQuery( "Select sum (expenseAmmount) from Expenses " +
+                "Group by expenseType order by expenseType desc ",null);
+         if(c.moveToFirst()) {
+            while (c.moveToNext()){
+                expenses.add(c.getInt(0));
+            }
+         }
+        return expenses;
+    }
+    public int getTypeExpenses (int type){// Gibt die Summe von einer AusgabenKategorie als int zurück
+
+        Cursor c = db.rawQuery( "Select sum (expenseAmmount) from Expenses " +
+                "where expenseType = '"+ type +"'  order by expenseType desc ",null);
+       c.moveToFirst();
+
+        return c.getInt(0);
+    }
+
 
 }
 
