@@ -9,6 +9,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -16,21 +20,24 @@ import androidx.fragment.app.Fragment;
 
 import com.example.fahrtenbuch.databinding.FragmentSelectBluetoothBinding;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
-public class SelectBluetoothFragment extends Fragment implements View.OnClickListener {
+public class SelectBluetoothFragment extends Fragment {
 
     private FragmentSelectBluetoothBinding binding;
     private BluetoothAdapter bluetoothAdapter;
+
+    List<String> deviceNames = new ArrayList<>();
+    List<String> macAddresses = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSelectBluetoothBinding.inflate(inflater, container, false);
 
-        binding.saveInput.setOnClickListener(this);
-
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
+        ListView listView = binding.easylist;
 
         if (getActivity().checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -43,20 +50,30 @@ public class SelectBluetoothFragment extends Fragment implements View.OnClickLis
                 for (BluetoothDevice device : pairedDevices) {
                     String deviceName = device.getName();
                     String macAddress = device.getAddress();
-
-                    binding.names.append(deviceName + "\n");
-                    binding.macAddresses.append(macAddress + "\n");
+                    deviceNames.add(deviceName);
+                    macAddresses.add(macAddress);
                 }
             }
         }
 
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,deviceNames);
+        listView.setAdapter(arrayAdapter);
+
+        listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                SettingsFragment.bluetoothBeaconMacAddress = macAddresses.get(position);
+                Toast.makeText(getContext(),"Die Ausgewählte Mac-Adresse ist: " + SettingsFragment.bluetoothBeaconMacAddress,Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         View root = binding.getRoot();
         return root;
     }
-
-    @Override
-    public void onClick(View view) {
-        SettingsFragment.bluetoothBeaconMacAddress = binding.macAdressInputField.getText().toString();
-    }
-
 }
