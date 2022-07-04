@@ -41,7 +41,7 @@ public class PushNotificationHandler {
           Intent resultInt = new Intent(myContext, CreateRideFragment.class);
            resultInt.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
           resultInt.putExtra("pushRide", "CreateRideFragment");
-           PendingIntent resultPendInt = PendingIntent.getService(myContext, 0, resultInt, 0);
+           PendingIntent resultPendInt = PendingIntent.getService(myContext, 0, resultInt, PendingIntent.FLAG_IMMUTABLE);
           /* TaskStackBuilder stackBuilder = TaskStackBuilder.create(myContext);
            stackBuilder.addNextIntentWithParentStack(resultInt);
            PendingIntent resultPendInt =

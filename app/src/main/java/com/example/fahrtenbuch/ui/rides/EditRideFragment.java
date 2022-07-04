@@ -14,6 +14,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentEditRideBinding;
@@ -74,12 +75,12 @@ public class EditRideFragment extends Fragment implements View.OnClickListener, 
             timePickerDialog.show();
         } else if (view == binding.deleteRide) {
                 db.deleteRide(rideId);
-                getParentFragmentManager().popBackStackImmediate();
+            Navigation.findNavController(binding.getRoot()).navigateUp();
         } else if (view == binding.finishButton) {
             if (!binding.editKmText.getText().toString().equals("")) {
                 int distanceValue = Integer.parseInt(binding.editKmText.getText().toString());
                 db.updateRide(rideId, date.getTime(), distanceValue, rideType);
-                getParentFragmentManager().popBackStackImmediate();
+                Navigation.findNavController(binding.getRoot()).navigateUp();
             } else {
                 Toast.makeText(getActivity(), "Bitte erst gefahrene distanz eintragen!",
                         Toast.LENGTH_LONG).show();

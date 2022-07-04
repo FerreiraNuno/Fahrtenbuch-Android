@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.fahrtenbuch.databinding.FragmentMapBinding;
 
@@ -48,9 +49,10 @@ public class MapFragment extends Fragment implements View.OnClickListener {
             if (markerLocation != null) {
                 Bundle result = new Bundle();
                 result.putString("bundleKey", markerLocation.latitude + "," + markerLocation.longitude);
-                requireActivity().getSupportFragmentManager().setFragmentResult("requestKey", result);
-                getParentFragmentManager().popBackStackImmediate();
+                Navigation.findNavController(binding.getRoot()).getPreviousBackStackEntry().getSavedStateHandle().set("key", result);
+                Navigation.findNavController(binding.getRoot()).navigateUp();
             }
+
         }
     }
 
@@ -84,7 +86,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                             icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))); //marker icon
 
             // Set Position in Map
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
 
             // Move Listener
             googleMap.setOnCameraMoveListener(() -> {

@@ -14,6 +14,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentCreateItemBinding;
@@ -109,7 +110,7 @@ public class CreateExpenseFragment extends Fragment implements View.OnClickListe
                 int value = Integer.parseInt(binding.editValueText.getText().toString());
                 Database db = new Database(binding.getRoot().getContext());
                 db.insertExpense(value, date.getTime(), expenseType, intervalType);
-                getParentFragmentManager().popBackStackImmediate();
+                Navigation.findNavController(binding.getRoot()).navigateUp();
             } else {
                 Toast.makeText(getActivity(), "Bitte erst Betrag eintrag!",
                         Toast.LENGTH_LONG).show();

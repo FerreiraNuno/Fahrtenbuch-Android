@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentSelectGpsBinding;
@@ -67,19 +68,22 @@ public class SelectGpsFragment extends Fragment implements View.OnClickListener{
         else if (view == binding.cardSport) {
             categorie = "Sport";
         }
+        /*
         FragmentTransaction fragmentTransaction= getParentFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_fragment_container, new MapFragment());
         fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.setReorderingAllowed(true);
         fragmentTransaction.commit();
-        requireActivity().getSupportFragmentManager().setFragmentResultListener("requestKey", getViewLifecycleOwner(), new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                String[] latlng = result.toString().replace("Bundle[{bundleKey=","").replace("}","").replace("]","").split(",");
-                String latitude = latlng[0];
-                String longitude = latlng[1];
-                Database db = new Database(binding.getRoot().getContext());
-                db.insertLocation(latitude,longitude,categorie);
-            }
+        */
+
+        Navigation.findNavController(binding.getRoot()).getCurrentBackStackEntry().getSavedStateHandle().getLiveData("key").observe(getViewLifecycleOwner(), resultBundle -> {
+            System.out.println(resultBundle);
+            String[] latlng = resultBundle.toString().replace("Bundle[{bundleKey=", "").replace("}", "").replace("]", "").split(",");
+            String latitude = latlng[0];
+            String longitude = latlng[1];
+            Database db = new Database(binding.getRoot().getContext());
+            db.insertLocation(latitude, longitude, categorie);
         });
+        Navigation.findNavController(binding.getRoot()).navigate(R.id.action_selectGpsFragment_to_mapFragment);
     }
 }
