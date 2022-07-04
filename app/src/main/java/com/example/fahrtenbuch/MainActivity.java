@@ -24,10 +24,12 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         Database db = new Database(getApplicationContext());
 
-        db.restartDatabase();
+       db.restartDatabase();
         System.out.println("Km Für ein Jahr " + db.getKMPerYear(2022));
-        System.out.println("Ausgaben " + db.getAllExpensesPerType().get(2));
-        System.out.println("Ausgaben für das Tanken " + db.getTypeExpenses(1));
+       System.out.println("Km im Juni gefahren " + db.getKMInTime("2022 06 01", "2022 07 30"));
+        System.out.println("Ausgaben " + db.getAllExpensesPerType());
+        System.out.println("Ausgaben für das Tanken " + db.getTypeExpenses(3));
+        System.out.println("Ausgaben von April bis einde Juni 2022" + db.getAllExpensesPerTypeTimed("2022 04 01", "2023 06 30"));
         super.onCreate(savedInstanceState);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
