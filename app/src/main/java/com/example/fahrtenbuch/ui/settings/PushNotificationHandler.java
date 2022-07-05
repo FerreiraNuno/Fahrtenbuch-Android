@@ -12,7 +12,10 @@ import android.os.Bundle;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.navigation.NavDeepLinkBuilder;
 
+import com.example.fahrtenbuch.MainActivity;
+import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.ui.rides.CreateRideFragment;
 
 
@@ -24,10 +27,10 @@ public class PushNotificationHandler {
        public PushNotificationHandler(Context context){
            this.myContext = context;
            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-               NotificationChannel channel = new NotificationChannel("myChannel2", "PushNotifier" , NotificationManager.IMPORTANCE_DEFAULT);
+               NotificationChannel channel = new NotificationChannel("myChannel", "PushNotifier" , NotificationManager.IMPORTANCE_DEFAULT);
 
                NotificationManager manager = myContext.getSystemService(NotificationManager.class);
-               channel.setSound(null, null);
+
                manager.createNotificationChannel(channel);
 
 
@@ -36,21 +39,28 @@ public class PushNotificationHandler {
            }
        }
 
-       public void pushNotifcation(String Start, String Ziel, int strecke, int typ){
+       public void pushNotifcation(Bundle arg){
 
-          Intent resultInt = new Intent(myContext, CreateRideFragment.class);
-           resultInt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-          resultInt.putExtra("pushRide", "CreateRideFragment");
-           PendingIntent resultPendInt = PendingIntent.getService(myContext, 0, resultInt, PendingIntent.FLAG_IMMUTABLE);
+            NavDeepLinkBuilder nvDL = new NavDeepLinkBuilder(myContext)
+                    .setComponentName(MainActivity.class)
+                    .setGraph(R.navigation.mobile_navigation)
+                    .setDestination(R.id.createRideFragment)
+                    .setArguments(arg)
 
-           NotificationCompat.Builder  builder = new NotificationCompat.Builder(myContext, "myChannel2")
-                   .setSmallIcon(android.R.drawable.star_big_on) //Das Icon der Notifikation
-                   .setContentTitle("Eine Neue Fahrt!")
-                   .setContentText("Ihre Fahrt ging von "+ Start + " bis " + Ziel + " und ging " + strecke + " km :D")
-                   .setContentIntent(resultPendInt)
                    ;
 
-           builder.setContentIntent(resultPendInt);
+            PendingIntent pinv = nvDL.createPendingIntent();
+
+           NotificationCompat.Builder  builder = new NotificationCompat.Builder(myContext, "myChannel")
+                   .setSmallIcon(R.drawable.auto) //Das Icon der Notifikation
+                   .setContentTitle("Eine Neue Fahrt!")
+                   .setContentText("Ihre Fahrt ging  "+ arg.getInt("Fahrt 1") + " KM " + " :D")
+                   .setColor(200)
+                   .setSilent(true)
+                   //.addAction()
+                   .setContentIntent(pinv)
+                   ;
+
            builder.getNotification().flags |= Notification.FLAG_AUTO_CANCEL;
            builder.setAutoCancel(true);
            notification = builder.build();
