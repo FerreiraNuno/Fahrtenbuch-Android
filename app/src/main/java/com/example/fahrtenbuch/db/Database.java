@@ -29,7 +29,10 @@ public class Database extends SQLiteOpenHelper {
     DateFormat dfM = new SimpleDateFormat("MM");
     DateFormat dfD = new SimpleDateFormat("dd");
 
-
+    private float literDiesel = 1.98f;
+    private float literBenzin = 1.72f;
+    private float verbrauchDiesel100km = 6.6f;
+    private float verbrauchBenzin100km = 7.2f;
 
 
     // Name und Attribute der Tabelle "Ride"
@@ -369,10 +372,9 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public ArrayList<Integer> getAllExpensesPerType () { //Gibt alle Ausgaben per Kategorie als Arrayliste zurück(
-        //speichert bis jetzt nur 3 Kategorien, kp warum.
+
         ArrayList<Integer> expenses = new ArrayList<Integer>();
-        // Cursor c = db.query(TABLE_NAME_EXPENSES, new String[]{COLLUMN_EXPENSE_AMMOUNT},
-        //        null , new String[]{"Count("+TABLE_NAME_EXPENSES +")"},  COLLUMN_EXPENSE_TYPE, null,COLLUMN_EXPENSE_TYPE + " DESC");
+
         Cursor c = db.rawQuery("Select sum (expenseAmmount) from Expenses " +
                 "Group by expenseType order by expenseType desc ", null);
 
@@ -399,18 +401,46 @@ public class Database extends SQLiteOpenHelper {
             }
             return expenses;
     }
-    public int getTypeExpenses (int type){// Gibt die Summe von einer AusgabenKategorie als int zurück
-
-
+    public int getTypeExpenses (int typ){// Gibt die Summe von einer AusgabenKategorie als int zurück
+        // 0 = Sonstige, 1 = Werkstatt, 2 = Kfz-Steuer, 3 = Versicherung, 4 = Tanken
         Cursor c = db.rawQuery( "Select sum (expenseAmmount) from Expenses " +
-                "where expenseType = '"+ type +"'  order by expenseType asc ",null);
+                "where expenseType = '"+ typ +"'  order by expenseType asc ",null);
        c.moveToFirst();
-
         return c.getInt(0);
     }
 
+    public ArrayList<Float> getPricePerKm(String von, String bis, int aufMonate) {
+       ArrayList<Float>  preisProKm = new ArrayList<>();
+       float kmPreisDiesel;
+       float kmPreisBenzin;
+        int kmInTime = 0;
+        int ausgabenOhneTanken = 0;
 
 
+       ArrayList<Integer> ausgaben = getAllExpensesPerTypeTimed(von, bis);
+        ArrayList<Integer> kmgefahren = getKMInTime(von, bis);
+
+        for (int km: kmgefahren) {
+            kmInTime += km;
+        }
+        for (int i = 0; i < ausgaben.size() - 1; i++){//Um die Ausgaben zu exkludieren.
+            ausgabenOhneTanken += ausgaben.get(i);
+        }
+       // System.out.println("Test " + getKMInTime(von , bis));
+        kmPreisDiesel = (literDiesel * verbrauchDiesel100km / 100);
+        kmPreisBenzin = (literBenzin * verbrauchBenzin100km / 100);
+        preisProKm.add(kmPreisDiesel);// Preis für 1 km für den Sprit
+        preisProKm.add(kmPreisBenzin);
+        preisProKm.add(kmPreisDiesel * kmInTime);//Geld fürs Tanken alleine
+        preisProKm.add(kmPreisBenzin * kmInTime);
+        float absolutKostenDiesel = kmPreisDiesel + ausgabenOhneTanken / kmInTime;
+        float absolutkostenBenzin = kmPreisBenzin + ausgabenOhneTanken / kmInTime;
+        preisProKm.add(absolutKostenDiesel);// Km preis mit ausgaben
+        preisProKm.add(absolutkostenBenzin);
+        preisProKm.add(absolutKostenDiesel / aufMonate);//Auf Monate
+        preisProKm.add(absolutkostenBenzin / aufMonate);
+        return preisProKm;
+    }
 
 }
 
