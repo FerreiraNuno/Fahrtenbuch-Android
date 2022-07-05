@@ -51,12 +51,14 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar actionBar= getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
         // showing the back button in action bar
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-
+        Bundle bundle = new Bundle();
+        bundle.putInt("Fahrt 1", 123);
         PushNotificationHandler pushNotifier = new PushNotificationHandler(this);
-        pushNotifier.pushNotifcation(db.getRide(1).getRideLocationStart(), db.getRide(1).getRideDestination(), db.getRide(1).getRideDistance(), db.getRide(1).getRideType());
+        pushNotifier.pushNotifcation(bundle);
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
