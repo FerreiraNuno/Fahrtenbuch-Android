@@ -74,7 +74,7 @@ public class EditRideFragment extends Fragment implements View.OnClickListener, 
             TimePickerDialog timePickerDialog = new TimePickerDialog(binding.getRoot().getContext(), this, date.getHours(), date.getMinutes(), true);
             timePickerDialog.show();
         } else if (view == binding.deleteRide) {
-                db.deleteRide(rideId);
+            db.deleteRide(rideId);
             Navigation.findNavController(binding.getRoot()).navigateUp();
         } else if (view == binding.finishButton) {
             if (!binding.editKmText.getText().toString().equals("")) {

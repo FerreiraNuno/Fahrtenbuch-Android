@@ -90,7 +90,7 @@ public class Database extends SQLiteOpenHelper {
 
     // SQL Befehle
     private static final String TABLE_ORTE_CREATE = "CREATE TABLE "
-            + TABLE_NAME_ORTE + " (" + COLLUMN_ORT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + TABLE_NAME_ORTE + " (" + COLLUMN_ORT_ID + " ,"
             + COLLUMN_ORT_NAME + " TEXT, "
             + COLLUMN_ORT_LONGITUDE + " TEXT, "
             + COLLUMN_ORT_LATITUDE + " TEXT);";
@@ -106,12 +106,27 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public void insertBluetoothDevice(String macAddress) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS 'BluetoothGerät' ('MacAdresse' TEXT);");
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("MacAdresse", macAddress);
+        db.update("BluetoothGerät", contentValues,  "id = ?", new String[]{"1"});
+    }
+
+    public String getBluetoothDevice() {
+        Cursor cursor = db.rawQuery("select * from " + "BluetoothGerät" + " where " + "id" + "=" + 1 , null);
+        cursor.moveToFirst();
+        return cursor.getString(1);
     }
 
     public void restartDatabase() {
         //db.execSQL(TABLE_ORTE_DROP);
         //db.execSQL(TABLE_ORTE_CREATE);
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS 'BluetoothGerät' ('id' INTEGER PRIMARY KEY AUTOINCREMENT, 'MacAdresse' TEXT);");
+        if (db.rawQuery("select * from " + "BluetoothGerät", null).getCount() == 0) {
+            ContentValues macValues = new ContentValues();
+            macValues.put("MacAdresse", "leer");
+            db.insert("BluetoothGerät", null, macValues);
+        }
 
         db.execSQL(TABLE_RIDE_DROP);
         db.execSQL(TABLE_RIDE_CREATE);

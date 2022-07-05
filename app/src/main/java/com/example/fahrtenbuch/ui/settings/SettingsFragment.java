@@ -21,9 +21,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     private FragmentSettingsBinding binding;
 
-    static String bluetoothBeaconMacAddress = "";
-    static Location lastEndpointBluetoothBeacon = new Location("emtpy Location");
-
     //Context myContext = SettingsFragment.getContext();
     //PushNotificationHandler pushNotifier = new PushNotificationHandler(myContext);
 
