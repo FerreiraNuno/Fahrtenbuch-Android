@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -91,6 +92,7 @@ public class SelectGpsFragment extends Fragment implements View.OnClickListener{
             String longitude = latlng[1];
             Database db = new Database(binding.getRoot().getContext());
             db.insertLocation(latitude, longitude, categorie);
+            Toast.makeText(binding.getRoot().getContext(), "Neue " + categorie + " Adresse gespeichert", Toast.LENGTH_SHORT).show();
         });
         Navigation.findNavController(binding.getRoot()).navigate(R.id.action_selectGpsFragment_to_mapFragment);
     }

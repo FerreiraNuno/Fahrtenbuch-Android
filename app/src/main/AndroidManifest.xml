@@ -30,6 +30,16 @@
         android:theme="@style/Theme.Fahrtenbuch"
         tools:targetApi="31">
 
+        <service android:name="com.example.fahrtenbuch.background.RideTracker"/>
+
+        <receiver android:name="com.example.fahrtenbuch.background.BluetoothBroadcastReceiver"
+            android:label="@string/app_name"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
+            </intent-filter>
+        </receiver>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAyNuZVjSi8Ep4_jAhHhGELzAD9vuuzVJQ" />
