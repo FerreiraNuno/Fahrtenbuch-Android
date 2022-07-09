@@ -19,13 +19,15 @@ import java.util.Locale;
 public class StackedBarGraph extends Diagrams {
     private StackedBarGraphBinding binding;
 
+    String title;
     List<Float> values0, values1, values2, values3, values4;
 
     String name0, name1, name2, name3, name4;
 
     StackedBarGraph() {}
 
-    StackedBarGraph(List<Float> values0, List<Float> values1, List<Float> values2, List<Float> values3, List<Float> values4, String name0, String name1, String name2, String name3, String name4) {
+    StackedBarGraph(String title, List<Float> values0, List<Float> values1, List<Float> values2, List<Float> values3, List<Float> values4, String name0, String name1, String name2, String name3, String name4) {
+        this.title = title;
         this.values0 = values0;
         this.values1 = values1;
         this.values2 = values2;
@@ -41,6 +43,8 @@ public class StackedBarGraph extends Diagrams {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = StackedBarGraphBinding.inflate(inflater,container,false);
+
+        binding.titleStackedBarChart.setText(title);
 
         setData();
 

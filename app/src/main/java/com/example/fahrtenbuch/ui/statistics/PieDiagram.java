@@ -15,12 +15,14 @@ import org.eazegraph.lib.models.PieModel;
 import java.util.Locale;
 
 public class PieDiagram extends Diagrams {
+    String title;
     private float value0, value1, value2, value3, value4;
     private String name0, name1, name2, name3, name4;
 
     PieDiagram() {}
 
-    PieDiagram(float value0, float value1, float value2, float value3, float value4, String name0, String name1, String name2, String name3, String name4) {
+    PieDiagram(String title, float value0, float value1, float value2, float value3, float value4, String name0, String name1, String name2, String name3, String name4) {
+        this.title = title;
         this.value0 = value0;
         this.value1 = value1;
         this.value2 = value2;
@@ -38,6 +40,8 @@ public class PieDiagram extends Diagrams {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
         binding = PieDiagramBinding.inflate(inflater,container,false);
+
+        binding.titlePiechart.setText(title);
 
         setData();
 

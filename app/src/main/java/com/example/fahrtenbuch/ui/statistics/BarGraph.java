@@ -15,9 +15,11 @@ import java.util.List;
 
 public class BarGraph extends Diagrams {
 
+    String title;
     List<Float> values;
 
-    BarGraph(List<Float> values){
+    BarGraph(String title, List<Float> values){
+        this.title = title;
         this.values = values;
     }
 
@@ -28,6 +30,8 @@ public class BarGraph extends Diagrams {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = BarGraphBinding.inflate(inflater,container,false);
+
+        binding.titleBarGraph.setText(title);
 
         setData();
 
