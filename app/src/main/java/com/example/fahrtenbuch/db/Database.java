@@ -460,7 +460,7 @@ public class Database extends SQLiteOpenHelper {
         for (int km: kmgefahren) {
             kmInTime += km;
         }
-        for (int i = 0; i < ausgaben.size() - 1; i++){//Um die Ausgaben zu exkludieren.
+        for (int i = 0; i < ausgaben.size() - 1; i++){
             ausgabenOhneTanken += ausgaben.get(i);
         }
        // System.out.println("Test " + getKMInTime(von , bis));
