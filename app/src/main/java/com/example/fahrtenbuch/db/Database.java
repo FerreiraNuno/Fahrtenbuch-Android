@@ -431,6 +431,11 @@ public class Database extends SQLiteOpenHelper {
                 while (c.moveToNext()){
                     expenses.add(c.getInt(0));
                 }
+                if (expenses.size() < 1) expenses.add(0,0);
+                if (expenses.size() < 2) expenses.add(1,0);
+                if (expenses.size() < 3) expenses.add(2,0);
+                if (expenses.size() < 4) expenses.add(3,0);
+                if (expenses.size() < 5) expenses.add(4,0);
             }
             return expenses;
     }
