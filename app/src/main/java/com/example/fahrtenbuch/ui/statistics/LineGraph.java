@@ -16,9 +16,11 @@ import java.util.List;
 
 public class LineGraph extends Diagrams{
 
+    String title;
     List<Float> values;
 
-    LineGraph(List<Float> values){
+    LineGraph(String title, List<Float> values){
+        this.title = title;
         this.values = values;
     }
 
@@ -29,6 +31,8 @@ public class LineGraph extends Diagrams{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = LineGraphBinding.inflate(inflater,container,false);
+
+        binding.titleLineGraph.setText(title);
 
         setData();
 
