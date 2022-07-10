@@ -46,6 +46,7 @@ public class EditRideFragment extends Fragment implements View.OnClickListener, 
         // get FahrtItem
         rideId = EditRideFragmentArgs.fromBundle(getArguments()).getRideId();
         FahrtItem fahrtItem = db.getRide(rideId);
+        //System.out.println("ride ID: " + rideId);
         // Set km field
         binding.editKmText.setText(String.valueOf(fahrtItem.getRideDistance()));
         //set Datepicker defaults

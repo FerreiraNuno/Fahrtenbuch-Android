@@ -106,6 +106,13 @@ public class Database extends SQLiteOpenHelper {
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         db = getWritableDatabase();
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS 'BluetoothGerät' ('id' INTEGER PRIMARY KEY AUTOINCREMENT, 'MacAdresse' TEXT);");
+        if (db.rawQuery("select * from " + "BluetoothGerät", null).getCount() == 0) {
+            ContentValues macValues = new ContentValues();
+            macValues.put("MacAdresse", "leer");
+            db.insert("BluetoothGerät", null, macValues);
+        }
     }
 
     public void insertBluetoothDevice(String macAddress) {
@@ -124,18 +131,11 @@ public class Database extends SQLiteOpenHelper {
         //db.execSQL(TABLE_ORTE_DROP);
         //db.execSQL(TABLE_ORTE_CREATE);
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS 'BluetoothGerät' ('id' INTEGER PRIMARY KEY AUTOINCREMENT, 'MacAdresse' TEXT);");
-        if (db.rawQuery("select * from " + "BluetoothGerät", null).getCount() == 0) {
-            ContentValues macValues = new ContentValues();
-            macValues.put("MacAdresse", "leer");
-            db.insert("BluetoothGerät", null, macValues);
-        }
-
         db.execSQL(TABLE_RIDE_DROP);
         db.execSQL(TABLE_RIDE_CREATE);
         Random random = new Random();
-        for (int i=0; i<60; i++){
-            Date startDate = new Date("2/15/2022 15:05:24");
+        for (int i=0; i<30; i++){
+            Date startDate = new Date("3/15/2022 15:05:24");
             Date endDate = new Date("06/29/2022 09:18:12");
             long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
             Date date = new Date(randTime);
@@ -219,6 +219,15 @@ public class Database extends SQLiteOpenHelper {
 
     public FahrtItem getRide(int id){
         Cursor cursor = queryRideById(id);
+        cursor.moveToFirst();
+        int rideDistance = cursor.getInt(3);
+        Date rideStartTime = new Date(Long.parseLong(cursor.getString(4)));
+        int rideType = cursor.getInt(5);
+        return new FahrtItem(rideStartTime, rideDistance, rideType, id);
+    }
+
+    public FahrtItem getLastRide(int id){
+        Cursor cursor = queryAllRides();
         cursor.moveToFirst();
         int rideDistance = cursor.getInt(3);
         Date rideStartTime = new Date(Long.parseLong(cursor.getString(4)));

@@ -23,11 +23,13 @@ public class BluetoothBroadcastReceiver extends BroadcastReceiver {
             if (connectedDeviceMac.equals(bluetoothBeacon)) {
                 Toast.makeText(context, "Verbunden mit Bluetooth Beacon!" , Toast.LENGTH_SHORT).show();
 
-                Intent service = new Intent(context, RideTracker.class);
-                context.startService(service);
+                Intent serviceIntent = new Intent(context, RideTracker.class);
+                context.startForegroundService(serviceIntent);
             }
         } else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
             Toast.makeText(context, "Device Disconnected", Toast.LENGTH_SHORT).show();
+            Intent serviceIntent = new Intent(context, RideTracker.class);
+            context.stopService(serviceIntent);
         }
     }
 }
