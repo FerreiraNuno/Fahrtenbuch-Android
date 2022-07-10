@@ -56,7 +56,6 @@ public class AdvancedAdapter extends ArrayAdapter<Diagrams> {
         if (position == 1) {
             List<Integer> values = new ArrayList<>();
             for (int i = 0; i < 6; i++) {
-                System.out.println(LocalDate.now().getYear());
                 values.add(database.getKMPerYear(LocalDate.now().getYear() - i));
             }
 
@@ -126,13 +125,40 @@ public class AdvancedAdapter extends ArrayAdapter<Diagrams> {
 
         }
         if (position == 5) {
-            List<Float> values = Arrays.asList(12.3f,234.5f,324.5f,321.5f,89.3f,80f,45f,87f,89.3f,47f,301f,381f);
-            BarGraph barGraph = new BarGraph("Deine Ausgaben pro Monat",values);
+            List<Integer> values = new ArrayList<>();
+            for (int i = 0; i < 6; i++) {
+                values.add(database.getExpensesInTime(LocalDate.now().getYear()-i + " 01 01", LocalDate.now().getYear()-i + " 12 31"));
+            }
+
+            Collections.reverse(values);
+
+            List<Float> valuesf = new ArrayList<>();
+
+            for (int i:values) {
+                valuesf.add((float) i);
+            }
+            BarGraph barGraph = new BarGraph("Deine Ausgaben in den letzten Jahren bis heute",valuesf);
             element = barGraph.onCreateView(inflater,parent,new Bundle());
         }
         if (position == 6) {
-            List<Float> values = Arrays.asList(12.3f,234.5f,324.5f,321.5f,89.3f,80f,45f,87f,89.3f,47f,301f,381f);
-            LineGraph lineGraph = new LineGraph("Deine Ausgaben pro Monat",values);
+            List<Integer> values = new ArrayList<>();
+            for (int i = 1; i < 10; i++) {
+                values.add(database.getExpensesInTime(LocalDate.now().getYear() + " 0" + i + " 01",LocalDate.now().getYear() + " 0" + i + " 31"));
+            }
+            values.add(database.getExpensesInTime(LocalDate.now().getYear() + " 10 01",LocalDate.now().getYear() + " 10 31"));
+            values.add(database.getExpensesInTime(LocalDate.now().getYear() + " 11 01",LocalDate.now().getYear() + " 11 31"));
+            values.add(database.getExpensesInTime(LocalDate.now().getYear() + " 12 01",LocalDate.now().getYear() + " 12 31"));
+
+
+            List<Float> valuesf = new ArrayList<>();
+
+            for (int i:values) {
+                valuesf.add((float) i);
+            }
+
+            System.out.println(valuesf + "\n"+ values);
+
+            LineGraph lineGraph = new LineGraph("Deine Ausgaben in diesem Jahr",valuesf);
             element = lineGraph.onCreateView(inflater,parent,new Bundle());
         }
         if (position == 7) {
