@@ -21,7 +21,7 @@ import com.example.fahrtenbuch.ui.rides.CreateRideFragment;
 
 
 public class PushNotificationHandler {
-
+        SettingsFragment sf = new SettingsFragment();
         Notification notification;
         NotificationManagerCompat notificationManagerCompat;
         Context myContext;
@@ -35,6 +35,7 @@ public class PushNotificationHandler {
        }
 
        public void pushNotifcation(Bundle arg){
+           if(!sf.allowPushNot()) return;
             NavDeepLinkBuilder nvDL = new NavDeepLinkBuilder(myContext)
                     .setComponentName(MainActivity.class)
                     .setGraph(R.navigation.mobile_navigation)

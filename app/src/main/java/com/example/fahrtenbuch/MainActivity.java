@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Init Database
         Database db = new Database(getApplicationContext());
-        db.restartDatabase();
+        //db.restartDatabase();
         System.out.println("Km Für ein Jahr " + db.getKMPerYear(2022));
         System.out.println("Km im Juni gefahren " + db.getKMInTime("2022 06 01", "2022 07 30"));
         System.out.println("Ausgaben " + db.getAllExpensesPerType());
