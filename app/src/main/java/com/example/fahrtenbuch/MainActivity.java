@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Init Database
         db = new Database(getApplicationContext());
-        //db.restartDatabase();
+        db.restartDatabase();
 
         //Set View
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         //DB Test
         System.out.println("Km Für ein Jahr " + db.getKMPerYear(2022));
-        System.out.println("Km im Juni gefahren " + db.getKMInTime("2022 06 01", "2022 07 30"));
+        System.out.println("Km im Juni gefahren " + db.getKMInTime("2019 06 01", "2022 07 30"));
         System.out.println("Ausgaben " + db.getAllExpensesPerType());
         System.out.println("Ausgaben für das Tanken " + db.getTypeExpenses(1));
         System.out.println("Ausgaben von April bis einde Juni 2022" + db.getAllExpensesPerTypeTimed("2021 04 01", "2023 06 30"));
