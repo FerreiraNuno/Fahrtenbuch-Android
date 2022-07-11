@@ -26,6 +26,7 @@ import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.db.Database;
 import com.example.fahrtenbuch.ui.settings.PushNotificationHandler;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -42,6 +43,7 @@ public class RideTracker extends Service {
     ArrayList<Location> locationArrayList;
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationCallback locationCallback;
+    GeofencingClient geofencingClient;
 
     @Override
     public void onCreate() {
@@ -64,6 +66,8 @@ public class RideTracker extends Service {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+        geofencingClient = LocationServices.getGeofencingClient(this);
+
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {

@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Init Database
         db = new Database(getApplicationContext());
-        db.restartDatabase();
+        //db.restartDatabase();
 
         //Set View
         binding = ActivityMainBinding.inflate(getLayoutInflater());

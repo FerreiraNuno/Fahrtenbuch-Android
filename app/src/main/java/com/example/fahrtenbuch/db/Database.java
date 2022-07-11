@@ -90,12 +90,13 @@ public class Database extends SQLiteOpenHelper {
     private static final String COLLUMN_ORT_LATITUDE = "ortLatitude";
 
     // SQL Befehle
-    private static final String TABLE_ORTE_CREATE = "CREATE TABLE "
+    private static final String TABLE_ORTE_CREATE_IF_NOT_EXISTS = "CREATE TABLE IF NOT EXISTS "
             + TABLE_NAME_ORTE + " (" + COLLUMN_ORT_ID + " ,"
             + COLLUMN_ORT_NAME + " TEXT, "
             + COLLUMN_ORT_LONGITUDE + " TEXT, "
             + COLLUMN_ORT_LATITUDE + " TEXT);";
-    private static final String TABLE_ORTE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME_ORTE;
+
+    private static final String TABLE_BLUETOOTH_CREATE_IF_NOT_EXISTS = "CREATE TABLE IF NOT EXISTS 'BluetoothGerät' ('id' INTEGER PRIMARY KEY AUTOINCREMENT, 'MacAdresse' TEXT);";
 
 
     SQLiteDatabase db;
@@ -105,29 +106,17 @@ public class Database extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         db = getWritableDatabase();
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS 'BluetoothGerät' ('id' INTEGER PRIMARY KEY AUTOINCREMENT, 'MacAdresse' TEXT);");
+        db.execSQL(TABLE_BLUETOOTH_CREATE_IF_NOT_EXISTS);
         if (db.rawQuery("select * from " + "BluetoothGerät", null).getCount() == 0) {
             ContentValues macValues = new ContentValues();
             macValues.put("MacAdresse", "leer");
             db.insert("BluetoothGerät", null, macValues);
         }
-    }
-
-    public void insertBluetoothDevice(String macAddress) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("MacAdresse", macAddress);
-        db.update("BluetoothGerät", contentValues,  "id = ?", new String[]{"1"});
-    }
-
-    public String getBluetoothDevice() {
-        Cursor cursor = db.rawQuery("select * from " + "BluetoothGerät" + " where " + "id" + "=" + 1 , null);
-        cursor.moveToFirst();
-        return cursor.getString(1);
+        db.execSQL(TABLE_ORTE_CREATE_IF_NOT_EXISTS);
     }
 
     public void restartDatabase() {
-        //db.execSQL(TABLE_ORTE_DROP);
-        //db.execSQL(TABLE_ORTE_CREATE);
+        db.execSQL(TABLE_ORTE_CREATE_IF_NOT_EXISTS);
 
         db.execSQL(TABLE_RIDE_DROP);
         db.execSQL(TABLE_RIDE_CREATE);
@@ -203,23 +192,39 @@ public class Database extends SQLiteOpenHelper {
             db.insert(TABLE_NAME_EXPENSES,null, contentValues);
         }
     }
-
     @Override
     public void onCreate(SQLiteDatabase DB) {
         DB.execSQL(TABLE_RIDE_CREATE);
         DB.execSQL(TABLE_EXPENSES_CREATE);
-        DB.execSQL(TABLE_ORTE_CREATE);
+        DB.execSQL(TABLE_ORTE_CREATE_IF_NOT_EXISTS);
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase DB, int oldVersion, int newVersion) {
         Log.w(TAG, "Upgrade der Datenbank von Version "
                 + oldVersion + " zu "
                 + newVersion + "; alle Daten werden gelöscht");
-          DB.execSQL(TABLE_RIDE_DROP);
-          DB.execSQL(TABLE_RIDE_CREATE);
+        DB.execSQL(TABLE_RIDE_DROP);
+        DB.execSQL(TABLE_RIDE_CREATE);
     }
 
+    ///
+    // SETTINGS DB
+    ///
+    public void insertBluetoothDevice(String macAddress) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("MacAdresse", macAddress);
+        db.update("BluetoothGerät", contentValues,  "id = ?", new String[]{"1"});
+    }
+    public String getBluetoothDevice() {
+        Cursor cursor = db.rawQuery("select * from " + "BluetoothGerät" + " where " + "id" + "=" + 1 , null);
+        cursor.moveToFirst();
+        return cursor.getString(1);
+    }
+
+
+    ///
+    // RIDES DB
+    ///
     public ArrayList<FahrtItem> getAllRides(){
         ArrayList<FahrtItem> fahrtItems = new ArrayList<>();
         Cursor cursor = queryAllRides();
@@ -232,7 +237,6 @@ public class Database extends SQLiteOpenHelper {
         }
         return fahrtItems;
     }
-
     public FahrtItem getRide(int inputId){
         Cursor cursor;
         if (inputId == 0) {
@@ -247,10 +251,6 @@ public class Database extends SQLiteOpenHelper {
         int rideType = cursor.getInt(5);
         return new FahrtItem(rideStartTime, rideDistance, rideType, id);
     }
-
-
-
-
     public void insertRide(long time, int km, int rideType) {
         try {
             // Datenbank öffnen
@@ -263,7 +263,6 @@ public class Database extends SQLiteOpenHelper {
             System.out.println("insert error");
         }
     }
-
     public void updateRide(int id, long time, int km, int rideType) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLLUMN_RIDE_START_TIME, time);
@@ -272,32 +271,23 @@ public class Database extends SQLiteOpenHelper {
         int numChanged = db.update(TABLE_NAME_RIDES, contentValues, COLLUMN_RIDE_ID + " = ?", new String[]{Long.toString(id)});
         Log.d(TAG, "delete(): id=" + id + " -> " + numChanged);
     }
-
     public void deleteRide(long id) {
         int numDeleted = db.delete(TABLE_NAME_RIDES, COLLUMN_RIDE_ID + " = ?", new String[]{Long.toString(id)});
         Log.d(TAG, "delete(): id=" + id + " -> " + numDeleted);
     }
-
     public Cursor queryRideById(int id) {
         return db.rawQuery("select * from " + TABLE_NAME_RIDES + " where " + COLLUMN_RIDE_ID + "=" + id , null);
     }
-
     public Cursor queryAllRides() {
         return db.query(TABLE_NAME_RIDES, null, null, null, null, null, COLLUMN_RIDE_START_TIME + " DESC");
     }
-
     public Cursor getNewestRide() {
         return db.rawQuery("select * from " + TABLE_NAME_RIDES + " order by  " + COLLUMN_RIDE_START_TIME + " desc limit 1"  , null);
     }
 
-
-
     ///
     // EXPENSES DB
     ///
-
-
-
     public ArrayList<ExpenseItem> getAllExpenses(){
         ArrayList<ExpenseItem> expenseItems = new ArrayList<>();
         Cursor cursor = queryAllExpenses();
@@ -311,7 +301,6 @@ public class Database extends SQLiteOpenHelper {
         }
         return expenseItems;
     }
-
     public ExpenseItem getExpense(int id){
         Cursor cursor = queryExpenseById(id);
         cursor.moveToFirst();
@@ -321,8 +310,6 @@ public class Database extends SQLiteOpenHelper {
         int expenseInterval = cursor.getInt(4);
         return new ExpenseItem(id, expenseAmmount, expenseTime, expenseType, expenseInterval);
     }
-
-
     public long insertExpense(int ammount, long time, int expenseType, int expenseInterval) {
         try {
             // Datenbank öffnen
@@ -337,7 +324,6 @@ public class Database extends SQLiteOpenHelper {
         }
         return -1;
     }
-
     public void updateExpense(int id, int ammount, long time, int expenseType, int expenseInterval) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLLUMN_EXPENSE_AMMOUNT, ammount);
@@ -347,16 +333,13 @@ public class Database extends SQLiteOpenHelper {
         int numChanged = db.update(TABLE_NAME_EXPENSES, contentValues, COLLUMN_EXPENSE_ID + " = ?", new String[]{Long.toString(id)});
         Log.d(TAG, "delete(): id=" + id + " -> " + numChanged);
     }
-
     public void deleteExpense(long id) {
         int numDeleted = db.delete(TABLE_NAME_EXPENSES, COLLUMN_EXPENSE_ID + " = ?", new String[]{Long.toString(id)});
         Log.d(TAG, "delete(): id=" + id + " -> " + numDeleted);
     }
-
     public Cursor queryExpenseById(int id) {
         return db.rawQuery("select * from " + TABLE_NAME_EXPENSES + " where " + COLLUMN_EXPENSE_ID + "=" + id , null);
     }
-
     public Cursor queryAllExpenses() {
         return db.query(TABLE_NAME_EXPENSES, null, null, null, null, null, COLLUMN_EXPENSE_TIME + " DESC");
     }
@@ -364,7 +347,6 @@ public class Database extends SQLiteOpenHelper {
     ///
     // ORTE
     ///
-
     public long insertLocation(String latitude, String longitude, String categorie) {
         try {
             // Datenbank öffnen
@@ -382,10 +364,7 @@ public class Database extends SQLiteOpenHelper {
     //
     //Statistik DB Abfragen
     //
-
-
-
-       public int getKMPerYear(int year){ // Alle gefahrenen Km von einen gewähleten jahre
+    public int getKMPerYear(int year){ // Alle gefahrenen Km von einen gewähleten jahre
             int sumOfYear = 0;
           ArrayList<FahrtItem> fahrten = getAllRides();
            for (FahrtItem fahrt:fahrten) {
@@ -395,7 +374,6 @@ public class Database extends SQLiteOpenHelper {
         return  sumOfYear;
 
     }
-
     public ArrayList<Integer> getKMInTime(String von, String bis){ // Alle gefahrenen km pro Typ im Zeitraum von - bis, sortiert nach typ
         // ARBEITSFAHRT = 1; UNIFAHRT = 2; SPORTFAHRT = 3; EINKAUFSFAHRT = 4; SONSTIGE_Fahrt = 5;
         Cursor c = db.rawQuery( "Select sum (rideDistance), type, strftime('%Y %m %d', rideStartTime/1000 ,'unixepoch'), type from Rides " +
@@ -428,7 +406,6 @@ public class Database extends SQLiteOpenHelper {
         return rideDistance;
 
     }
-
     public int getExpensesInTime(String von, String bis){ // Alle Ausgaben  pro Typ im Zeitraum von - bis
 
         Cursor c = db.rawQuery( "Select sum (expenseAmmount), expenseType from Expenses " +
@@ -441,7 +418,6 @@ public class Database extends SQLiteOpenHelper {
             }else allExpenses = -1;
         return allExpenses;
     }
-
     public ArrayList<Integer> getAllExpensesPerType () { //Gibt alle Ausgaben per Kategorie als Arrayliste zurück(
         ArrayList<Integer> expenses = new ArrayList<Integer>();
         Cursor c = db.rawQuery("Select sum (expenseAmmount), expenseType from Expenses " +
@@ -472,7 +448,7 @@ public class Database extends SQLiteOpenHelper {
         return expenses;
 
     }
-        public ArrayList<Integer> getAllExpensesPerTypeTimed (String von, String bis){ //Gibt alle Ausgaben per Kategorie als Arrayliste zurück(
+    public ArrayList<Integer> getAllExpensesPerTypeTimed (String von, String bis){ //Gibt alle Ausgaben per Kategorie als Arrayliste zurück(
             ArrayList<Integer> expenses = new ArrayList<Integer>();
             Cursor c = db.rawQuery( "Select sum (expenseAmmount), expenseType from Expenses " +
                     "where '" +  von + "' <= strftime('%Y %m %d', expenseTime/1000 ,'unixepoch') " +
@@ -503,7 +479,7 @@ public class Database extends SQLiteOpenHelper {
             expenses.add(sonstige);
             return expenses;
     }
-    public int getTypeExpenses (int typ){// Gibt die Summe von einer AusgabenKategorie als int zurück
+    public int getTypeExpenses (int typ){
         // 0 = tanken, 1 = Versicherung, 2 = Kfz-Steuer, 3 = Werkstatt, 4 = sonstige
         Cursor c = db.rawQuery( "Select sum (expenseAmmount) from Expenses " +
                 "where expenseType = '"+ typ +"'  order by expenseType asc ",null);
@@ -512,7 +488,6 @@ public class Database extends SQLiteOpenHelper {
       }
       return  0;
     }
-
     public ArrayList<Float> getPricePerKm(String von, String bis, int aufMonate) {
        ArrayList<Float>  preisProKm = new ArrayList<>();
        float kmPreisDiesel;

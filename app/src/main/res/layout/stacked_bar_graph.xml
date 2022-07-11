@@ -9,7 +9,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
-        android:layout_height="382dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
@@ -21,7 +21,7 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="344dp"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:backgroundTint="@color/background_700"
             android:orientation="vertical"
@@ -47,150 +47,103 @@
                 app:egFixedBarWidth="true"
                 app:egLegendHeight="40dp" />
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cardElevation="4dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:id="@+id/color0"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/pie3" />
+
+                        <View
+                            android:id="@+id/color1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/pie2" />
+
+                        <View
+                            android:id="@+id/color2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/pie1" />
+
+                        <View
+                            android:id="@+id/color3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/pie0" />
+
+                        <View
+                            android:id="@+id/color4"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/pie4" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    android:paddingTop="9dp">
 
-                    <androidx.cardview.widget.CardView
+                    <ImageView
+                        android:id="@+id/bimage0"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:cardCornerRadius="5dp"
-                        app:cardElevation="4dp">
+                        android:layout_weight="1"
+                        android:elevation="5dp"
+                        app:srcCompat="@drawable/arbeit" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:orientation="horizontal">
-
-                            <View
-                                android:id="@+id/color0"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="@color/pie3" />
-
-                            <View
-                                android:id="@+id/color1"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="@color/pie2" />
-
-                            <View
-                                android:id="@+id/color2"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="@color/pie1" />
-
-                            <View
-                                android:id="@+id/color3"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="@color/pie0" />
-
-                            <View
-                                android:id="@+id/color4"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="@color/pie4" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/bimage1"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:orientation="horizontal"
-                        android:paddingTop="9dp">
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/uni" />
 
-                        <ImageView
-                            android:id="@+id/bimage0"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:elevation="5dp"
-                            app:srcCompat="@drawable/arbeit" />
-
-                        <ImageView
-                            android:id="@+id/bimage1"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/uni" />
-
-                        <ImageView
-                            android:id="@+id/bimage2"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/sport" />
-
-                        <ImageView
-                            android:id="@+id/bimage3"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/einkauf" />
-
-                        <ImageView
-                            android:id="@+id/bimage4"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/auto" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/bimage2"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:orientation="horizontal">
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/sport" />
 
-                        <TextView
-                            android:id="@+id/bvalue0"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:textAlignment="center" />
+                    <ImageView
+                        android:id="@+id/bimage3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/einkauf" />
 
-                        <TextView
-                            android:id="@+id/bvalue1"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:textAlignment="center" />
-
-                        <TextView
-                            android:id="@+id/bvalue2"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:textAlignment="center" />
-
-                        <TextView
-                            android:id="@+id/bvalue3"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:textAlignment="center" />
-
-                        <TextView
-                            android:id="@+id/bvalue4"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-
+                    <ImageView
+                        android:id="@+id/bimage4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/auto" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

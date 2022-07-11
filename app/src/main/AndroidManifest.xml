@@ -46,6 +46,7 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".GeofenceBroadcastReceiver"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

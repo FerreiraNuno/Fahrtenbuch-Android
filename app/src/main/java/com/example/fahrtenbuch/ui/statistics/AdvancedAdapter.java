@@ -141,14 +141,14 @@ public class AdvancedAdapter extends ArrayAdapter<Diagrams> {
             while (valuesf.size() < 5) {
                 valuesf.add(0.0f);
             }
-            PieDiagram pieDiagram = new PieDiagram("Deine Ausgaben im letzten Jahr (€)",valuesf.get(0),valuesf.get(1),valuesf.get(2),valuesf.get(3),valuesf.get(4),"Tanken","Versicherung","Steuer","Werkstatt","Sonstiges");
+            PieDiagram pieDiagram = new PieDiagram("Deine Ausgaben im letzten Jahr nach Kategorie",valuesf.get(0),valuesf.get(1),valuesf.get(2),valuesf.get(3),valuesf.get(4),"Tanken","Versicherung","Steuer","Werkstatt","Sonstiges");
 
             element = pieDiagram.onCreateView(inflater,parent,new Bundle());
 
         }
         if (position == 5) {
             List<Integer> values = new ArrayList<>();
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 5; i++) {
                 values.add(database.getExpensesInTime(LocalDate.now().getYear()-i + " 01 01", LocalDate.now().getYear()-i + " 12 31"));
             }
 
@@ -230,7 +230,7 @@ public class AdvancedAdapter extends ArrayAdapter<Diagrams> {
             while (valuesf.size() < 5) {
                 valuesf.add(0.0f);
             }
-            PieDiagram pieDiagram = new PieDiagram("Deine Fahrten im letzten Jahr (km)",valuesf.get(0),valuesf.get(1),valuesf.get(2),valuesf.get(3),valuesf.get(4),"Arbeit","Uni","Sport","Einkauf","Sonstiges");
+            PieDiagram pieDiagram = new PieDiagram("Deine Fahrten im letzten Jahr (km)",valuesf.get(0),valuesf.get(1),valuesf.get(2),valuesf.get(3),valuesf.get(4),"Arbeit","Uni","Sport","Einkauf","Auto");
 
             element = pieDiagram.onCreateView(inflater,parent,new Bundle());
         }

@@ -59,7 +59,7 @@ public class EditExpenseFragment extends Fragment implements View.OnClickListene
         binding.unitTxt.setText("€");
         //set Datepicker defaults
         date = expenseItem.getDatum();
-        String output = String.format("%02d", date.getDate()) + "." + String.format("%02d", date.getMonth()) + "." + (date.getYear()+1900);
+        String output = String.format("%02d", date.getDate()) + "." + String.format("%02d", date.getMonth()+1) + "." + (date.getYear()+1900);
         binding.editDateText.setText(output);
         output = String.format("%02d", date.getHours()) + "." + String.format("%02d", date.getMinutes());
         binding.editHourText.setText(output);
