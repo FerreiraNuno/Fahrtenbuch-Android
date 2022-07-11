@@ -26,14 +26,15 @@ public class StatisticsFragment extends Fragment {
 
         ArrayList<Diagrams> eintraegeListe = new ArrayList<>();
 
-        eintraegeListe.add(new PieDiagram());   //Fahrten nach Kategorie
-        eintraegeListe.add(new BarGraph());     //KM pro Monat
-        eintraegeListe.add(new LineGraph());    //KM pro Monat
-        eintraegeListe.add(new StackedBarGraph());  //KM pro Kategorie pro Monat (1.1 - 31.12)
-        eintraegeListe.add(new PieDiagram());   //Ausgaben nach Kategorie
-        eintraegeListe.add(new BarGraph());     //Ausgaben pro Monat
-        eintraegeListe.add(new LineGraph());     //Ausgaben pro Monat
-        eintraegeListe.add(new StackedBarGraph());  //Ausgaben pro Kategorie pro Monat (1.1 - 31.12)
+        eintraegeListe.add(new PieDiagram());
+        eintraegeListe.add(new BarGraph());
+        eintraegeListe.add(new LineGraph());
+        eintraegeListe.add(new StackedBarGraph());
+        eintraegeListe.add(new PieDiagram());
+        eintraegeListe.add(new BarGraph());
+        eintraegeListe.add(new LineGraph());
+        eintraegeListe.add(new StackedBarGraph());
+        eintraegeListe.add(new TextDiagram());
 
         AdvancedAdapter advancedAdapter = new AdvancedAdapter(getContext(), eintraegeListe);
         lv.setAdapter(advancedAdapter);
