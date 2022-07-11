@@ -134,15 +134,15 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(TABLE_RIDE_DROP);
         db.execSQL(TABLE_RIDE_CREATE);
         Random random = new Random();
-        for (int i=0; i<30; i++){
-            Date startDate = new Date("3/15/2022 15:05:24");
-            Date endDate = new Date("06/29/2022 09:18:12");
+        for (int i=0; i<500; i++){
+            Date startDate = new Date("07/10/2020 15:05:24");
+            Date endDate = new Date("07/10/2022 09:18:12");
             long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
             Date date = new Date(randTime);
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLLUMN_RIDE_START_TIME, date.getTime());
             contentValues.put(COLLUMN_RIDE_DISTANCE, random.nextInt(80)+5);
-            contentValues.put(COLLUMN_RIDE_TYPE, random.nextInt(7)+1);
+            contentValues.put(COLLUMN_RIDE_TYPE, random.nextInt(4)+1);
             db.insert(TABLE_NAME_RIDES,null, contentValues);
         }
 

@@ -44,7 +44,7 @@ public class CreateExpenseFragment extends Fragment implements View.OnClickListe
         binding.saveButtonText.setText("Ausgabe Speichern");
         //set Datepicker defaults
         date = new Date();
-        String output = String.format("%02d", date.getDate()) + "." + String.format("%02d", date.getMonth()+1) + "." + (date.getYear()+1900);
+        String output = String.format("%02d", date.getDate()) + "." + String.format("%02d", date.getMonth()) + "." + (date.getYear()+1900);
         binding.editDateText.setText(output);
         output = String.format("%02d", date.getHours()) + "." + String.format("%02d", date.getMinutes());
         binding.editHourText.setText(output);
