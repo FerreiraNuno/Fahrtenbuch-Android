@@ -271,6 +271,9 @@ public class Database extends SQLiteOpenHelper {
         return db.query(TABLE_NAME_RIDES, null, null, null, null, null, COLLUMN_RIDE_START_TIME + " DESC");
     }
 
+    public Cursor getNewestRide() {
+        return db.rawQuery("select * from " + TABLE_NAME_RIDES + " order by  " + COLLUMN_RIDE_START_TIME + " desc limit 1"  , null);
+    }
 
 
 

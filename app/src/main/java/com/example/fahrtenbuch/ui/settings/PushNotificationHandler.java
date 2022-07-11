@@ -16,48 +16,51 @@ import androidx.navigation.NavDeepLinkBuilder;
 
 import com.example.fahrtenbuch.MainActivity;
 import com.example.fahrtenbuch.R;
+import com.example.fahrtenbuch.db.Database;
+import com.example.fahrtenbuch.ui.rides.CreateRideFragment;
 
 
 public class PushNotificationHandler {
-    Notification notification;
-    NotificationManagerCompat notificationManagerCompat;
-    Context myContext;
-
-
-    public PushNotificationHandler(Context context){
-       this.myContext = context;
-       if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-           NotificationChannel channel = new NotificationChannel("myChannel", "PushNotifier" , NotificationManager.IMPORTANCE_DEFAULT);
-           NotificationManager manager = myContext.getSystemService(NotificationManager.class);
-           manager.createNotificationChannel(channel);
+        SettingsFragment sf = new SettingsFragment();
+        Notification notification;
+        NotificationManagerCompat notificationManagerCompat;
+        Context myContext;
+       public PushNotificationHandler(Context context){
+           this.myContext = context;
+           if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+               NotificationChannel channel = new NotificationChannel("myChannel", "PushNotifier" , NotificationManager.IMPORTANCE_DEFAULT);
+               NotificationManager manager = myContext.getSystemService(NotificationManager.class);
+               manager.createNotificationChannel(channel);
+           }
        }
-    }
 
-    public void pushNotifcation(Bundle arg){
-        NavDeepLinkBuilder nvDL = new NavDeepLinkBuilder(myContext)
-            .setComponentName(MainActivity.class)
-            .setGraph(R.navigation.mobile_navigation)
-            .setDestination(R.id.editRideFragment)
-            .setArguments(arg);
+       public void pushNotifcation(Bundle arg){
+           if(!sf.allowPushNot()) return;
+            NavDeepLinkBuilder nvDL = new NavDeepLinkBuilder(myContext)
+                    .setComponentName(MainActivity.class)
+                    .setGraph(R.navigation.mobile_navigation)
+                    .setDestination(R.id.editRideFragment)
+                    .setArguments(arg)
+                   ;
 
-        PendingIntent pinv = nvDL.createPendingIntent();
+            PendingIntent pinv = nvDL.createPendingIntent();
 
-        NotificationCompat.Builder  builder = new NotificationCompat.Builder(myContext, "myChannel")
-            .setSmallIcon(R.drawable.auto) //Das Icon der Notifikation
-            .setContentTitle("Eine Neue Fahrt!")
-            .setContentText("Ihre Fahrt ging  "+ arg.getInt("Fahrt 1") + " KM " + " :D")
-            .setColor(200)
-            .setSilent(true)
-            //.addAction()
-            .setContentIntent(pinv);
+           NotificationCompat.Builder  builder = new NotificationCompat.Builder(myContext, "myChannel")
+                   .setSmallIcon(R.drawable.auto) //Das Icon der Notifikation
+                   .setContentTitle("Eine Neue Fahrt!")
+                   .setContentText("Ihre Fahrt ging  "+ arg.getInt("Strecke") + " KM ")
+                   .setColor(200)
+                   .setSilent(true)
+                   //.addAction()
+                   .setContentIntent(pinv)
+                   ;
+           builder.getNotification().flags |= Notification.FLAG_AUTO_CANCEL;
+           builder.setAutoCancel(true);
+           notification = builder.build();
 
-        builder.getNotification().flags |= Notification.FLAG_AUTO_CANCEL;
-        builder.setAutoCancel(true);
-        notification = builder.build();
+           notificationManagerCompat = NotificationManagerCompat.from(myContext);
+           notificationManagerCompat.notify(1, notification);
 
-        notificationManagerCompat = NotificationManagerCompat.from(myContext);
-        notificationManagerCompat.notify(1, notification);
-
-    }
-}
+       }
+     }
 
