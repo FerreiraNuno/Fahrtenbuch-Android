@@ -269,7 +269,6 @@ public class Database extends SQLiteOpenHelper {
         contentValues.put(COLLUMN_RIDE_DISTANCE, km);
         contentValues.put(COLLUMN_RIDE_TYPE, rideType);
         int numChanged = db.update(TABLE_NAME_RIDES, contentValues, COLLUMN_RIDE_ID + " = ?", new String[]{Long.toString(id)});
-        Log.d(TAG, "delete(): id=" + id + " -> " + numChanged);
     }
     public void deleteRide(long id) {
         int numDeleted = db.delete(TABLE_NAME_RIDES, COLLUMN_RIDE_ID + " = ?", new String[]{Long.toString(id)});
@@ -331,7 +330,6 @@ public class Database extends SQLiteOpenHelper {
         contentValues.put(COLLUMN_EXPENSE_TYPE, expenseType);
         contentValues.put(COLLUMN_EXPENSE_INTERVAL, expenseType);
         int numChanged = db.update(TABLE_NAME_EXPENSES, contentValues, COLLUMN_EXPENSE_ID + " = ?", new String[]{Long.toString(id)});
-        Log.d(TAG, "delete(): id=" + id + " -> " + numChanged);
     }
     public void deleteExpense(long id) {
         int numDeleted = db.delete(TABLE_NAME_EXPENSES, COLLUMN_EXPENSE_ID + " = ?", new String[]{Long.toString(id)});
@@ -387,7 +385,7 @@ public class Database extends SQLiteOpenHelper {
         int einkauf   = 0;
         int sonstige  = 0;
         if(c.moveToFirst()){
-            arbeit = c.getInt(0);
+           if(c.getInt(1) == 1) arbeit = c.getInt(0);
         while(c.moveToNext()){
             switch (c.getInt(1)){
                 case 2 : uni      = c.getInt(0); break;
@@ -407,7 +405,7 @@ public class Database extends SQLiteOpenHelper {
 
     }
     public int getExpensesInTime(String von, String bis){ // Alle Ausgaben  pro Typ im Zeitraum von - bis
-
+     //
         Cursor c = db.rawQuery( "Select sum (expenseAmmount), expenseType from Expenses " +
                 "where '" +  von + "' <= strftime('%Y %m %d', expenseTime/1000 ,'unixepoch') " +
                 "and strftime('%Y %m %d', expenseTime/1000 ,'unixepoch') <= '" +  bis +
@@ -419,6 +417,7 @@ public class Database extends SQLiteOpenHelper {
         return allExpenses;
     }
     public ArrayList<Integer> getAllExpensesPerType () { //Gibt alle Ausgaben per Kategorie als Arrayliste zurück(
+
         ArrayList<Integer> expenses = new ArrayList<Integer>();
         Cursor c = db.rawQuery("Select sum (expenseAmmount), expenseType from Expenses " +
                 "Group by expenseType order by expenseType asc ", null);
@@ -460,7 +459,6 @@ public class Database extends SQLiteOpenHelper {
             int werkstatt    = 0;
             int sonstige     = 0;
 
-
             if(c.moveToFirst()) {
                 if (c.getInt(1) == 1)tanken = c.getInt(0);
                 while (c.moveToNext()){
@@ -492,7 +490,7 @@ public class Database extends SQLiteOpenHelper {
        ArrayList<Float>  preisProKm = new ArrayList<>();
        float kmPreisDiesel;
        float kmPreisBenzin;
-        int kmInTime = 0;
+        int kmInTime = 1;
         int ausgabenOhneTanken = 0;
        ArrayList<Integer> ausgaben = getAllExpensesPerTypeTimed(von, bis);
         ArrayList<Integer> kmgefahren = getKMInTime(von, bis);
