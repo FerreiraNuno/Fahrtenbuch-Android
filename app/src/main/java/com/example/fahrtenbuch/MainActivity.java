@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.MenuItem;
@@ -63,7 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
         //Push Notifications
         Bundle bundle = new Bundle();
-        bundle.putInt("Fahrt 1", 123);
+        Cursor c = db.getNewestRide();
+        c.moveToFirst();
+        bundle.putInt("Strecke", c.getInt(3));
         PushNotificationHandler pushNotifier = new PushNotificationHandler(this);
         pushNotifier.pushNotifcation(bundle);
     }
