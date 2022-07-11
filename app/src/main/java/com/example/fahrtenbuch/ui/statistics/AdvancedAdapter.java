@@ -128,7 +128,7 @@ public class AdvancedAdapter extends ArrayAdapter<Diagrams> {
             }
 
 
-            StackedBarGraph stackedBarGraph = new StackedBarGraph("Deine gefahrenen km in den letzten 3 Monaten (-> bis heute)",valuesf0,valuesf1,valuesf2,"Arbeit","Uni","Sport","Einkauf","Sonstiges");
+            StackedBarGraph stackedBarGraph = new StackedBarGraph("Deine gefahrenen km in den letzten 3 Monaten nach Kategorie",valuesf0,valuesf1,valuesf2,"Arbeit","Uni","Sport","Einkauf","Auto");
             element = stackedBarGraph.onCreateView(inflater,parent,new Bundle());
         }
         if (position == 4) {

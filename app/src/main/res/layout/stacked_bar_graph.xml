@@ -69,35 +69,35 @@
                             android:orientation="horizontal">
 
                             <View
-                                android:id="@+id/bcolor0"
+                                android:id="@+id/color0"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:background="@color/pie3" />
 
                             <View
-                                android:id="@+id/bcolor1"
+                                android:id="@+id/color1"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:background="@color/pie2" />
 
                             <View
-                                android:id="@+id/bcolor2"
+                                android:id="@+id/color2"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:background="@color/pie1" />
 
                             <View
-                                android:id="@+id/bcolor3"
+                                android:id="@+id/color3"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:background="@color/pie0" />
 
                             <View
-                                android:id="@+id/bcolor4"
+                                android:id="@+id/color4"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"

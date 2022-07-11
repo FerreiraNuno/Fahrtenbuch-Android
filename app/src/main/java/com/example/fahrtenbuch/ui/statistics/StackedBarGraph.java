@@ -85,7 +85,6 @@ public class StackedBarGraph extends Diagrams {
         StackedBarModel stackedBarModel1 = new StackedBarModel(values1.stream().mapToDouble(a -> a).sum() + "");
         StackedBarModel stackedBarModel2 = new StackedBarModel(values2.stream().mapToDouble(a -> a).sum() + "");
 
-
         stackedBarModel0.addBar(new BarModel(values0.get(0),color0));
         stackedBarModel0.addBar(new BarModel(values0.get(1),color1));
         stackedBarModel0.addBar(new BarModel(values0.get(2),color2));
@@ -103,7 +102,6 @@ public class StackedBarGraph extends Diagrams {
         stackedBarModel2.addBar(new BarModel(values2.get(2),color2));
         stackedBarModel2.addBar(new BarModel(values2.get(3),color3));
         stackedBarModel2.addBar(new BarModel(values2.get(4),color4));
-
 
         stackedBarChart.addBar(stackedBarModel2);
         stackedBarChart.addBar(stackedBarModel1);

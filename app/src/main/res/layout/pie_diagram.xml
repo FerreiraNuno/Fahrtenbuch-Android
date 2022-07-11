@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_500"
+    android:paddingTop="10dp"
     tools:context=".MainActivity">
 
     <androidx.cardview.widget.CardView
@@ -61,51 +62,59 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="4dp">
 
-                    <View
-                        android:id="@+id/color0"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/pie3" />
+                        android:layout_height="20dp"
+                        android:orientation="horizontal">
 
-                    <View
-                        android:id="@+id/color1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/pie2" />
+                        <View
+                            android:id="@+id/color0"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/pie3" />
 
-                    <View
-                        android:id="@+id/color2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/pie1" />
+                        <View
+                            android:id="@+id/color1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/pie2" />
 
-                    <View
-                        android:id="@+id/color3"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/pie0" />
+                        <View
+                            android:id="@+id/color2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/pie1" />
 
-                    <View
-                        android:id="@+id/color4"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/pie4" />
-                </LinearLayout>
+                        <View
+                            android:id="@+id/color3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/pie0" />
+
+                        <View
+                            android:id="@+id/color4"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/pie4" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp">
 
                     <ImageView
                         android:id="@+id/image0"
