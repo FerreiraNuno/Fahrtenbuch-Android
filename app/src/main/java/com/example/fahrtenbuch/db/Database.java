@@ -445,7 +445,7 @@ public class Database extends SQLiteOpenHelper {
     public ArrayList<Integer> getAllExpensesPerType () { //Gibt alle Ausgaben per Kategorie als Arrayliste zurück(
         ArrayList<Integer> expenses = new ArrayList<Integer>();
         Cursor c = db.rawQuery("Select sum (expenseAmmount), expenseType from Expenses " +
-                "Group by expenseType order by expenseType desc ", null);
+                "Group by expenseType order by expenseType asc ", null);
 
         int tanken       = 0;
         int versicherung = 0;
@@ -454,13 +454,13 @@ public class Database extends SQLiteOpenHelper {
         int sonstige     = 0;
 
         if (c.moveToFirst()) {
-            tanken = c.getInt(0);
+            if (c.getInt(1) == 1) tanken = c.getInt(0);
             while (c.moveToNext()) {
                 switch (c.getInt(1)){
-                    case 1:  versicherung = c.getInt(0);break;
-                    case 2 : kfz = c.getInt(0);break;
-                    case 3 : werkstatt = c.getInt(0);break;
-                    case 4 : sonstige = c.getInt(0);break;
+                    case 2:  versicherung = c.getInt(0);break;
+                    case 3 : kfz = c.getInt(0);break;
+                    case 4 : werkstatt = c.getInt(0);break;
+                    case 5 : sonstige = c.getInt(0);break;
                 }
             }
         }
@@ -486,7 +486,7 @@ public class Database extends SQLiteOpenHelper {
 
 
             if(c.moveToFirst()) {
-                tanken = c.getInt(0);
+                if (c.getInt(1) == 1)tanken = c.getInt(0);
                 while (c.moveToNext()){
                    switch (c.getInt(1)){
                         case 2: versicherung = c.getInt(0); break;
