@@ -227,6 +227,14 @@ public class AdvancedAdapter extends ArrayAdapter<Diagrams> {
             StackedBarGraph stackedBarGraph = new StackedBarGraph("Deine Ausgaben in den letzten 3 Monaten (-> bis heute)",valuesf0,valuesf1,valuesf2,"Tanken","Versicherung","Steuer","Werkstatt","Sonstiges");
             element = stackedBarGraph.onCreateView(inflater,parent,new Bundle());
         }
+        if (position == 8) {
+            List<Float> values = database.getPricePerKm(LocalDate.now().minusYears(1).toString().replace("-"," "),LocalDate.now().toString().replace("-"," "),12);
+
+            float value = (values.get(0) + values.get(1)) / 2;
+
+            TextDiagram textDiagram = new TextDiagram("Preis pro KM im letzten Jahr (Durchschnitt)",value);
+            element = textDiagram.onCreateView(inflater,parent,new Bundle());
+        }
 
         return element;
     }
