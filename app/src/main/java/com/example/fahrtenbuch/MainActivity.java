@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Init Database
         db = new Database(getApplicationContext());
-        db.restartDatabase();
+        //db.restartDatabase();
 
         //Set View
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -64,12 +64,10 @@ public class MainActivity extends AppCompatActivity {
         //Navigation
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_rides, R.id.navigation_expenses, R.id.navigation_statistics, R.id.navigation_settings).build();
         NavController navController = Navigation.findNavController(this, R.id.main_fragment_container);
-        ActionBar actionBar= getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(false);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-
-
 
         //Test
         requestPermissions(new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 10);
@@ -82,8 +80,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivityForResult(myIntent, 0);
+        Navigation.findNavController(this, R.id.main_fragment_container).navigateUp();
         return true;
     }
 }

@@ -40,34 +40,27 @@ public class AdvancedAdapter extends ArrayAdapter<Diagrams> {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (position == 0) {
-            List<Integer> values = database.getKMInTime(LocalDate.now().minusYears(1).toString().replace("-"," "),LocalDate.now().toString().replace("-"," "));
-            List<Float> valuesf = new ArrayList<>();
+            List<Float> values = database.getPricePerKm(LocalDate.now().minusYears(1).toString().replace("-"," "),LocalDate.now().toString().replace("-"," "),12);
 
-            for (int i:values) {
-                valuesf.add((float) i);
-            }
-            while (valuesf.size() < 5) {
-                valuesf.add(0.0f);
-            }
-            PieDiagram pieDiagram = new PieDiagram("Deine Fahrten im letzten Jahr (KM)",valuesf.get(0),valuesf.get(1),valuesf.get(2),valuesf.get(3),valuesf.get(4),"Arbeit","Uni","Sport","Einkauf","Sonstiges");
+            float value = (values.get(0) + values.get(1)) / 2;
 
-            element = pieDiagram.onCreateView(inflater,parent,new Bundle());
-
+            TextDiagram textDiagram = new TextDiagram("Preis pro km in den letzten 365 Tage",value);
+            element = textDiagram.onCreateView(inflater,parent,new Bundle());
         }
         if (position == 1) {
             List<Integer> values = new ArrayList<>();
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 5; i++) {
                 values.add(database.getKMPerYear(LocalDate.now().getYear() - i));
             }
 
             Collections.reverse(values);
             List<Float> valuesf = new ArrayList<>();
 
-            for (int i:values) {
-                valuesf.add((float) i);
+            for (int value : values) {
+                valuesf.add((float) value);
             }
 
-            BarGraph barGraph = new BarGraph("Deine gefahrenen KM in den letzten Jahren bis heute",valuesf);
+            BarGraph barGraph = new BarGraph("Deine gefahrenen km in den letzten Jahren",valuesf);
             element = barGraph.onCreateView(inflater,parent,new Bundle());
         }
         if (position == 2) {
@@ -98,7 +91,7 @@ public class AdvancedAdapter extends ArrayAdapter<Diagrams> {
             float val11 = values11.stream().mapToInt(Integer::intValue).sum();
 
             List<Float> values = Arrays.asList(val0,val1,val2,val3,val4,val5,val6,val7,val8,val9,val10,val11);
-            LineGraph lineGraph = new LineGraph("Deine gefahrenen KM in diesem Jahr",values);
+            LineGraph lineGraph = new LineGraph("Deine gefahrenen km in diesem Jahr",values);
             element = lineGraph.onCreateView(inflater,parent,new Bundle());
         }
         if (position == 3) {
@@ -135,7 +128,7 @@ public class AdvancedAdapter extends ArrayAdapter<Diagrams> {
             }
 
 
-            StackedBarGraph stackedBarGraph = new StackedBarGraph("Deine gefahrenen KM in den letzten 3 Monaten (-> bis heute)",valuesf0,valuesf1,valuesf2,"Arbeit","Uni","Sport","Einkauf","Sonstiges");
+            StackedBarGraph stackedBarGraph = new StackedBarGraph("Deine gefahrenen km in den letzten 3 Monaten (-> bis heute)",valuesf0,valuesf1,valuesf2,"Arbeit","Uni","Sport","Einkauf","Sonstiges");
             element = stackedBarGraph.onCreateView(inflater,parent,new Bundle());
         }
         if (position == 4) {
@@ -190,7 +183,6 @@ public class AdvancedAdapter extends ArrayAdapter<Diagrams> {
             LineGraph lineGraph = new LineGraph("Deine Ausgaben in diesem Jahr",valuesf);
             element = lineGraph.onCreateView(inflater,parent,new Bundle());
         }
-
         if (position == 7) {
             List<Integer> values0 =  database.getAllExpensesPerTypeTimed(LocalDate.now().minusMonths(1).toString().replace("-", " "),LocalDate.now().toString().replace("-", " "));
             List<Integer> values1 =  database.getAllExpensesPerTypeTimed(LocalDate.now().minusMonths(2).toString().replace("-", " "),LocalDate.now().minusMonths(1).toString().replace("-", " "));
@@ -229,12 +221,18 @@ public class AdvancedAdapter extends ArrayAdapter<Diagrams> {
             element = stackedBarGraph.onCreateView(inflater,parent,new Bundle());
         }
         if (position == 8) {
-            List<Float> values = database.getPricePerKm(LocalDate.now().minusYears(1).toString().replace("-"," "),LocalDate.now().toString().replace("-"," "),12);
+            List<Integer> values = database.getKMInTime(LocalDate.now().minusYears(1).toString().replace("-"," "),LocalDate.now().toString().replace("-"," "));
+            List<Float> valuesf = new ArrayList<>();
 
-            float value = (values.get(0) + values.get(1)) / 2;
+            for (int i:values) {
+                valuesf.add((float) i);
+            }
+            while (valuesf.size() < 5) {
+                valuesf.add(0.0f);
+            }
+            PieDiagram pieDiagram = new PieDiagram("Deine Fahrten im letzten Jahr (km)",valuesf.get(0),valuesf.get(1),valuesf.get(2),valuesf.get(3),valuesf.get(4),"Arbeit","Uni","Sport","Einkauf","Sonstiges");
 
-            TextDiagram textDiagram = new TextDiagram("Preis pro KM im letzten Jahr (Durchschnitt)",value);
-            element = textDiagram.onCreateView(inflater,parent,new Bundle());
+            element = pieDiagram.onCreateView(inflater,parent,new Bundle());
         }
 
         return element;

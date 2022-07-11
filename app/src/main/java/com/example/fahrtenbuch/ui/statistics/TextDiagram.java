@@ -25,7 +25,7 @@ public class TextDiagram extends Diagrams{
 
         binding = DiagramTextBinding.inflate(inflater,container,false);
 
-        binding.textView.setText(value + "");
+        binding.textView.setText(value + "€");
         binding.titleText.setText(title);
 
         return binding.getRoot();

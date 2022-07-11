@@ -134,8 +134,8 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(TABLE_RIDE_DROP);
         db.execSQL(TABLE_RIDE_CREATE);
         Random random = new Random();
-        for (int i=0; i<500; i++){
-            Date startDate = new Date("07/10/2020 15:05:24");
+        for (int i=0; i<700; i++){
+            Date startDate = new Date("07/10/2018 15:05:24");
             Date endDate = new Date("07/11/2022 18:45:12");
             long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
             Date date = new Date(randTime);
@@ -148,8 +148,8 @@ public class Database extends SQLiteOpenHelper {
 
         db.execSQL(TABLE_EXPENSES_DROP);
         db.execSQL(TABLE_EXPENSES_CREATE);
-        for (int i=0; i<15; i++){
-            Date startDate = new Date("08/10/2021 15:05:24");
+        for (int i=0; i<100; i++){
+            Date startDate = new Date("08/10/2018 15:05:24");
             Date endDate = new Date("07/02/2022 09:18:12");
             long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
             Date date = new Date(randTime);
@@ -159,7 +159,7 @@ public class Database extends SQLiteOpenHelper {
             contentValues.put(COLLUMN_EXPENSE_TYPE, 1);
             db.insert(TABLE_NAME_EXPENSES,null, contentValues);
         }
-        for (int i=0; i<3; i++){
+        for (int i=0; i<10; i++){
             Date startDate = new Date("08/10/2021 15:05:24");
             Date endDate = new Date("07/02/2022 09:18:12");
             long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
@@ -170,22 +170,40 @@ public class Database extends SQLiteOpenHelper {
             contentValues.put(COLLUMN_EXPENSE_TYPE, 2);
             db.insert(TABLE_NAME_EXPENSES,null, contentValues);
         }
-        Date date = new Date("03/03/2022 15:05:24");
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COLLUMN_EXPENSE_TIME, date.getTime());
-        contentValues.put(COLLUMN_EXPENSE_AMMOUNT, random.nextInt(500)+250);
-        contentValues.put(COLLUMN_EXPENSE_TYPE, 3);
-        db.insert(TABLE_NAME_EXPENSES,null, contentValues);
-        //
-        Date startDate = new Date("03/03/2022 15:05:24");
-        Date endDate = new Date("07/02/2022 09:18:12");
-        long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
-        date = new Date(randTime);
-        contentValues = new ContentValues();
-        contentValues.put(COLLUMN_EXPENSE_TIME, date.getTime());
-        contentValues.put(COLLUMN_EXPENSE_AMMOUNT, random.nextInt(70)+15);
-        contentValues.put(COLLUMN_EXPENSE_TYPE, 4);
-        db.insert(TABLE_NAME_EXPENSES,null, contentValues);
+        for (int i=0; i<25; i++){
+            Date startDate = new Date("07/03/2018 15:05:24");
+            Date endDate = new Date("07/02/2022 09:18:12");
+            long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));
+            Date date = new Date(randTime);
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(COLLUMN_EXPENSE_TIME, date.getTime());
+            contentValues.put(COLLUMN_EXPENSE_AMMOUNT, random.nextInt(500)+250);
+            contentValues.put(COLLUMN_EXPENSE_TYPE, 3);
+            db.insert(TABLE_NAME_EXPENSES,null, contentValues);
+        }
+
+        for (int i=0; i<5; i++){
+            Date startDate = new Date("07/03/2018 15:05:24");
+            Date endDate = new Date("07/02/2022 09:18:12");
+            long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));
+            Date date = new Date(randTime);
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(COLLUMN_EXPENSE_TIME, date.getTime());
+            contentValues.put(COLLUMN_EXPENSE_AMMOUNT, random.nextInt(70)+15);
+            contentValues.put(COLLUMN_EXPENSE_TYPE, 4);
+            db.insert(TABLE_NAME_EXPENSES,null, contentValues);
+        }
+        for (int i=0; i<30; i++){
+            Date startDate = new Date("07/03/2018 15:05:24");
+            Date endDate = new Date("07/02/2022 09:18:12");
+            long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
+            Date date = new Date(randTime);
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(COLLUMN_EXPENSE_TIME, date.getTime());
+            contentValues.put(COLLUMN_EXPENSE_AMMOUNT, random.nextInt(70)+15);
+            contentValues.put(COLLUMN_EXPENSE_TYPE, 5);
+            db.insert(TABLE_NAME_EXPENSES,null, contentValues);
+        }
     }
 
     @Override

@@ -26,15 +26,15 @@ public class StatisticsFragment extends Fragment {
 
         ArrayList<Diagrams> eintraegeListe = new ArrayList<>();
 
-        eintraegeListe.add(new PieDiagram());
-        eintraegeListe.add(new BarGraph());
-        eintraegeListe.add(new LineGraph());
-        eintraegeListe.add(new StackedBarGraph());
-        eintraegeListe.add(new PieDiagram());
-        eintraegeListe.add(new BarGraph());
-        eintraegeListe.add(new LineGraph());
-        eintraegeListe.add(new StackedBarGraph());
         eintraegeListe.add(new TextDiagram());
+        eintraegeListe.add(new StackedBarGraph());
+        eintraegeListe.add(new BarGraph());
+        eintraegeListe.add(new LineGraph());
+        eintraegeListe.add(new StackedBarGraph());
+        eintraegeListe.add(new PieDiagram());
+        eintraegeListe.add(new BarGraph());
+        eintraegeListe.add(new LineGraph());
+        eintraegeListe.add(new PieDiagram());
 
         AdvancedAdapter advancedAdapter = new AdvancedAdapter(getContext(), eintraegeListe);
         lv.setAdapter(advancedAdapter);

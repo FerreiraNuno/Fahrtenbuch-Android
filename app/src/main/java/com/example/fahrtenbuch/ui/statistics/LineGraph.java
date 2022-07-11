@@ -12,10 +12,12 @@ import org.eazegraph.lib.charts.ValueLineChart;
 import org.eazegraph.lib.models.ValueLinePoint;
 import org.eazegraph.lib.models.ValueLineSeries;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 
 public class LineGraph extends Diagrams{
-
+    private LineGraphBinding binding;
     String title;
     List<Float> values;
 
@@ -26,16 +28,10 @@ public class LineGraph extends Diagrams{
 
     LineGraph() {}
 
-    private LineGraphBinding binding;
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         binding = LineGraphBinding.inflate(inflater,container,false);
-
         binding.titleLineGraph.setText(title);
-
         setData();
-
         return binding.getRoot();
     }
 
