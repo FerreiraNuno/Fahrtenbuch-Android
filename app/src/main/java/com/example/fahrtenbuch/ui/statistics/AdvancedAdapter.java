@@ -44,7 +44,7 @@ public class AdvancedAdapter extends ArrayAdapter<Diagrams> {
 
             float value = (values.get(0) + values.get(1)) / 2;
 
-            TextDiagram textDiagram = new TextDiagram("Preis pro km in den letzten 365 Tage",value);
+            TextDiagram textDiagram = new TextDiagram("Preis pro km in den letzten 365 Tagen",value);
             element = textDiagram.onCreateView(inflater,parent,new Bundle());
         }
         if (position == 1) {

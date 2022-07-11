@@ -118,7 +118,7 @@ public class RideTracker extends Service {
             double lon1 = locations.get(i - 1).getLongitude();
             double lat2 = locations.get(i).getLatitude();
             double lon2 = locations.get(i).getLongitude();
-            sum += getDistanceFromLatLonInKm(lat1, lon2, lat2, lon2);
+            sum += getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2);
         }
         System.out.println("final distance: " + sum);
         return (int) (sum);
