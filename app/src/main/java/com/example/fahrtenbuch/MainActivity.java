@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Km im Juni gefahren " + db.getKMInTime("2022 06 01", "2022 07 30"));
         System.out.println("Ausgaben " + db.getAllExpensesPerType());
         System.out.println("Ausgaben für das Tanken " + db.getTypeExpenses(1));
-        System.out.println("Ausgaben von April bis einde Juni 2022" + db.getAllExpensesPerTypeTimed("2022 04 01", "2023 06 30"));
+        System.out.println("Ausgaben von April bis einde Juni 2022" + db.getAllExpensesPerTypeTimed("2021 04 01", "2023 06 30"));
         System.out.println("Preis für 1 km " + db.getPricePerKm("2021 06 01", "2022 07 30", 8));
 
         //Navigation

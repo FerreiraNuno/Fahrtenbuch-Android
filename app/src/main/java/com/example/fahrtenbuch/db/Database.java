@@ -26,8 +26,6 @@ public class Database extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 5;
     DateFormat dfY = new SimpleDateFormat("yyyy");
-    DateFormat dfM = new SimpleDateFormat("MM");
-    DateFormat dfD = new SimpleDateFormat("dd");
 
     private float literDiesel = 1.98f;
     private float literBenzin = 1.72f;
@@ -400,26 +398,40 @@ public class Database extends SQLiteOpenHelper {
 
     public ArrayList<Integer> getKMInTime(String von, String bis){ // Alle gefahrenen km pro Typ im Zeitraum von - bis, sortiert nach typ
         // ARBEITSFAHRT = 1; UNIFAHRT = 2; SPORTFAHRT = 3; EINKAUFSFAHRT = 4; SONSTIGE_Fahrt = 5;
-        Cursor c = db.rawQuery( "Select sum (rideDistance), strftime('%Y %m %d', rideStartTime/1000 ,'unixepoch'), type from Rides " +
+        Cursor c = db.rawQuery( "Select sum (rideDistance), type, strftime('%Y %m %d', rideStartTime/1000 ,'unixepoch'), type from Rides " +
                 "where '" +  von + "' <= strftime('%Y %m %d', rideStartTime/1000 ,'unixepoch') " +
                 "and strftime('%Y %m %d', rideStartTime/1000 ,'unixepoch') <= '" +  bis +
                 "' Group by type order by type asc ",null);
         ArrayList<Integer> rideDistance = new ArrayList<Integer>();
+        int arbeit    = 0;
+        int uni       = 0;
+        int sport     = 0;
+        int einkauf   = 0;
+        int sonstige  = 0;
         if(c.moveToFirst()){
-        //System.out.println("EinDatumsBeispiel " + c.getString(1));
-        rideDistance.add(c.getInt(0));
         while(c.moveToNext()){
-            rideDistance.add(c.getInt(0));
-         }
-        }else rideDistance.add(-1);
+            switch (c.getInt(1)){
+                case 0 : arbeit   = c.getInt(0); break;
+                case 1 : uni      = c.getInt(0); break;
+                case 2 : sport    = c.getInt(0); break;
+                case 3 : einkauf  = c.getInt(0); break;
+                case 4 : sonstige = c.getInt(0); break;
+            }
+          }
+        }
+        rideDistance.add(arbeit);
+        rideDistance.add(uni);
+        rideDistance.add(sport);
+        rideDistance.add(einkauf);
+        rideDistance.add(sonstige);
 
         return rideDistance;
 
     }
 
-    public int getExpensesInTime(String von, String bis){ // Alle gefahrenen  pro Typ im Zeitraum von - bis, sortiert nach typ
+    public int getExpensesInTime(String von, String bis){ // Alle Ausgaben  pro Typ im Zeitraum von - bis
 
-        Cursor c = db.rawQuery( "Select sum (expenseAmmount) from Expenses " +
+        Cursor c = db.rawQuery( "Select sum (expenseAmmount), expenseType from Expenses " +
                 "where '" +  von + "' <= strftime('%Y %m %d', expenseTime/1000 ,'unixepoch') " +
                 "and strftime('%Y %m %d', expenseTime/1000 ,'unixepoch') <= '" +  bis +
                 "'",null);
@@ -432,40 +444,63 @@ public class Database extends SQLiteOpenHelper {
 
     public ArrayList<Integer> getAllExpensesPerType () { //Gibt alle Ausgaben per Kategorie als Arrayliste zurück(
         ArrayList<Integer> expenses = new ArrayList<Integer>();
-        Cursor c = db.rawQuery("Select sum (expenseAmmount) from Expenses " +
+        Cursor c = db.rawQuery("Select sum (expenseAmmount), expenseType from Expenses " +
                 "Group by expenseType order by expenseType desc ", null);
 
+        int sonstige     = 0;
+        int werkstatt    = 0;
+        int kfz          = 0;
+        int versicherung = 0;
+        int tanken       = 0;
+
         if (c.moveToFirst()) {
-            expenses.add(c.getInt(0));
             while (c.moveToNext()) {
-                expenses.add(c.getInt(0));
+                switch (c.getInt(1)){
+                    case 0: sonstige = c.getInt(0); break;
+                    case 1: werkstatt = c.getInt(0);break;
+                    case 2: kfz = c.getInt(0);break;
+                    case 3: versicherung = c.getInt(0);break;
+                    case 4: tanken = c.getInt(0);break;
+                }
             }
-            if (expenses.size() < 1) expenses.add(0,0);
-            if (expenses.size() < 2) expenses.add(1,0);
-            if (expenses.size() < 3) expenses.add(2,0);
-            if (expenses.size() < 4) expenses.add(3,0);
-            if (expenses.size() < 5) expenses.add(4,0); // Fügt für Sonstiges 0 ein wenn keine Ausgaben für Sonstiges existier
         }
+        expenses.add(sonstige);
+        expenses.add(werkstatt);
+        expenses.add(kfz);
+        expenses.add(versicherung);
+        expenses.add(tanken);
         return expenses;
 
     }
         public ArrayList<Integer> getAllExpensesPerTypeTimed (String von, String bis){ //Gibt alle Ausgaben per Kategorie als Arrayliste zurück(
             ArrayList<Integer> expenses = new ArrayList<Integer>();
-            Cursor c = db.rawQuery( "Select sum (expenseAmmount) from Expenses " +
+            Cursor c = db.rawQuery( "Select sum (expenseAmmount), expenseType from Expenses " +
                     "where '" +  von + "' <= strftime('%Y %m %d', expenseTime/1000 ,'unixepoch') " +
                     "and strftime('%Y %m %d', expenseTime/1000 ,'unixepoch') <= '" +  bis +
                     "' Group by expenseType order by expenseType asc ",null);
+            int sonstige    = 0;
+            int werkstatt       = 0;
+            int kfz     = 0;
+            int versicherung   = 0;
+            int tanken  = 0;
+
+
             if(c.moveToFirst()) {
-                expenses.add(c.getInt(0));
                 while (c.moveToNext()){
-                    expenses.add(c.getInt(0));
+                   switch (c.getInt(1)){
+                        case 0: sonstige = c.getInt(0); break;
+                        case 1: werkstatt = c.getInt(0); break;
+                        case 2: kfz = c.getInt(0); break;
+                        case 3: versicherung = c.getInt(0); break;
+                        case 4: tanken = c.getInt(0); break;
+                    }
                 }
-                if (expenses.size() < 1) expenses.add(0,0);
-                if (expenses.size() < 2) expenses.add(1,0);
-                if (expenses.size() < 3) expenses.add(2,0);
-                if (expenses.size() < 4) expenses.add(3,0);
-                if (expenses.size() < 5) expenses.add(4,0);
             }
+            expenses.add(sonstige);
+            expenses.add(werkstatt);
+            expenses.add(kfz);
+            expenses.add(versicherung);
+            expenses.add(tanken);
             return expenses;
     }
     public int getTypeExpenses (int typ){// Gibt die Summe von einer AusgabenKategorie als int zurück
