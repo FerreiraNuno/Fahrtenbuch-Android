@@ -409,13 +409,13 @@ public class Database extends SQLiteOpenHelper {
         int einkauf   = 0;
         int sonstige  = 0;
         if(c.moveToFirst()){
+            arbeit = c.getInt(0);
         while(c.moveToNext()){
             switch (c.getInt(1)){
-                case 0 : arbeit   = c.getInt(0); break;
-                case 1 : uni      = c.getInt(0); break;
-                case 2 : sport    = c.getInt(0); break;
-                case 3 : einkauf  = c.getInt(0); break;
-                case 4 : sonstige = c.getInt(0); break;
+                case 2 : uni      = c.getInt(0); break;
+                case 3 : sport    = c.getInt(0); break;
+                case 4 : einkauf  = c.getInt(0); break;
+                case 5 : sonstige = c.getInt(0); break;
             }
           }
         }
@@ -447,28 +447,28 @@ public class Database extends SQLiteOpenHelper {
         Cursor c = db.rawQuery("Select sum (expenseAmmount), expenseType from Expenses " +
                 "Group by expenseType order by expenseType desc ", null);
 
-        int sonstige     = 0;
-        int werkstatt    = 0;
-        int kfz          = 0;
-        int versicherung = 0;
         int tanken       = 0;
+        int versicherung = 0;
+        int kfz          = 0;
+        int werkstatt    = 0;
+        int sonstige     = 0;
 
         if (c.moveToFirst()) {
+            tanken = c.getInt(0);
             while (c.moveToNext()) {
                 switch (c.getInt(1)){
-                    case 0: sonstige = c.getInt(0); break;
-                    case 1: werkstatt = c.getInt(0);break;
-                    case 2: kfz = c.getInt(0);break;
-                    case 3: versicherung = c.getInt(0);break;
-                    case 4: tanken = c.getInt(0);break;
+                    case 1:  versicherung = c.getInt(0);break;
+                    case 2 : kfz = c.getInt(0);break;
+                    case 3 : werkstatt = c.getInt(0);break;
+                    case 4 : sonstige = c.getInt(0);break;
                 }
             }
         }
-        expenses.add(sonstige);
-        expenses.add(werkstatt);
-        expenses.add(kfz);
-        expenses.add(versicherung);
         expenses.add(tanken);
+        expenses.add(versicherung);
+        expenses.add(kfz);
+        expenses.add(werkstatt);
+        expenses.add(sonstige);
         return expenses;
 
     }
@@ -478,33 +478,33 @@ public class Database extends SQLiteOpenHelper {
                     "where '" +  von + "' <= strftime('%Y %m %d', expenseTime/1000 ,'unixepoch') " +
                     "and strftime('%Y %m %d', expenseTime/1000 ,'unixepoch') <= '" +  bis +
                     "' Group by expenseType order by expenseType asc ",null);
-            int sonstige    = 0;
-            int werkstatt       = 0;
-            int kfz     = 0;
-            int versicherung   = 0;
-            int tanken  = 0;
+            int tanken       = 0;
+            int versicherung = 0;
+            int kfz          = 0;
+            int werkstatt    = 0;
+            int sonstige     = 0;
 
 
             if(c.moveToFirst()) {
+                tanken = c.getInt(0);
                 while (c.moveToNext()){
                    switch (c.getInt(1)){
-                        case 0: sonstige = c.getInt(0); break;
-                        case 1: werkstatt = c.getInt(0); break;
-                        case 2: kfz = c.getInt(0); break;
-                        case 3: versicherung = c.getInt(0); break;
-                        case 4: tanken = c.getInt(0); break;
+                        case 2: versicherung = c.getInt(0); break;
+                        case 3: kfz = c.getInt(0); break;
+                        case 4: werkstatt = c.getInt(0); break;
+                        case 5: sonstige = c.getInt(0); break;
                     }
                 }
             }
-            expenses.add(sonstige);
-            expenses.add(werkstatt);
-            expenses.add(kfz);
-            expenses.add(versicherung);
             expenses.add(tanken);
+            expenses.add(versicherung);
+            expenses.add(kfz);
+            expenses.add(werkstatt);
+            expenses.add(sonstige);
             return expenses;
     }
     public int getTypeExpenses (int typ){// Gibt die Summe von einer AusgabenKategorie als int zurück
-        // 0 = Sonstige, 1 = Werkstatt, 2 = Kfz-Steuer, 3 = Versicherung, 4 = Tanken
+        // 0 = tanken, 1 = Versicherung, 2 = Kfz-Steuer, 3 = Werkstatt, 4 = sonstige
         Cursor c = db.rawQuery( "Select sum (expenseAmmount) from Expenses " +
                 "where expenseType = '"+ typ +"'  order by expenseType asc ",null);
       if(c.moveToFirst()) {
