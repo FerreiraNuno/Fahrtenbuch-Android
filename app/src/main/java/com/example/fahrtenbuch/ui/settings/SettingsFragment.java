@@ -21,8 +21,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     private FragmentSettingsBinding binding;
 
-    Switch pushMessages = binding.settingsPushMessages;
-
     public View onCreateView(@NonNull LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
@@ -30,10 +28,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         binding.selectBluetooth.setOnClickListener(this);
         binding.selectGps.setOnClickListener(this);
 
-
-
-        //dis-/allow App to use push-Messages
-        pushMessages.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.settingsPushMessages.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 // allow App to use push-Messages
             } else {
@@ -52,13 +47,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             callSelectGpsFragment();
         }
     }
-
+    public boolean allowPushNotifications(){
+        //if (binding.settingsPushMessages.isChecked()) return true;
+        return true;
+    }
     private void callSelectGpsFragment() {
         Navigation.findNavController(binding.getRoot()).navigate(R.id.action_navigation_settings_to_selectGpsFragment);
-    }
-    public boolean allowPushNot(){
-        if (pushMessages.isChecked()) return true;
-        return false;
     }
     void callSelectBluetoothFragment() {
         Navigation.findNavController(binding.getRoot()).navigate(R.id.action_navigation_settings_to_selectBluetoothFragment);

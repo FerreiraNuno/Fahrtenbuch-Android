@@ -217,23 +217,22 @@ public class Database extends SQLiteOpenHelper {
         return fahrtItems;
     }
 
-    public FahrtItem getRide(int id){
-        Cursor cursor = queryRideById(id);
+    public FahrtItem getRide(int inputId){
+        Cursor cursor;
+        if (inputId == 0) {
+            cursor = getNewestRide();
+        } else {
+            cursor = queryRideById(inputId);
+        }
         cursor.moveToFirst();
+        int id = cursor.getInt(0);
         int rideDistance = cursor.getInt(3);
         Date rideStartTime = new Date(Long.parseLong(cursor.getString(4)));
         int rideType = cursor.getInt(5);
         return new FahrtItem(rideStartTime, rideDistance, rideType, id);
     }
 
-    public FahrtItem getLastRide(int id){
-        Cursor cursor = queryAllRides();
-        cursor.moveToFirst();
-        int rideDistance = cursor.getInt(3);
-        Date rideStartTime = new Date(Long.parseLong(cursor.getString(4)));
-        int rideType = cursor.getInt(5);
-        return new FahrtItem(rideStartTime, rideDistance, rideType, id);
-    }
+
 
 
     public void insertRide(long time, int km, int rideType) {
