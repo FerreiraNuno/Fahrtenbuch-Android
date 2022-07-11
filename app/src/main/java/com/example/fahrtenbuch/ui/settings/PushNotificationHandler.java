@@ -4,9 +4,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -16,8 +14,6 @@ import androidx.navigation.NavDeepLinkBuilder;
 
 import com.example.fahrtenbuch.MainActivity;
 import com.example.fahrtenbuch.R;
-import com.example.fahrtenbuch.db.Database;
-import com.example.fahrtenbuch.ui.rides.CreateRideFragment;
 
 
 public class PushNotificationHandler {
@@ -35,15 +31,14 @@ public class PushNotificationHandler {
        }
 
        public void pushNotifcation(Bundle arg){
-           if(!sf.allowPushNot()) return;
-            NavDeepLinkBuilder nvDL = new NavDeepLinkBuilder(myContext)
+           if(!sf.allowPushNotifications()) return;
+           NavDeepLinkBuilder navigationBuilder = new NavDeepLinkBuilder(myContext)
                     .setComponentName(MainActivity.class)
                     .setGraph(R.navigation.mobile_navigation)
                     .setDestination(R.id.editRideFragment)
-                    .setArguments(arg)
-                   ;
+                    .setArguments(arg);
 
-            PendingIntent pinv = nvDL.createPendingIntent();
+           PendingIntent pendingIntent = navigationBuilder.createPendingIntent();
 
            NotificationCompat.Builder  builder = new NotificationCompat.Builder(myContext, "myChannel")
                    .setSmallIcon(R.drawable.auto) //Das Icon der Notifikation
@@ -52,15 +47,13 @@ public class PushNotificationHandler {
                    .setColor(200)
                    .setSilent(true)
                    //.addAction()
-                   .setContentIntent(pinv)
-                   ;
+                   .setContentIntent(pendingIntent);
            builder.getNotification().flags |= Notification.FLAG_AUTO_CANCEL;
            builder.setAutoCancel(true);
            notification = builder.build();
 
            notificationManagerCompat = NotificationManagerCompat.from(myContext);
            notificationManagerCompat.notify(1, notification);
-
        }
      }
 

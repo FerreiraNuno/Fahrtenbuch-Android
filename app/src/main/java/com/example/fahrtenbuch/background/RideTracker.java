@@ -36,7 +36,15 @@ public class RideTracker extends Service {
                 .build();
 
         startForeground(1, notification);
-        return Service.START_STICKY;
+
+        while (true) {
+            System.out.println("waiting");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

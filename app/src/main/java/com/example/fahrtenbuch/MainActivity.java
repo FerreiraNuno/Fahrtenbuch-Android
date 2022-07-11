@@ -23,6 +23,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.fahrtenbuch.background.BluetoothBroadcastReceiver;
+import com.example.fahrtenbuch.background.RideTracker;
 import com.example.fahrtenbuch.databinding.ActivityMainBinding;
 import com.example.fahrtenbuch.db.Database;
 import com.example.fahrtenbuch.db.ExpenseItem;
@@ -38,15 +39,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Init Database
+        Database db = new Database(getApplicationContext());
+        db.restartDatabase();
+
+        //Set View
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         //Deactivate Night Mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-        //Init Database
-        Database db = new Database(getApplicationContext());
-        //db.restartDatabase();
+        //DB Test
         System.out.println("Km Für ein Jahr " + db.getKMPerYear(2022));
         System.out.println("Km im Juni gefahren " + db.getKMInTime("2022 06 01", "2022 07 30"));
         System.out.println("Ausgaben " + db.getAllExpensesPerType());
@@ -69,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
         bundle.putInt("Strecke", c.getInt(3));
         PushNotificationHandler pushNotifier = new PushNotificationHandler(this);
         pushNotifier.pushNotifcation(bundle);
+
+        //Test
+        //Intent serviceIntent = new Intent(this, RideTracker.class);
+        //getApplicationContext().startForegroundService(serviceIntent);
     }
 
 

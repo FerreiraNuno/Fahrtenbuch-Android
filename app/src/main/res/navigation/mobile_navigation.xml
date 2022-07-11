@@ -57,7 +57,7 @@
         android:label="Fahrt bearbeiten">
         <argument
             android:name="rideId"
-            android:defaultValue="1"
+            android:defaultValue="0"
             app:argType="integer" />
     </fragment>
     <fragment
