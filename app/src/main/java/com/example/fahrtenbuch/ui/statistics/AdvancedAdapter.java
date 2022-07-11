@@ -101,12 +101,40 @@ public class AdvancedAdapter extends ArrayAdapter<Diagrams> {
             element = lineGraph.onCreateView(inflater,parent,new Bundle());
         }
         if (position == 3) {
-            List<Float> values0 = Arrays.asList(21f,32f,53f,95f,83f,45f,49f,57f,21f,15f,74f,46f);
-            List<Float> values1 = Arrays.asList(31f,52f,83f,65f,93f,85f,79f,57f,41f,25f,44f,76f);
-            List<Float> values2 = Arrays.asList(21f,32f,53f,95f,83f,45f,49f,57f,21f,15f,74f,46f);
-            List<Float> values3 = Arrays.asList(31f,52f,83f,65f,93f,85f,79f,57f,41f,25f,44f,76f);
-            List<Float> values4 = Arrays.asList(51f,72f,23f,35f,53f,15f,79f,47f,71f,45f,64f,16f);
-            StackedBarGraph stackedBarGraph = new StackedBarGraph("Deine KM pro Kategorie pro Monat (1.1 - 31.12)",values0,values1,values2,values3,values4,"Arbeit","Einkauf","Sport","Uni","Sonstiges");
+            List<Integer> values0 =  database.getKMInTime(LocalDate.now().minusMonths(1).toString().replace("-", " "),LocalDate.now().toString().replace("-", " "));
+            List<Integer> values1 =  database.getKMInTime(LocalDate.now().minusMonths(2).toString().replace("-", " "),LocalDate.now().minusMonths(1).toString().replace("-", " "));
+            List<Integer> values2 =  database.getKMInTime(LocalDate.now().minusMonths(3).toString().replace("-", " "),LocalDate.now().minusMonths(2).toString().replace("-", " "));
+
+            while (values0.size() < 5) {
+                values0.add(0);
+            }
+            while (values1.size() < 5) {
+                values1.add(0);
+            }
+            while (values2.size() < 5) {
+                values2.add(0);
+            }
+
+            List<Float> valuesf0 = new ArrayList<>();
+
+            for (int i:values0) {
+                valuesf0.add((float) i);
+            }
+
+            List<Float> valuesf1 = new ArrayList<>();
+
+            for (int i:values1) {
+                valuesf1.add((float) i);
+            }
+
+            List<Float> valuesf2 = new ArrayList<>();
+
+            for (int i:values2) {
+                valuesf2.add((float) i);
+            }
+
+
+            StackedBarGraph stackedBarGraph = new StackedBarGraph("Deine gefahrenen KM in den letzten 3 Monaten (-> bis heute)",valuesf0,valuesf1,valuesf2,"Arbeit","Uni","Sport","Einkauf","Sonstiges");
             element = stackedBarGraph.onCreateView(inflater,parent,new Bundle());
         }
         if (position == 4) {
@@ -161,15 +189,45 @@ public class AdvancedAdapter extends ArrayAdapter<Diagrams> {
             LineGraph lineGraph = new LineGraph("Deine Ausgaben in diesem Jahr",valuesf);
             element = lineGraph.onCreateView(inflater,parent,new Bundle());
         }
+
         if (position == 7) {
-            List<Float> values0 = Arrays.asList(21f,32f,53f,95f,83f,45f,49f,57f,21f,15f,74f,46f);
-            List<Float> values1 = Arrays.asList(31f,52f,83f,65f,93f,85f,79f,57f,41f,25f,44f,76f);
-            List<Float> values2 = Arrays.asList(21f,32f,53f,95f,83f,45f,49f,57f,21f,15f,74f,46f);
-            List<Float> values3 = Arrays.asList(31f,52f,83f,65f,93f,85f,79f,57f,41f,25f,44f,76f);
-            List<Float> values4 = Arrays.asList(51f,72f,23f,35f,53f,15f,79f,47f,71f,45f,64f,16f);
-            StackedBarGraph stackedBarGraph = new StackedBarGraph("Deine Ausgaben pro Kategorie pro Monat (1.1 - 31.12)",values0,values1,values2,values3,values4,"Werkstatt","Steuer","Tanken","Versicherung","Sonstiges");
+            List<Integer> values0 =  database.getAllExpensesPerTypeTimed(LocalDate.now().minusMonths(1).toString().replace("-", " "),LocalDate.now().toString().replace("-", " "));
+            List<Integer> values1 =  database.getAllExpensesPerTypeTimed(LocalDate.now().minusMonths(2).toString().replace("-", " "),LocalDate.now().minusMonths(1).toString().replace("-", " "));
+            List<Integer> values2 =  database.getAllExpensesPerTypeTimed(LocalDate.now().minusMonths(3).toString().replace("-", " "),LocalDate.now().minusMonths(2).toString().replace("-", " "));
+
+            while (values0.size() < 5) {
+                values0.add(0);
+            }
+            while (values1.size() < 5) {
+                values1.add(0);
+            }
+            while (values2.size() < 5) {
+                values2.add(0);
+            }
+
+            List<Float> valuesf0 = new ArrayList<>();
+
+            for (int i:values0) {
+                valuesf0.add((float) i);
+            }
+
+            List<Float> valuesf1 = new ArrayList<>();
+
+            for (int i:values1) {
+                valuesf1.add((float) i);
+            }
+
+            List<Float> valuesf2 = new ArrayList<>();
+
+            for (int i:values2) {
+                valuesf2.add((float) i);
+            }
+
+
+            StackedBarGraph stackedBarGraph = new StackedBarGraph("Deine Ausgaben in den letzten 3 Monaten (-> bis heute)",valuesf0,valuesf1,valuesf2,"Tanken","Versicherung","Steuer","Werkstatt","Sonstiges");
             element = stackedBarGraph.onCreateView(inflater,parent,new Bundle());
         }
+
         return element;
     }
 }
