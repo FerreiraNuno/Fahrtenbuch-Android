@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.example.fahrtenbuch.MainActivity;
 import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.db.Database;
 
@@ -27,7 +28,7 @@ public class AdvancedAdapter extends ArrayAdapter<Diagrams> {
     public AdvancedAdapter(@NonNull Context context, ArrayList<Diagrams> list) {
         super(context, 0, list);
         this.list = list;
-        database = new Database(context);
+        database = MainActivity.db;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

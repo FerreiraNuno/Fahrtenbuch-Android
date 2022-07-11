@@ -26,8 +26,12 @@ public class BluetoothBroadcastReceiver extends BroadcastReceiver {
                 Intent serviceIntent = new Intent(context, RideTracker.class);
                 context.startForegroundService(serviceIntent);
             }
-        } else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
-            Toast.makeText(context, "Device Disconnected", Toast.LENGTH_SHORT).show();
+        } else if (action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
+            Toast.makeText(context, "Die Fahrt wurde beendet", Toast.LENGTH_SHORT).show();
+            Intent serviceIntent = new Intent(context, RideTracker.class);
+            context.stopService(serviceIntent);
+        } else if (action.equals(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED)) {
+            Toast.makeText(context, "Die Fahrt wurde beendet", Toast.LENGTH_SHORT).show();
             Intent serviceIntent = new Intent(context, RideTracker.class);
             context.stopService(serviceIntent);
         }

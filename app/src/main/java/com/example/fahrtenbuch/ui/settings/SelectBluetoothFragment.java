@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.fahrtenbuch.MainActivity;
 import com.example.fahrtenbuch.databinding.FragmentSelectBluetoothBinding;
 import com.example.fahrtenbuch.db.Database;
 
@@ -35,7 +36,7 @@ public class SelectBluetoothFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSelectBluetoothBinding.inflate(inflater, container, false);
-        db = new Database(binding.getRoot().getContext());
+        db = MainActivity.db;
 
         if (getActivity().checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

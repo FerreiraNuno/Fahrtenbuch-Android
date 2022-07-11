@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.fahrtenbuch.MainActivity;
 import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentCreateItemBinding;
 import com.example.fahrtenbuch.db.Database;
@@ -100,7 +101,7 @@ public class CreateExpenseFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view == binding.editDateText) {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(binding.getRoot().getContext(), this, date.getYear() + 1900, date.getMonth() + 1, date.getDate());
+            DatePickerDialog datePickerDialog = new DatePickerDialog(binding.getRoot().getContext(), this, date.getYear() + 1900, date.getMonth(), date.getDate());
             datePickerDialog.show();
         } else if (view == binding.editHourText) {
             TimePickerDialog timePickerDialog = new TimePickerDialog(binding.getRoot().getContext(), this, date.getHours(), date.getMinutes(), true);
@@ -108,7 +109,11 @@ public class CreateExpenseFragment extends Fragment implements View.OnClickListe
         } else if (view == binding.finishButton) {
             if (!binding.editValueText.getText().toString().equals("")) {
                 int value = Integer.parseInt(binding.editValueText.getText().toString());
-                Database db = new Database(binding.getRoot().getContext());
+                if (value > 100000) {
+                    Toast.makeText(getActivity(), "Betrag ist zu hoch!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Database db = MainActivity.db;
                 db.insertExpense(value, date.getTime(), expenseType, intervalType);
                 Navigation.findNavController(binding.getRoot()).navigateUp();
             } else {
@@ -123,9 +128,9 @@ public class CreateExpenseFragment extends Fragment implements View.OnClickListe
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         date.setYear(year - 1900);
-        date.setMonth(month-1);
+        date.setMonth(month);
         date.setDate(day);
-        String output = String.format("%02d", day) + "." + String.format("%02d", month) + "." + year;
+        String output = String.format("%02d", day) + "." + String.format("%02d", month+1) + "." + year;
         binding.editDateText.setText(output);
     }
 

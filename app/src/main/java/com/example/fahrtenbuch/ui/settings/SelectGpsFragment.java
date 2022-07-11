@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 
+import com.example.fahrtenbuch.MainActivity;
 import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentSelectGpsBinding;
 import com.example.fahrtenbuch.db.Database;
@@ -90,7 +91,7 @@ public class SelectGpsFragment extends Fragment implements View.OnClickListener{
             String[] latlng = resultBundle.toString().replace("Bundle[{bundleKey=", "").replace("}", "").replace("]", "").split(",");
             String latitude = latlng[0];
             String longitude = latlng[1];
-            Database db = new Database(binding.getRoot().getContext());
+            Database db = MainActivity.db;
             db.insertLocation(latitude, longitude, categorie);
             Toast.makeText(binding.getRoot().getContext(), "Neue " + categorie + " Adresse gespeichert", Toast.LENGTH_SHORT).show();
         });

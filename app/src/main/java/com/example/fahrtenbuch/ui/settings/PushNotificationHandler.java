@@ -42,8 +42,8 @@ public class PushNotificationHandler {
 
            NotificationCompat.Builder  builder = new NotificationCompat.Builder(myContext, "myChannel")
                    .setSmallIcon(R.drawable.auto) //Das Icon der Notifikation
-                   .setContentTitle("Eine Neue Fahrt!")
-                   .setContentText("Ihre Fahrt ging  "+ arg.getInt("Strecke") + " KM ")
+                   .setContentTitle("Ihre Fahrt ging "+ arg.getInt("Strecke") + " KM")
+                   .setContentText("Hier klicken um die Fahrt zu bearbeiten!")
                    .setColor(200)
                    .setSilent(true)
                    //.addAction()

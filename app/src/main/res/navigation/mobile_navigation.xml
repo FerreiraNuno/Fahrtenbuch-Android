@@ -16,9 +16,6 @@
         <action
             android:id="@+id/action_navigation_rides_to_createRideFragment"
             app:destination="@id/createRideFragment" />
-        <action
-            android:id="@+id/action_navigation_rides_to_locationFragment"
-            app:destination="@id/location_fragment" />
     </fragment>
 
     <fragment
@@ -93,8 +90,4 @@
         android:id="@+id/mapFragment"
         android:name="com.example.fahrtenbuch.ui.settings.MapFragment"
         android:label="GPS Punkt Auswählen" />
-    <fragment
-        android:id="@+id/location_fragment"
-        android:name="com.example.fahrtenbuch.ui.rides.LocationFragment"
-        android:label="LocationFragment" />
 </navigation>

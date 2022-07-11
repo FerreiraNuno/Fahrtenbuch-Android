@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.fahrtenbuch.MainActivity;
 import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentEditRideBinding;
 import com.example.fahrtenbuch.db.Database;
@@ -35,7 +36,7 @@ public class EditRideFragment extends Fragment implements View.OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentEditRideBinding.inflate(inflater, container, false);
-        db = new Database(binding.getRoot().getContext());
+        db = MainActivity.db;
 
         binding.editDateText.setOnClickListener(this);
         binding.editHourText.setOnClickListener(this);
@@ -72,7 +73,7 @@ public class EditRideFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onClick(View view) {
         if (view == binding.editDateText) {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(binding.getRoot().getContext(), this, date.getYear() + 1900, date.getMonth() + 1, date.getDate());
+            DatePickerDialog datePickerDialog = new DatePickerDialog(binding.getRoot().getContext(), this, date.getYear() + 1900, date.getMonth(), date.getDate());
             datePickerDialog.show();
         } else if (view == binding.editHourText) {
             TimePickerDialog timePickerDialog = new TimePickerDialog(binding.getRoot().getContext(), this, date.getHours(), date.getMinutes(), true);
@@ -83,6 +84,10 @@ public class EditRideFragment extends Fragment implements View.OnClickListener, 
         } else if (view == binding.finishButton) {
             if (!binding.editKmText.getText().toString().equals("")) {
                 int distanceValue = Integer.parseInt(binding.editKmText.getText().toString());
+                if (distanceValue > 100000) {
+                    Toast.makeText(getActivity(), "Distanz ist zu hoch!", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 db.updateRide(rideId, date.getTime(), distanceValue, rideType);
                 Navigation.findNavController(binding.getRoot()).navigateUp();
             } else {
@@ -96,9 +101,9 @@ public class EditRideFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         date.setYear(year - 1900);
-        date.setMonth(month-1);
+        date.setMonth(month);
         date.setDate(day);
-        String output = String.format("%02d", day) + "." + String.format("%02d", month) + "." + year;
+        String output = String.format("%02d", day) + "." + String.format("%02d", month+1) + "." + year;
         binding.editDateText.setText(output);
     }
 

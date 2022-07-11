@@ -12,6 +12,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fahrtenbuch.MainActivity;
 import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentItemsBinding;
 import com.example.fahrtenbuch.db.Database;
@@ -69,7 +70,7 @@ public class ExpensesFragment extends Fragment implements View.OnClickListener, 
 
 
     private ArrayList<ListObject> getExpensesArray() {
-        Database db = new Database(binding.getRoot().getContext());
+        Database db = MainActivity.db;
         ArrayList<ExpenseItem> allExpenses = db.getAllExpenses();
         ArrayList<ListObject> listObjects = new ArrayList<>(allExpenses);
 

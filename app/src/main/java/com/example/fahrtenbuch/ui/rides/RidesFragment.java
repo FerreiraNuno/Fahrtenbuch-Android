@@ -14,6 +14,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fahrtenbuch.MainActivity;
 import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentItemsBinding;
 import com.example.fahrtenbuch.db.Database;
@@ -57,15 +58,13 @@ public class RidesFragment extends Fragment implements View.OnClickListener, Rec
         if (view == binding.plusButton) {
             Navigation.findNavController(binding.getRoot()).navigate(R.id.action_navigation_rides_to_createRideFragment);
 
-        } else if (view == binding.topCardRight) {
-            Navigation.findNavController(binding.getRoot()).navigate(R.id.action_navigation_rides_to_locationFragment);
         }
     }
 
 
 
     private ArrayList<ListObject> getRidesArray() {
-        Database db = new Database(binding.getRoot().getContext());
+        Database db = MainActivity.db;
         ArrayList<FahrtItem> eintraege_fahrten = db.getAllRides();
         ArrayList<ListObject> eintraege_liste = new ArrayList<>(eintraege_fahrten);
 

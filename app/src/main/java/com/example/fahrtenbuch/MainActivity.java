@@ -1,5 +1,6 @@
 package com.example.fahrtenbuch;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -35,13 +36,14 @@ import com.google.android.gms.location.LocationServices;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
+    public static Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //Init Database
-        Database db = new Database(getApplicationContext());
+        db = new Database(getApplicationContext());
         db.restartDatabase();
 
         //Set View
@@ -67,19 +69,17 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        //Push Notifications
-        Bundle bundle = new Bundle();
-        Cursor c = db.getNewestRide();
-        c.moveToFirst();
-        bundle.putInt("Strecke", c.getInt(3));
-        PushNotificationHandler pushNotifier = new PushNotificationHandler(this);
-        pushNotifier.pushNotifcation(bundle);
+
 
         //Test
-        //Intent serviceIntent = new Intent(this, RideTracker.class);
-        //getApplicationContext().startForegroundService(serviceIntent);
+        requestPermissions(new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 10);
     }
 
+    @Override
+    protected void onDestroy() {
+        db.close();
+        super.onDestroy();
+    }
 
     public boolean onOptionsItemSelected(MenuItem item){
         Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);

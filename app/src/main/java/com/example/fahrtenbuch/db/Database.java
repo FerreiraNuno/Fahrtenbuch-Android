@@ -136,7 +136,7 @@ public class Database extends SQLiteOpenHelper {
         Random random = new Random();
         for (int i=0; i<500; i++){
             Date startDate = new Date("07/10/2020 15:05:24");
-            Date endDate = new Date("07/10/2022 09:18:12");
+            Date endDate = new Date("07/11/2022 18:45:12");
             long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
             Date date = new Date(randTime);
             ContentValues contentValues = new ContentValues();
