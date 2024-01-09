@@ -21,7 +21,6 @@ import com.example.fahrtenbuch.R;
 import com.example.fahrtenbuch.databinding.FragmentEditRideBinding;
 import com.example.fahrtenbuch.db.Database;
 import com.example.fahrtenbuch.db.FahrtItem;
-import com.example.fahrtenbuch.ui.expenses.EditExpenseFragmentArgs;
 
 import java.util.Date;
 

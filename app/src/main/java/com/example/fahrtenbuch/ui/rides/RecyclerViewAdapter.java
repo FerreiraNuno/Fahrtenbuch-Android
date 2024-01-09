@@ -60,22 +60,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             switch(rideType) {
                 case 1: // Kategorie Arbeit
                     ((MyViewHolder) holder).getTextFahrtTyp().setText("Arbeitsfahrt");
-                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.arbeit);
+                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.auto);
                     break;
                 case 2: // Kategorie Uni
-                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Unifahrt");
-                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.uni);
+                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Sonstige Fahrt");
+                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.auto);
                     break;
                 case 3: // Kategorie Sport
-                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Sportfahrt");
-                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.sport);
+                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Freizeitfahrt");
+                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.auto);
                     break;
                 case 4: // Kategorie Einkauf
                     ((MyViewHolder) holder).getTextFahrtTyp().setText("Einkaufsfahrt");
-                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.einkauf);
+                    ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.auto);
                     break;
                 default: // Kategorie Sonstiges
-                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Fahrt");
+                    ((MyViewHolder) holder).getTextFahrtTyp().setText("Sonstige Fahrt");
                     ((MyViewHolder) holder).getImageView().setImageResource(R.drawable.auto);
             }
         } else if (holder.getItemViewType() == 1) {

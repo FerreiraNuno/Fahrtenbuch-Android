@@ -113,6 +113,7 @@ public class Database extends SQLiteOpenHelper {
             db.insert("BluetoothGerät", null, macValues);
         }
         db.execSQL(TABLE_ORTE_CREATE_IF_NOT_EXISTS);
+        restartDatabase();
     }
 
     public void restartDatabase() {
@@ -122,13 +123,13 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(TABLE_RIDE_CREATE);
         Random random = new Random();
         for (int i=0; i<700; i++){
-            Date startDate = new Date("07/10/2018 15:05:24");
-            Date endDate = new Date("07/11/2022 18:45:12");
+            Date startDate = new Date("07/10/2019 15:05:24");
+            Date endDate = new Date("01/09/2024 15:00:12");
             long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
             Date date = new Date(randTime);
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLLUMN_RIDE_START_TIME, date.getTime());
-            contentValues.put(COLLUMN_RIDE_DISTANCE, random.nextInt(80)+5);
+            contentValues.put(COLLUMN_RIDE_DISTANCE, random.nextInt(50)+5);
             contentValues.put(COLLUMN_RIDE_TYPE, random.nextInt(4)+1);
             db.insert(TABLE_NAME_RIDES,null, contentValues);
         }
@@ -136,8 +137,8 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(TABLE_EXPENSES_DROP);
         db.execSQL(TABLE_EXPENSES_CREATE);
         for (int i=0; i<100; i++){
-            Date startDate = new Date("08/10/2018 15:05:24");
-            Date endDate = new Date("07/02/2022 09:18:12");
+            Date startDate = new Date("07/10/2019 15:05:24");
+            Date endDate = new Date("01/09/2024 15:00:12");
             long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
             Date date = new Date(randTime);
             ContentValues contentValues = new ContentValues();
@@ -146,9 +147,9 @@ public class Database extends SQLiteOpenHelper {
             contentValues.put(COLLUMN_EXPENSE_TYPE, 1);
             db.insert(TABLE_NAME_EXPENSES,null, contentValues);
         }
-        for (int i=0; i<10; i++){
-            Date startDate = new Date("08/10/2021 15:05:24");
-            Date endDate = new Date("07/02/2022 09:18:12");
+        for (int i=0; i<20; i++){
+            Date startDate = new Date("07/10/2019 15:05:24");
+            Date endDate = new Date("01/09/2024 15:00:12");
             long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
             Date date = new Date(randTime);
             ContentValues contentValues = new ContentValues();
@@ -157,21 +158,21 @@ public class Database extends SQLiteOpenHelper {
             contentValues.put(COLLUMN_EXPENSE_TYPE, 2);
             db.insert(TABLE_NAME_EXPENSES,null, contentValues);
         }
-        for (int i=0; i<25; i++){
-            Date startDate = new Date("07/03/2018 15:05:24");
-            Date endDate = new Date("07/02/2022 09:18:12");
+        for (int i=0; i<20; i++){
+            Date startDate = new Date("07/10/2019 15:05:24");
+            Date endDate = new Date("01/09/2024 15:00:12");
             long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));
             Date date = new Date(randTime);
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLLUMN_EXPENSE_TIME, date.getTime());
-            contentValues.put(COLLUMN_EXPENSE_AMMOUNT, random.nextInt(500)+250);
+            contentValues.put(COLLUMN_EXPENSE_AMMOUNT, random.nextInt(200)+150);
             contentValues.put(COLLUMN_EXPENSE_TYPE, 3);
             db.insert(TABLE_NAME_EXPENSES,null, contentValues);
         }
 
         for (int i=0; i<5; i++){
-            Date startDate = new Date("07/03/2018 15:05:24");
-            Date endDate = new Date("07/02/2022 09:18:12");
+            Date startDate = new Date("07/10/2019 15:05:24");
+            Date endDate = new Date("01/09/2024 15:00:12");
             long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));
             Date date = new Date(randTime);
             ContentValues contentValues = new ContentValues();
@@ -181,8 +182,8 @@ public class Database extends SQLiteOpenHelper {
             db.insert(TABLE_NAME_EXPENSES,null, contentValues);
         }
         for (int i=0; i<30; i++){
-            Date startDate = new Date("07/03/2018 15:05:24");
-            Date endDate = new Date("07/02/2022 09:18:12");
+            Date startDate = new Date("07/10/2019 15:05:24");
+            Date endDate = new Date("01/09/2024 15:00:12");
             long randTime = startDate.getTime()+((long)(random.nextDouble()*(endDate.getTime()-startDate.getTime())));;
             Date date = new Date(randTime);
             ContentValues contentValues = new ContentValues();

@@ -54,9 +54,11 @@
 
                     <ImageView
                         android:id="@+id/imageView2"
-                        android:layout_width="113dp"
+                        android:layout_width="111dp"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/haus" />
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/auto" />
+
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
@@ -87,7 +89,8 @@
                         android:id="@+id/imageView6"
                         android:layout_width="111dp"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/einkauf" />
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/auto" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -116,10 +119,12 @@
                         android:textSize="16sp" />
 
                     <ImageView
-                        android:id="@+id/imageView3"
-                        android:layout_width="114dp"
+                        android:id="@+id/imageView10"
+                        android:layout_width="111dp"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/uni" />
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/auto" />
+
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
@@ -149,9 +154,10 @@
 
                     <ImageView
                         android:id="@+id/imageView5"
-                        android:layout_width="107dp"
+                        android:layout_width="111dp"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/sport" />
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/auto" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -180,10 +186,12 @@
                         android:textSize="16sp" />
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/imageView9"
                         android:layout_width="111dp"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/arbeit" />
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/auto" />
+
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
