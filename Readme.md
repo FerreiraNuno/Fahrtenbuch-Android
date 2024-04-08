@@ -1,4 +1,4 @@
-# Tic Tac Toe
+# Fahrtenbuch
 
 **Fahrtenbuch** ist eine Android App zur Datenerfassung von Autos.
 
